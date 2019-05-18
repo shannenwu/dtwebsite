@@ -13,3 +13,8 @@ app.use(express.static(publicPath));
 http.listen(3000, () => {
   console.log(`Listening on port 3000 and looking in folder ${publicPath}`);
 });
+
+
+
+
+
