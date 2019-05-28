@@ -12,12 +12,22 @@ class NavBar extends Component {
 
     render() {
         return (
-            <Menu inverted vertical>
-              <Menu.Item 
-                name='home'  />
-              <Menu.Item
-                name='about'
-              />
+            <Menu borderless compact fluid vertical>
+                <Menu.Item as={Link} to='/'>
+                    Home
+                </Menu.Item>
+                <Menu.Item as={Link} to='/about'>
+                    About
+                </Menu.Item>
+                { this.props.userInfo === null ? (
+                    <Menu.Item as={Link} to='/login'>
+                        Login
+                    </Menu.Item>
+                ) : (
+                    <Menu.Item as={Link} to='/logout'>
+                        Logout
+                    </Menu.Item>
+                )}
             </Menu>
         );
     }

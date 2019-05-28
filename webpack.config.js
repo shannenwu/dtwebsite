@@ -40,10 +40,12 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin()
   ],
   devServer: {
+    historyApiFallback: true,
     contentBase: './client/dist',
     hot: true,
     proxy: {
       '/api': 'http://localhost:3000',
+      '/signup': 'http://localhost:3000',
     }
   }
 };

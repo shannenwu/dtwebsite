@@ -1,14 +1,14 @@
 import React from "react";
 
-class Root extends React.Component {
+class About extends React.Component {
   render() {
     return (
       <div>
-        Root!
+        about page
       </div>
     )
     ;
   }
 }
 
-export default Root;
+export default About;
