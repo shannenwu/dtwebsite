@@ -6,7 +6,7 @@ import About from "./pages/About";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import NavBar from "./modules/Navbar.js";
-import { Grid } from 'semantic-ui-react';
+import { Grid, Segment, Container } from 'semantic-ui-react';
 
 class App extends React.Component {
 
@@ -25,20 +25,23 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Grid>
+        <Grid padded>
           <Grid.Column width={3}>
+
             <NavBar
               userInfo={this.state.userInfo}
               logout={this.logout}
             />
           </Grid.Column>
           <Grid.Column width={13}>
-            <Switch>
-              <Route exact path="/" component={Home} />
-              <Route exact path="/about" component={About} />
-              <Route exact path="/login" component={Login} />
-              <Route exact path="/signup" component={SignUp} />
-            </Switch>
+            <Segment>
+              <Switch>
+                <Route exact path="/" component={Home} />
+                <Route exact path="/about" component={About} />
+                <Route exact path="/login" component={Login} />
+                <Route exact path="/signup" component={SignUp} />
+              </Switch>
+            </Segment>
           </Grid.Column>
         </Grid>
       </div>

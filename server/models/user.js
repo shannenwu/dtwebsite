@@ -26,19 +26,6 @@ var UserSchema = new mongoose.Schema({
     password: {
         type: String,
         required: 'password is required'
-    },
-    roles: {
-        type: Array
-    },
-    apiKey: {
-        type: String,
-        unique: true
-    },
-    resetToken: {
-        type: String
-    },
-    lastSignedIn: {
-        type: Date
     }
 });
 

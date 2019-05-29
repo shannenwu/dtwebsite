@@ -12,7 +12,7 @@ class NavBar extends Component {
 
     render() {
         return (
-            <Menu borderless compact fluid vertical>
+            <Menu borderless fluid vertical size="large">
                 <Menu.Item as={Link} to='/'>
                     Home
                 </Menu.Item>

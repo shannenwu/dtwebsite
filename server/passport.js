@@ -25,13 +25,13 @@ passport.use(
                     email: req.body.email
                 }).then((user) => {
                     if (user != null) {
-                        console.log('email already taken');
+                        // console.log('email already taken');
                         return done(null, false, {
                             message: 'email already taken',
                         });
                     }
                     bcrypt.hash(password, BCRYPT_SALT_ROUNDS).then((hashedPassword) => {
-                        User.create({ // lmao unfinished
+                        User.create({ 
                             firstName: req.body.firstName,
                             lastName: req.body.lastName,
                             password: hashedPassword,
