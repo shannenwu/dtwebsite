@@ -9,6 +9,8 @@ const JWTstrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
 const User = require('./models/user.js');
 
+// This file defines the passport strategies that authenticate the user.
+
 passport.use(
     'register',
     new LocalStrategy({
@@ -19,27 +21,16 @@ passport.use(
         },
         (req, username, password, done) => {
             console.log(req.body.email);
-
             try {
-                User.findOne({
-                    email: req.body.email
-                }).then((user) => {
-                    if (user != null) {
-                        // console.log('email already taken');
-                        return done(null, false, {
-                            message: 'email already taken',
-                        });
-                    }
-                    bcrypt.hash(password, BCRYPT_SALT_ROUNDS).then((hashedPassword) => {
-                        User.create({ 
-                            firstName: req.body.firstName,
-                            lastName: req.body.lastName,
-                            password: hashedPassword,
-                            email: req.body.email,
-                        }).then((user) => {
-                            console.log('user created');
-                            return done(null, user);
-                        });
+                bcrypt.hash(password, BCRYPT_SALT_ROUNDS).then((hashedPassword) => {
+                    User.create({ 
+                        firstName: req.body.firstName,
+                        lastName: req.body.lastName,
+                        password: hashedPassword,
+                        email: req.body.email,
+                    }).then((user) => {
+                        console.log('user created');
+                        return done(null, user);
                     });
                 });
             } catch (err) {

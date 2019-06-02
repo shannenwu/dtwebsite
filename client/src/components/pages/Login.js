@@ -1,5 +1,7 @@
-import React from "react";
-import { Grid, Message, Header, Segment, Form, Button } from 'semantic-ui-react';
+import React from 'react';
+import {
+  Grid, Message, Header, Segment, Form, Button,
+} from 'semantic-ui-react';
 
 class Login extends React.Component {
   render() {
@@ -10,32 +12,33 @@ class Login extends React.Component {
             Login
           </Header>
           <Segment>
-          <Form size="large">
-            <Form.Input
-              fluid
-              icon="user"
-              iconPosition="left"
-              placeholder="Email address"
-            />
-            <Form.Input
-              fluid
-              icon="lock"
-              iconPosition="left"
-              placeholder="Password"
-              type="password"
-            />
-            <Button color="blue" fluid size="large">
+            <Form size="large">
+              <Form.Input
+                fluid
+                icon="user"
+                iconPosition="left"
+                placeholder="Email address"
+              />
+              <Form.Input
+                fluid
+                icon="lock"
+                iconPosition="left"
+                placeholder="Password"
+                type="password"
+              />
+              <Button color="blue" fluid size="large">
               Login
-            </Button>
-          </Form>
-        </Segment>
+              </Button>
+            </Form>
+          </Segment>
           <Message>
-            Not registered yet? <a href="/signup">Sign Up</a>
+            Not registered yet?
+            {' '}
+            <a href="/signup">Sign up!</a>
           </Message>
         </Grid.Column>
       </Grid>
-    )
-    ;
+    );
   }
 }
 

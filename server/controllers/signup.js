@@ -8,12 +8,32 @@ const app = express.Router();
 const User = require('../models/user.js');
 const passport = require('passport');
 
+const { check, validationResult } = require('express-validator/check');
+
+// This file defines the endpoints for user registration.
+
 app.get('/signup', (req, res) => {
     res.render('signup');
 });
-// POST /signup
 
-app.post('/signup', (req, res, next) => {
+app.post('/signup', [
+    check('firstName').not().isEmpty().withMessage('First name cannot be empty.'),
+    check('lastName').not().isEmpty().withMessage('Last name cannot be empty.'),
+    check('email').not().isEmpty().withMessage('Email cannot be empty.')
+        .isEmail().withMessage('Email is not valid.')
+        .custom(value => User.findOne({ email: value }).then(user => {
+            if (user) {
+                return Promise.reject('Email already registered.');
+            }
+        })),
+    check('password').not().isEmpty().withMessage('Password cannot be empty.')
+        .isLength({ min: 6 }).withMessage('Password must be at least 6 characters long.')
+    ], 
+    (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).send({ errors: errors.array() });
+    }
     passport.authenticate('register', (err, user, info) => {
         if (err) {
             console.log(err);

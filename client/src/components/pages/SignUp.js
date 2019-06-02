@@ -1,31 +1,32 @@
-import React from "react";
-import { Button, Form, Container, Header, Message } from 'semantic-ui-react';
+import React from 'react';
+import {
+  Button, Form, Container, Header, Message,
+} from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 class SignUp extends React.Component {
-
   constructor(props) {
-      super(props);
+    super(props);
 
-      this.state = {
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: '',
-        messageFromServer: '',
-        showError: false,
-        registerError: false,
-        loginError: false,
-      };
+    this.state = {
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      messageFromServer: '',
+      showError: false,
+      registerError: false,
+      errorMsg: []
+    };
   }
 
-  handleInputChange = event => {
-    const target = event.target;
-    const value = target.value; // make conditional based on type of input
-    const name = target.name;
+  handleInputChange = (event) => {
+    const { target } = event;
+    const { value } = target; // make conditional based on type of input
+    const { name } = target;
     this.setState({
-      [name]: value
+      [name]: value,
     });
   }
 
@@ -35,40 +36,48 @@ class SignUp extends React.Component {
       firstName,
       lastName,
       password,
-      email
+      email,
+      errorMsg,
     } = this.state;
     if (firstName === '' || lastName === '' || password === '' || email === '') {
       this.setState({
         showError: true,
-        loginError: false,
         registerError: true,
       });
     } else {
       axios.post('/signup', {
-        firstName: this.state.firstName,
-        lastName: this.state.lastName,
-        email: this.state.email,
-        password: this.state.password
+        firstName,
+        lastName,
+        email,
+        password,
       })
-      .then((response) => {
-        console.log(response.data.message);
-        this.setState({
-          messageFromServer: response.data.message,
-          showError: false,
-          loginError: false,
-          registerError: false,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-        if (error.response.data === 'email already taken') {
+        .then((response) => {
+          console.log("response: " + response);
+          this.setState({
+            messageFromServer: response.data.message,
+            showError: false,
+            registerError: false,
+            errorMsg: []
+          });
+        })
+        .catch((error) => {
+          console.log(JSON.stringify(error.response.data.errors));
+          var msgList = [];
+          error.response.data.errors.forEach(element => {
+            msgList.push(element.msg);
+          });
           this.setState({
             showError: true,
-            loginError: true,
             registerError: false,
-          });
-        }
-      });
+            errorMsg: msgList
+          })
+          // if (error.response.data === 'email already taken') {
+          //   this.setState({
+          //     showError: true,
+          //     registerError: false,
+          //   });
+          // }
+        });
     }
   };
 
@@ -81,7 +90,7 @@ class SignUp extends React.Component {
       messageFromServer,
       showError,
       registerError,
-      loginError
+      errorMsg
     } = this.state;
     if (messageFromServer === '') {
       return (
@@ -92,70 +101,68 @@ class SignUp extends React.Component {
           <Form>
             <Form.Field required>
               <label>First Name</label>
-              <input 
-                name='firstName'
-                placeholder='First Name' 
+              <input
+                name="firstName"
+                placeholder="John"
                 onChange={this.handleInputChange}
                 value={firstName}
-                />
+              />
             </Form.Field>
             <Form.Field required>
               <label>Last Name</label>
-              <input 
-                name='lastName'
-                placeholder='Last Name' 
+              <input
+                name="lastName"
+                placeholder="Smith"
                 onChange={this.handleInputChange}
                 value={lastName}
-                />
+              />
             </Form.Field>
-            <Form.Field required> 
+            <Form.Field required>
               <label>Email</label>
-              <input 
-                name='email'
-                placeholder='Email' 
+              <input
+                name="email"
+                placeholder="example@mit.edu"
                 onChange={this.handleInputChange}
                 value={email}
-                />
+              />
             </Form.Field>
             <Form.Field required>
               <label>Password</label>
-              <input 
-                name='password'
-                placeholder='Password' 
+              <input
+                name="password"
+                placeholder="Password at least 6 characters long"
                 onChange={this.handleInputChange}
                 value={password}
                 autoComplete="off"
                 type="password"
-                />
+              />
             </Form.Field>
-            <Button type='submit' onClick={this.handleSubmit}>Register</Button>
+            <Button type="submit" onClick={this.handleSubmit}>Register</Button>
           </Form>
           {showError === true && registerError === true && (
             <Message
-            error
-            header='Action Forbidden'
-            content='Please fill in all required fields.'
-          />
+              error
+              header="Action Forbidden"
+              content="Please fill in all required fields."
+            />
           )}
-          {showError === true && loginError === true && (
-            <div>
-              <Message
-                error
-                header='Action Forbidden'
-                content='Email already registered. Please choose another email or login.'
-              />
-              <Button as={Link} to='/login'>Login</Button>
-            </div>
+          {showError === true && errorMsg.length !== 0 && (
+            <Message
+              error
+              header="Please fix the following and try again."
+              list={errorMsg}
+            >
+            </Message>
           )}
         </Container>
       );
-    } else if (messageFromServer === 'user created') {
+    } if (messageFromServer === 'user created') {
       return (
         <div>
           <Header as="h1">
-          User successfully registered!
+          Successfully registered!
           </Header>
-          <Button as={Link} to='/login'>Login</Button>
+          <Button as={Link} to="/login">Go login!</Button>
         </div>
       );
     }

@@ -1,35 +1,61 @@
-import React from "react";
-import "../css/app.css";
+import React from 'react';
+import '../css/app.css';
 import { Route, Switch, withRouter } from 'react-router-dom';
-import Home from "./pages/Home";
-import About from "./pages/About";
-import SignUp from "./pages/SignUp";
-import Login from "./pages/Login";
-import NavBar from "./modules/Navbar.js";
-import { Grid, Segment, Container } from 'semantic-ui-react';
+import { Grid, Segment } from 'semantic-ui-react';
+import Home from './pages/Home';
+import About from './pages/About';
+import SignUp from './pages/SignUp';
+import Login from './pages/Login';
+import NavBar from './modules/Navbar';
 
 class App extends React.Component {
-
   constructor(props) {
-      super(props);
+    super(props);
 
-      this.state = {
-          userInfo: null
-      };
+    this.state = {
+      userInfo: null,
+    };
   }
 
   componentDidMount() {
     // this.getUser();
   }
 
+  logout = () => {
+    this.setState({
+      userInfo: null,
+    });
+  };
+
+  getUser = () => {
+    fetch('/api/whoami')
+      .then(res => res.json())
+      .then(
+        (userObj) => {
+          if (userObj._id !== undefined) {
+            this.setState({
+              userInfo: userObj,
+            });
+          } else {
+            this.setState({
+              userInfo: null,
+            });
+          }
+        },
+      );
+  }
+
   render() {
+    const {
+      userInfo,
+    } = this.state;
     return (
       <div>
         <Grid padded>
           <Grid.Column width={3}>
 
             <NavBar
-              userInfo={this.state.userInfo}
+              userInfo={userInfo}
               logout={this.logout}
             />
           </Grid.Column>
@@ -45,31 +71,6 @@ class App extends React.Component {
           </Grid.Column>
         </Grid>
       </div>
-    )
-    ;
-  }
-
-  logout = () => {
-    this.setState({
-        userInfo: null
-    })
-  };
-
-  getUser = () => {    
-    fetch('/api/whoami')
-    .then(res => res.json())
-    .then(
-        userObj => {
-            if (userObj._id !== undefined) {
-                this.setState({ 
-                    userInfo: userObj
-                });
-            } else {
-                this.setState({ 
-                    userInfo: null
-                });
-            }
-        }
     );
   }
 }
