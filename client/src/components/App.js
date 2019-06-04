@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import React from 'react';
 import '../css/app.css';
 import { Route, Switch, withRouter } from 'react-router-dom';

@@ -23,7 +23,7 @@ class SignUp extends React.Component {
 
   handleInputChange = (event) => {
     const { target } = event;
-    const { value } = target; // make conditional based on type of input
+    const { value } = target;
     const { name } = target;
     this.setState({
       [name]: value,
@@ -52,7 +52,6 @@ class SignUp extends React.Component {
         password,
       })
         .then((response) => {
-          console.log("response: " + response);
           this.setState({
             messageFromServer: response.data.message,
             showError: false,
@@ -61,7 +60,6 @@ class SignUp extends React.Component {
           });
         })
         .catch((error) => {
-          console.log(JSON.stringify(error.response.data.errors));
           var msgList = [];
           error.response.data.errors.forEach(element => {
             msgList.push(element.msg);
@@ -71,12 +69,6 @@ class SignUp extends React.Component {
             registerError: false,
             errorMsg: msgList
           })
-          // if (error.response.data === 'email already taken') {
-          //   this.setState({
-          //     showError: true,
-          //     registerError: false,
-          //   });
-          // }
         });
     }
   };
@@ -85,8 +77,8 @@ class SignUp extends React.Component {
     const {
       firstName,
       lastName,
-      password,
       email,
+      password,
       messageFromServer,
       showError,
       registerError,
@@ -131,10 +123,10 @@ class SignUp extends React.Component {
               <input
                 name="password"
                 placeholder="Password at least 6 characters long"
-                onChange={this.handleInputChange}
-                value={password}
                 autoComplete="off"
                 type="password"
+                onChange={this.handleInputChange}
+                value={password}
               />
             </Form.Field>
             <Button type="submit" onClick={this.handleSubmit}>Register</Button>
@@ -160,7 +152,7 @@ class SignUp extends React.Component {
       return (
         <div>
           <Header as="h1">
-          Successfully registered!
+            Successfully registered!
           </Header>
           <Button as={Link} to="/login">Go login!</Button>
         </div>

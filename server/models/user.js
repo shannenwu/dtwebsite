@@ -74,7 +74,7 @@ UserSchema.statics.authenticate = (email, password, cb) => {
                 var err = new Error('Incorrect password.')
                 err.status = 401;
                 return cb(err);
-
+                    
             }
         })
     })
