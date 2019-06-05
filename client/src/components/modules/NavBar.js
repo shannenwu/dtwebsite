@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { Menu } from 'semantic-ui-react';
 
 class NavBar extends Component {
@@ -12,7 +12,7 @@ class NavBar extends Component {
   }
 
   static propTypes = {
-    userInfo: PropTypes.objectOf(PropTypes.string),
+    userInfo: PropTypes.object,
   }
 
   static defaultProps = {
@@ -22,25 +22,28 @@ class NavBar extends Component {
   render() {
     const {
       userInfo,
+      logout
     } = this.props;
     return (
+      <div>
       <Menu borderless fluid vertical size="large">
         <Menu.Item as={Link} to="/">
-                    Home
+          Home
         </Menu.Item>
         <Menu.Item as={Link} to="/about">
-                    About
+          About
         </Menu.Item>
-        { userInfo === null ? (
+        {userInfo === null ? (
           <Menu.Item as={Link} to="/login">
-                        Login
+            Login
           </Menu.Item>
         ) : (
-          <Menu.Item as={Link} to="/logout">
-                        Logout
+            <Menu.Item as={Link} to="/logout" onClick={logout}>
+              Logout
           </Menu.Item>
-        )}
+          )}
       </Menu>
+      </div>
     );
   }
 }

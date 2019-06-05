@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const md5 = require('md5');
 
+const BCRYPT_SALT_ROUNDS = 12;
+
 var UserSchema = new mongoose.Schema({
     firstName: {
         type: String,
@@ -32,8 +34,9 @@ var UserSchema = new mongoose.Schema({
 UserSchema.pre('save', function (next) {
     var user = this;
     if (this.isModified('password')) {
+        console.log("modified");
         // hash password with salt
-        bcrypt.hash(user.password, 10, function (err, hash) {
+        bcrypt.hash(user.password, BCRYPT_SALT_ROUNDS, function (err, hash) {
             if (err) return next(err);
             // rewrite password as hashed password
             user.password = hash;

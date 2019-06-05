@@ -16,7 +16,6 @@ class SignUp extends React.Component {
       password: '',
       messageFromServer: '',
       showError: false,
-      registerError: false,
       errorMsg: []
     };
   }
@@ -39,38 +38,30 @@ class SignUp extends React.Component {
       email,
       errorMsg,
     } = this.state;
-    if (firstName === '' || lastName === '' || password === '' || email === '') {
-      this.setState({
-        showError: true,
-        registerError: true,
-      });
-    } else {
-      axios.post('/signup', {
-        firstName,
-        lastName,
-        email,
-        password,
-      })
-        .then((response) => {
-          this.setState({
-            messageFromServer: response.data.message,
-            showError: false,
-            registerError: false,
-            errorMsg: []
-          });
-        })
-        .catch((error) => {
-          var msgList = [];
-          error.response.data.errors.forEach(element => {
-            msgList.push(element.msg);
-          });
-          this.setState({
-            showError: true,
-            registerError: false,
-            errorMsg: msgList
-          })
+
+    axios.post('/signup', {
+      firstName,
+      lastName,
+      email,
+      password,
+    })
+      .then((response) => {
+        this.setState({
+          messageFromServer: response.data.message,
+          showError: false,
+          errorMsg: []
         });
-    }
+      })
+      .catch((error) => {
+        var msgList = [];
+        error.response.data.errors.forEach(element => {
+          msgList.push(element.msg);
+        });
+        this.setState({
+          showError: true,
+          errorMsg: msgList
+        })
+      });
   };
 
   render() {
@@ -81,7 +72,6 @@ class SignUp extends React.Component {
       password,
       messageFromServer,
       showError,
-      registerError,
       errorMsg
     } = this.state;
     if (messageFromServer === '') {
@@ -131,13 +121,6 @@ class SignUp extends React.Component {
             </Form.Field>
             <Button type="submit" onClick={this.handleSubmit}>Register</Button>
           </Form>
-          {showError === true && registerError === true && (
-            <Message
-              error
-              header="Action Forbidden"
-              content="Please fill in all required fields."
-            />
-          )}
           {showError === true && errorMsg.length !== 0 && (
             <Message
               error

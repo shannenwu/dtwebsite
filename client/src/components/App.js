@@ -1,13 +1,15 @@
 /* eslint-disable import/no-unresolved */
 import React from 'react';
 import '../css/app.css';
-import { Route, Switch, withRouter } from 'react-router-dom';
+import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 import { Grid, Segment } from 'semantic-ui-react';
 import Home from './pages/Home';
 import About from './pages/About';
 import SignUp from './pages/SignUp';
 import Login from './pages/Login';
+import Profile from './pages/Profile';
 import NavBar from './modules/Navbar';
+import axios from 'axios';
 
 class App extends React.Component {
   constructor(props) {
@@ -19,7 +21,13 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    // this.getUser();
+    this.getUser();
+  }
+
+  loginUser = (userObj) => {
+    this.setState({
+      userInfo: userObj,
+    });
   }
 
   logout = () => {
@@ -29,10 +37,10 @@ class App extends React.Component {
   };
 
   getUser = () => {
-    fetch('/api/whoami')
-      .then(res => res.json())
+    axios.get('/api/whoami')
       .then(
-        (userObj) => {
+        (response) => {
+          var userObj = response.data;
           if (userObj._id !== undefined) {
             this.setState({
               userInfo: userObj,
@@ -65,8 +73,10 @@ class App extends React.Component {
               <Switch>
                 <Route exact path="/" component={Home} />
                 <Route exact path="/about" component={About} />
-                <Route exact path="/login" component={Login} />
+                <Route exact path='/login' render={(props) => <Login {...props} loginUser={this.loginUser} />}/>
                 <Route exact path="/signup" component={SignUp} />
+                <Route exact path='/profile' render={(props) => <Profile {...props} userInfo={userInfo} />} />
+                <Redirect from='/logout' to='/login'/>
               </Switch>
             </Segment>
           </Grid.Column>

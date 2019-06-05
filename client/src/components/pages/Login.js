@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import {
   Grid, Message, Header, Segment, Form, Button,
 } from 'semantic-ui-react';
@@ -12,7 +13,8 @@ class Login extends React.Component {
       email: '',
       password: '',
       showError: false,
-      errorMsg: []
+      errorMsg: '',
+      redirect: false
     };
   }
 
@@ -31,6 +33,7 @@ class Login extends React.Component {
       email,
       password,
       errorMsg,
+      redirect
     } = this.state;
     if (email === ''|| password === '') {
       this.setState({
@@ -42,14 +45,19 @@ class Login extends React.Component {
         password,
       })
         .then((response) => {
-          console.log("response: " + JSON.stringify(response));
+          this.props.loginUser(response.data);
           this.setState({
             showError: false,
-            errorMsg: []
+            errorMsg: '',
+            redirect: true
           });
         })
         .catch((error) => {
-          console.log(error);
+          console.log(error.response.data);
+          this.setState({
+            showError: true,
+            errorMsg: error.response.data
+          });
         });
     }
   };
@@ -59,8 +67,12 @@ class Login extends React.Component {
       email,
       password,
       showError,
-      errorMsg
+      errorMsg,
+      redirect
     } = this.state;
+    if (redirect) {
+      return <Redirect to='/profile' />
+    }
     return (
       <Grid padded centered columns={2}>
         <Grid.Column>

@@ -23,6 +23,7 @@ app.use(session({
   secret: 'session-secret',
   resave: 'false',
   saveUninitialized: 'true',
+  cookie: {maxAge: 8*60*60*1000} // 8 hours
 }));
 
 // hook up passport
@@ -35,6 +36,13 @@ app.use(express.static('public'));
 // routes
 app.use(require('./signup'));
 app.use(require('./login'));
+app.use(require('./profile'));
 app.use('/api', require('./api'));
+
+// logout
+app.get('/logout', (req, res) => {
+  req.logout();
+  res.redirect('/login');
+});
 
 module.exports = app;

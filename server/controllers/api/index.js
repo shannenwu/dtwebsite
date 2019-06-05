@@ -11,6 +11,9 @@ app.get('/', (req, res) => {
     })
 });
 
+// api routes
+app.use(require('./profile'));
+
 // 401 Unauthorized
 app.get('/unauthorized', (req, res) => {
     res.status = 401;
@@ -35,7 +38,7 @@ app.use((err, req, res, next) => {
     res.status = 500;
     res.json({
         status: '500',
-        statusMessage: 'Server Error'
+        statusMessage: 'Internal Server Error'
     })
 })
 
