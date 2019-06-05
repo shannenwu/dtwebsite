@@ -1,6 +1,7 @@
 // require Express
 const express = require('express');
 const path = require('path');
+const connect = require('connect-ensure-login');
 
 // Intitialize App
 const app = express.Router();
@@ -10,7 +11,7 @@ const User = require('../models/user.js');
 
 const publicPath = path.resolve(__dirname, '..', '..', 'client', 'dist');;
 
-app.get('/profile', (req, res) => {
+app.get('/profile', connect.ensureLoggedIn(), (req, res) => {
     res.sendFile(publicPath + '/index.html');
 });
 

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class Profile extends Component {
     constructor(props) {
@@ -8,6 +9,14 @@ class Profile extends Component {
             name: null,
             id: null,
         };
+    }
+
+    static propTypes = {
+        userInfo: PropTypes.object
+    }
+
+    static defaultProps = {
+        userInfo: null,
     }
 
     componentDidMount() {

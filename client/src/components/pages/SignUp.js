@@ -34,9 +34,8 @@ class SignUp extends React.Component {
     const {
       firstName,
       lastName,
-      password,
       email,
-      errorMsg,
+      password,
     } = this.state;
 
     axios.post('/signup', {

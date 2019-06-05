@@ -37,12 +37,13 @@ app.use(express.static('public'));
 app.use(require('./signup'));
 app.use(require('./login'));
 app.use(require('./profile'));
+app.use(require('./forgotPassword'));
+app.use(require('./resetPassword'));
 app.use('/api', require('./api'));
 
 // logout
 app.get('/logout', (req, res) => {
   req.logout();
-  res.redirect('/login');
 });
 
 module.exports = app;

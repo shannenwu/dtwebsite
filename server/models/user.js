@@ -28,13 +28,18 @@ var UserSchema = new mongoose.Schema({
     password: {
         type: String,
         required: 'password is required'
+    },
+    resetPasswordToken: {
+        type: String
+    },
+    resetPasswordExpires: {
+        type: Date
     }
 });
 
 UserSchema.pre('save', function (next) {
     var user = this;
     if (this.isModified('password')) {
-        console.log("modified");
         // hash password with salt
         bcrypt.hash(user.password, BCRYPT_SALT_ROUNDS, function (err, hash) {
             if (err) return next(err);

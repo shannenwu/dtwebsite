@@ -1,20 +1,20 @@
 import React from 'react';
-import { Redirect, Link } from 'react-router-dom';
 import {
-  Grid, Message, Header, Segment, Form, Button, Container
+  Grid, Message, Header, Form, Button
 } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-class Login extends React.Component {
+class ResetPassword extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      email: '',
       password: '',
+      confirmPassword: '',
       showError: false,
+      messageFromServer: '',
       errorMsg: [],
-      redirect: false
     };
   }
 
@@ -30,19 +30,23 @@ class Login extends React.Component {
   handleSubmit = async (event) => {
     event.preventDefault();
     const {
-      email,
       password,
+      confirmPassword,
     } = this.state;
-    axios.post('/login', {
-      email,
-      password,
+
+    var resetLink = '/reset/' + this.props.match.params.resetPasswordToken;
+
+    axios.post(resetLink, {
+      password: password,
+      confirmPassword: confirmPassword,
+      resetPasswordToken: this.props.match.params.resetPasswordToken
     })
       .then((response) => {
-        this.props.loginUser(response.data);
+        console.log(response.data.message);
         this.setState({
+          messageFromServer: response.data.message,
           showError: false,
-          errorMsg: [],
-          redirect: true
+          errorMsg: []
         });
       })
       .catch((error) => {
@@ -58,7 +62,7 @@ class Login extends React.Component {
             errorMsg: msgList
           })
         } else {
-          // bad email or password errors
+          // unregistered email
           this.setState({
             showError: true,
             errorMsg: [error.response.data]
@@ -69,46 +73,44 @@ class Login extends React.Component {
 
   render() {
     const {
-      email,
       password,
+      confirmPassword,
       showError,
       errorMsg,
-      redirect
+      messageFromServer
     } = this.state;
-    if (redirect) {
-      return <Redirect to='/profile' />
-    }
-    return (
-      <Grid padded centered columns={2}>
-        <Grid.Column>
-          <Header as="h1">
-            Welcome Back!
-          </Header>
-          <Segment>
+    if (messageFromServer === '') {
+      return (
+        <Grid padded columns={1}>
+          <Grid.Column>
+            <Header as="h1">
+              Reset Your Password
+                         </Header>
             <Form>
               <Form.Field>
-                <label>Email</label>
+                <label>New Password</label>
                 <input
-                  name="email"
+                  name="password"
                   onChange={this.handleInputChange}
-                  value={email}
+                  value={password}
+                  autoComplete="off"
+                  type="password"
                 />
               </Form.Field>
               <Form.Field>
-                <label>Password</label>
+                <label>Confirm New Password</label>
                 <input
-                  name="password"
+                  name="confirmPassword"
+                  onChange={this.handleInputChange}
+                  value={confirmPassword}
                   autoComplete="off"
                   type="password"
-                  onChange={this.handleInputChange}
-                  value={password}
                 />
               </Form.Field>
+              <Button type="submit" onClick={this.handleSubmit} color="blue">
+                Reset Password
+                            </Button>
             </Form>
-            <Container as={Link} to="/forgot" style={{marginBottom: '1em'}}>Forgot your password?</Container>
-            <Button type="submit" onClick={this.handleSubmit} fluid color="blue">
-              Login
-            </Button>
             {showError === true && errorMsg.length !== 0 && (
               <Message
                 error
@@ -117,16 +119,20 @@ class Login extends React.Component {
               >
               </Message>
             )}
-          </Segment>
-          <Message>
-            Need an account?
-            {' '}
-            <a href="/signup">Sign up!</a>
-          </Message>
-        </Grid.Column>
-      </Grid>
-    );
+          </Grid.Column>
+        </Grid>
+      );
+    } if (messageFromServer === 'Password changed successfully.') {
+      return (
+        <div>
+          <Header as="h1">
+            Password changed!
+          </Header>
+          <Button as={Link} to="/login">Go login!</Button>
+        </div>
+      );
+    }
   }
 }
 
-export default Login;
+export default ResetPassword;

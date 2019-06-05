@@ -5,6 +5,7 @@ const mongoURL = 'mongodb+srv://admin:corgi@dt-uxtbr.mongodb.net/test?retryWrite
 const options = { dbName: 'dance', useNewUrlParser: true };
 mongoose.connect(mongoURL, options);
 mongoose.set('useCreateIndex', true);
+mongoose.set('useFindAndModify', false);
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;
 
