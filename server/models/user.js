@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const md5 = require('md5');
 
 const BCRYPT_SALT_ROUNDS = 12;
 
@@ -21,13 +20,28 @@ var UserSchema = new mongoose.Schema({
         unique: true,
         required: 'email is required'
     },
-    emailMD5: {
-        type: String,
-        unique: true
-    },
     password: {
         type: String,
         required: 'password is required'
+    },
+    gender: {
+        type: String,
+        trim: true,
+    },
+    year: {
+        type: Number
+    },
+    affiliation: {
+        type: String,
+        trim: true,
+    },
+    livingGroup: {
+        type: String,
+        trim: true,
+    },
+    experience: {
+        type: String,
+        trim: true,
     },
     resetPasswordToken: {
         type: String
@@ -45,8 +59,6 @@ UserSchema.pre('save', function (next) {
             if (err) return next(err);
             // rewrite password as hashed password
             user.password = hash;
-            // Set emailMD5 using user.email and md5 function
-            user.emailMD5 = md5(user.email);
             next();
         })
     } else {

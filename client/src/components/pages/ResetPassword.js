@@ -85,7 +85,7 @@ class ResetPassword extends React.Component {
           <Grid.Column>
             <Header as="h1">
               Reset Your Password
-                         </Header>
+            </Header>
             <Form>
               <Form.Field>
                 <label>New Password</label>

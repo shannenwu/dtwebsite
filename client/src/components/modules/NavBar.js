@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Menu } from 'semantic-ui-react';
+import { Menu, Sidebar } from 'semantic-ui-react';
 
 class NavBar extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      visible: true
+    }
   }
 
   static propTypes = {
@@ -22,9 +26,13 @@ class NavBar extends Component {
       userInfo,
       logout
     } = this.props;
+    const {
+      visible
+    } = this.state;
     return (
       <div>
-        <Menu borderless fluid vertical size="large">
+        <Menu borderless fluid vertical size="large"
+          >
           <Menu.Item as={Link} to="/">
             Home
           </Menu.Item>

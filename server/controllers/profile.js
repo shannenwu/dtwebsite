@@ -9,7 +9,9 @@ const app = express.Router();
 // Import User Schema
 const User = require('../models/user.js');
 
-const publicPath = path.resolve(__dirname, '..', '..', 'client', 'dist');;
+const publicPath = path.resolve(__dirname, '..', '..', 'client', 'dist');
+
+// This file mounts the profile path.
 
 app.get('/profile', connect.ensureLoggedIn(), (req, res) => {
     res.sendFile(publicPath + '/index.html');

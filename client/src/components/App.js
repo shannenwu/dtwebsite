@@ -85,7 +85,6 @@ class App extends React.Component {
       <div>
         <Grid padded>
           <Grid.Column width={3}>
-
             <NavBar
               userInfo={userInfo}
               logout={this.logout}
