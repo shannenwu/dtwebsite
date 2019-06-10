@@ -2,6 +2,7 @@
 const express = require('express');
 const connect = require('connect-ensure-login');
 const path = require('path');
+const Jimp = require('jimp');
 
 // Router added at "/api"
 const app = express.Router();
@@ -64,12 +65,17 @@ app.post('/profile/info',
             if (user === null) {
                 res.status(403).send('Unauthorized request.');
             } else {
-                console.log(publicPath)
-                var base64Data = req.body.image.replace(/^data:image\/png;base64,/, "");
-                var fileName = user._id.toString() + ".jpeg";
-                require("fs").writeFile(publicPath+"/profile_images/"+fileName, base64Data, 'base64', function (err) {
-                    console.log(err);
-                });
+                if (req.body.image.includes('/^data:image\/png;base64,/')) {
+                    var base64Data = req.body.image.replace(/^data:image\/png;base64,/, "");
+                    var fileName = user._id.toString() + ".jpeg";
+                    Jimp.read(Buffer.from(base64Data, 'base64'), (err, image) => {
+                        if (err) throw err;
+                        image
+                        .resize(512, 512) // resize
+                        .quality(60) // set JPEG quality
+                        .write(publicPath+"/profile_images/"+fileName); // save
+                      });
+                }
                 user.save((err, newUser) => {
                     res.status(200).send({ message: 'User information updated!' });
                 });

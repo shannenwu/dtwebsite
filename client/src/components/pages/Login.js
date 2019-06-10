@@ -94,7 +94,7 @@ class Login extends React.Component {
                   value={email}
                 />
               </Form.Field>
-              <Form.Field>
+              <Form.Field style={{marginBottom: '0em'}}>
                 <label>Password</label>
                 <input
                   name="password"
@@ -104,11 +104,11 @@ class Login extends React.Component {
                   value={password}
                 />
               </Form.Field>
-            </Form>
             <Container as={Link} to="/forgot" style={{marginBottom: '1em'}}>Forgot your password?</Container>
             <Button type="submit" onClick={this.handleSubmit} fluid color="blue">
               Login
             </Button>
+            </Form>
             {showError === true && errorMsg.length !== 0 && (
               <Message
                 error

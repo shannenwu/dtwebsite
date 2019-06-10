@@ -36,7 +36,7 @@ class UserInfo extends React.Component {
       affiliation: '',
       livingGroup: '',
       experience: '',
-      image: null,
+      image: '',
     };
   }
 
@@ -47,6 +47,20 @@ class UserInfo extends React.Component {
   static defaultProps = {
     userInfo: null,
   }
+
+  componentDidMount() {
+    const{
+      userInfo
+    } = this.props;
+    this.setState({
+      gender: userInfo.gender,
+      year: userInfo.year,
+      affiliation: userInfo.affiliation,
+      livingGroup: userInfo.livingGroup,
+      experience: userInfo.experience,
+      image: '/profile_images/'+userInfo._id.toString()+'.jpeg'
+    });
+}
 
   handleSubmit = async (event) => {
     const {
@@ -120,7 +134,7 @@ class UserInfo extends React.Component {
     return (
           <Form as={Grid} padded stackable>
             <Grid.Row width={13}>
-              <Grid.Column width={3} verticalAlign="middle" textAlign="right">
+              <Grid.Column width={3} verticalAlign="middle">
               <label className="userInfoLabels">Gender</label>
               </Grid.Column>
               <Dropdown
@@ -129,12 +143,12 @@ class UserInfo extends React.Component {
                 name='gender'
                 selection
                 options={genderOptions}
-                value={gender}
+                value={gender || ''}
                 onChange={this.handleSelectChange}
               />
             </Grid.Row>
             <Grid.Row width={13}>
-              <Grid.Column width={3} verticalAlign="middle" textAlign="right">
+              <Grid.Column width={3} verticalAlign="middle">
               <label className="userInfoLabels">Graduation Year</label>
               </Grid.Column>
               <Dropdown
@@ -151,7 +165,7 @@ class UserInfo extends React.Component {
               />
             </Grid.Row>
             <Grid.Row width={13}>
-              <Grid.Column width={3} verticalAlign="middle" textAlign="right">
+              <Grid.Column width={3} verticalAlign="middle">
               <label className="userInfoLabels">Affiliation</label>
               </Grid.Column>
               <Dropdown
@@ -162,12 +176,12 @@ class UserInfo extends React.Component {
                 search
                 upward={false}
                 options={affilOptions}
-                value={affiliation}
+                value={affiliation || ''}
                 onChange={this.handleSelectChange}
               />
             </Grid.Row>
             <Grid.Row width={13}>
-              <Grid.Column width={3} verticalAlign="middle" textAlign="right">
+              <Grid.Column width={3} verticalAlign="middle">
               <label className="userInfoLabels">Living Group</label>
               </Grid.Column>
               <Input
@@ -175,12 +189,12 @@ class UserInfo extends React.Component {
                 width={10}
                 name="livingGroup"
                 onChange={this.handleInputChange}
-                value={livingGroup}
+                value={livingGroup || ''}
                 className="userInput"
               />
             </Grid.Row>
             <Grid.Row width={13}>
-              <Grid.Column width={3} verticalAlign="middle" textAlign="right">
+              <Grid.Column width={3} verticalAlign="middle">
               <label className="userInfoLabels">Experience</label>
               </Grid.Column>
               <Input
@@ -188,12 +202,12 @@ class UserInfo extends React.Component {
                 width={10}
                 name="experience"
                 onChange={this.handleInputChange}
-                value={experience}
+                value={experience || ''}
                 className="userInput"
               />
             </Grid.Row>
             <Grid.Row width={13}>
-              <Grid.Column width={3} verticalAlign="middle" textAlign="right">
+              <Grid.Column width={3} verticalAlign="middle">
               <label className="userInfoLabels">Photo</label>
               </Grid.Column>
               <Grid.Column width={10} textAlign="left" className="userInput">
@@ -212,7 +226,7 @@ class UserInfo extends React.Component {
               </Grid.Column>
             </Grid.Row>
             <Grid.Row width={13}>
-              <Grid.Column width={3} verticalAlign="middle" textAlign="right">
+              <Grid.Column width={3} verticalAlign="middle">
               </Grid.Column>
               <Grid.Column width={10} textAlign="right" className="userInput">
                 <Button color='blue' onClick={this.handleSubmit}>Save</Button>

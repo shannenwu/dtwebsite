@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Message, Button, Modal, Header
+  Grid, Message, Button, Modal, Header
 } from 'semantic-ui-react';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css'; 
@@ -83,10 +83,12 @@ class ImageModal extends React.Component {
     let content;
     if (imageSelected) {
         content = (
+          <Grid centered>
+          <Grid.Row>
           <Cropper
             ref='cropper'
             src={src}
-            style={{height: 400, width: 800}}
+            style={{height: 300, width: 400}}
             // Cropper.js options
             aspectRatio={1 / 1}
             guides={false}
@@ -96,6 +98,14 @@ class ImageModal extends React.Component {
             viewMode={1}
             ref={cropper => { this.cropper = cropper; }}
           />
+          </Grid.Row>
+          <Grid.Row>
+          <div>
+            <Button color='green' floated='right' onClick={this.cropImage}>Save</Button>
+            <Button floated='right' onClick={this.handleClose}>Cancel</Button>
+          </div>
+          </Grid.Row>
+          </Grid>
         );
     } else {
         content = <div></div>;
@@ -112,10 +122,6 @@ class ImageModal extends React.Component {
           <Modal.Description>
             <input type={'file'} name={'imageData'} accept="image/*" onChange={this.onChange} style={{paddingBottom: '1.5rem'}}/>
             {content}
-            <div style={{paddingTop: '1.5rem'}}>
-              <Button color='green' floated='right' onClick={this.cropImage}>Save</Button>
-              <Button floated='right' onClick={this.handleClose}>Cancel</Button>
-            </div>
           </Modal.Description>
         </Modal.Content>
       </Modal>
