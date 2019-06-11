@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Grid, Message, Form, Button, Dropdown, Input, Header, Image, Label, Icon
+  Grid, Message, Form, Button, Dropdown, Input, Image
 } from 'semantic-ui-react';
 import ImageModal from './ImageModal';
 import axios from 'axios';
@@ -14,7 +14,7 @@ const genderOptions = [
 ]
 
 const yearOptions = [];
-const begYear = new Date().getFullYear()-2;
+const begYear = new Date().getFullYear() - 2;
 for (var i = 0; i < 7; i++) {
   var year = begYear + i;
   yearOptions.push({ key: i.toString(), text: year.toString(), value: year });
@@ -37,6 +37,10 @@ class UserInfo extends React.Component {
       livingGroup: '',
       experience: '',
       image: '',
+      messageFromServer: '',
+      showError: false,
+      errorMsg: []
+
     };
   }
 
@@ -49,7 +53,7 @@ class UserInfo extends React.Component {
   }
 
   componentDidMount() {
-    const{
+    const {
       userInfo
     } = this.props;
     this.setState({
@@ -58,9 +62,9 @@ class UserInfo extends React.Component {
       affiliation: userInfo.affiliation,
       livingGroup: userInfo.livingGroup,
       experience: userInfo.experience,
-      image: '/profile_images/'+userInfo._id.toString()+'.jpeg'
+      image: '/profile_images/' + userInfo._id.toString() + '.jpeg'
     });
-}
+  }
 
   handleSubmit = async (event) => {
     const {
@@ -71,9 +75,12 @@ class UserInfo extends React.Component {
       experience,
       image
     } = this.state;
+    const {
+      userInfo
+    } = this.props;
     event.preventDefault();
 
-    axios.post('/api/profile/info', {
+    axios.post(`/api/users/${userInfo._id}/update`, {
       gender,
       year,
       affiliation,
@@ -82,6 +89,7 @@ class UserInfo extends React.Component {
       image
     })
       .then((response) => {
+        console.log(response.data.message);
         this.setState({
           messageFromServer: response.data.message,
           showError: false,
@@ -100,16 +108,7 @@ class UserInfo extends React.Component {
       });
   };
 
-  handleInputChange = (event) => {
-    const { target } = event;
-    const { value } = target;
-    const { name } = target;
-    this.setState({
-      [name]: value,
-    });
-  }
-
-  handleSelectChange = (e, { name, value }) => {
+  handleChange = (e, { name, value }) => {
     this.setState({
       [name]: value
     });
@@ -119,7 +118,13 @@ class UserInfo extends React.Component {
     this.setState({
       image: img
     });
-}
+  }
+
+  handleDismiss = () => {
+    this.setState({
+      messageFromServer: ''
+    })
+  }
 
   render() {
     const {
@@ -128,111 +133,125 @@ class UserInfo extends React.Component {
       affiliation,
       livingGroup,
       experience,
-      image
+      image,
+      messageFromServer
     } = this.state;
 
     return (
-          <Form as={Grid} padded stackable>
-            <Grid.Row width={13}>
-              <Grid.Column width={3} verticalAlign="middle">
-              <label className="userInfoLabels">Gender</label>
-              </Grid.Column>
-              <Dropdown
-                as={Grid.Column}
-                width={10}
-                name='gender'
-                selection
-                options={genderOptions}
-                value={gender || ''}
-                onChange={this.handleSelectChange}
+      <Form as={Grid} stackable>
+        <Grid.Row width={13}>
+          <Grid.Column width={3} verticalAlign="middle">
+            <label className="userInfoLabels">Gender</label>
+          </Grid.Column>
+          <Dropdown
+            as={Grid.Column}
+            width={10}
+            name='gender'
+            selection
+            options={genderOptions}
+            value={gender || ''}
+            onChange={this.handleChange}
+          />
+        </Grid.Row>
+        <Grid.Row width={13}>
+          <Grid.Column width={3} verticalAlign="middle">
+            <label className="userInfoLabels">Graduation Year</label>
+          </Grid.Column>
+          <Dropdown
+            as={Grid.Column}
+            width={10}
+            name='year'
+            selection
+            scrolling
+            search
+            upward={false}
+            options={yearOptions}
+            value={year}
+            onChange={this.handleChange}
+          />
+        </Grid.Row>
+        <Grid.Row width={13}>
+          <Grid.Column width={3} verticalAlign="middle">
+            <label className="userInfoLabels">Affiliation</label>
+          </Grid.Column>
+          <Dropdown
+            as={Grid.Column}
+            width={10}
+            name='affiliation'
+            selection
+            search
+            upward={false}
+            options={affilOptions}
+            value={affiliation || ''}
+            onChange={this.handleChange}
+          />
+        </Grid.Row>
+        <Grid.Row width={13}>
+          <Grid.Column width={3} verticalAlign="middle">
+            <label className="userInfoLabels">Living Group</label>
+          </Grid.Column>
+          <Input
+            as={Grid.Column}
+            width={10}
+            name="livingGroup"
+            onChange={this.handleChange}
+            value={livingGroup || ''}
+            className="userInput"
+          />
+        </Grid.Row>
+        <Grid.Row width={13}>
+          <Grid.Column width={3} verticalAlign="middle">
+            <label className="userInfoLabels">Experience</label>
+          </Grid.Column>
+          <Input
+            as={Grid.Column}
+            width={10}
+            name="experience"
+            onChange={this.handleChange}
+            value={experience || ''}
+            className="userInput"
+          />
+        </Grid.Row>
+        <Grid.Row width={13}>
+          <Grid.Column width={3} verticalAlign="middle">
+            <label className="userInfoLabels">Photo</label>
+          </Grid.Column>
+          <Grid.Column width={10} textAlign="left" className="userInput">
+            {image ? (
+              <Grid.Row>
+                <Image wrapped size='small' src={image} onError={(e)=>{e.target.onerror = null; e.target.src=""}} />
+              </Grid.Row>)
+              : (
+                <div></div>
+              )}
+            <Grid.Row>
+              <ImageModal
+                handleImageCrop={this.handleImageCrop}
               />
             </Grid.Row>
-            <Grid.Row width={13}>
-              <Grid.Column width={3} verticalAlign="middle">
-              <label className="userInfoLabels">Graduation Year</label>
-              </Grid.Column>
-              <Dropdown
-                as={Grid.Column}
-                width={10}
-                name='year'
-                selection
-                scrolling
-                search
-                upward={false}
-                options={yearOptions}
-                value={year}
-                onChange={this.handleSelectChange}
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row width={13}>
+          <Grid.Column width={13} className="userInput">
+            <Button floated='right' color='blue' onClick={this.handleSubmit}>Save</Button>
+          </Grid.Column>
+        </Grid.Row>
+
+        {messageFromServer === "User information updated!" ? (
+          <Grid.Row width={13}>
+            <Grid.Column width={13} className="userInput">
+              <Message
+                onDismiss={this.handleDismiss}
+                header={messageFromServer}
+                positive
               />
-            </Grid.Row>
-            <Grid.Row width={13}>
-              <Grid.Column width={3} verticalAlign="middle">
-              <label className="userInfoLabels">Affiliation</label>
-              </Grid.Column>
-              <Dropdown
-                as={Grid.Column}
-                width={10}
-                name='affiliation'
-                selection
-                search
-                upward={false}
-                options={affilOptions}
-                value={affiliation || ''}
-                onChange={this.handleSelectChange}
-              />
-            </Grid.Row>
-            <Grid.Row width={13}>
-              <Grid.Column width={3} verticalAlign="middle">
-              <label className="userInfoLabels">Living Group</label>
-              </Grid.Column>
-              <Input
-                as={Grid.Column}
-                width={10}
-                name="livingGroup"
-                onChange={this.handleInputChange}
-                value={livingGroup || ''}
-                className="userInput"
-              />
-            </Grid.Row>
-            <Grid.Row width={13}>
-              <Grid.Column width={3} verticalAlign="middle">
-              <label className="userInfoLabels">Experience</label>
-              </Grid.Column>
-              <Input
-                as={Grid.Column}
-                width={10}
-                name="experience"
-                onChange={this.handleInputChange}
-                value={experience || ''}
-                className="userInput"
-              />
-            </Grid.Row>
-            <Grid.Row width={13}>
-              <Grid.Column width={3} verticalAlign="middle">
-              <label className="userInfoLabels">Photo</label>
-              </Grid.Column>
-              <Grid.Column width={10} textAlign="left" className="userInput">
-                {image ? (
-                <Grid.Row>
-                  <Image wrapped size='small' src={image} />
-                </Grid.Row>)
-                : (
-                  <div></div>
-                )}
-                <Grid.Row>
-                  <ImageModal 
-                    handleImageCrop={this.handleImageCrop}
-                  />
-                </Grid.Row>
-              </Grid.Column>
-            </Grid.Row>
-            <Grid.Row width={13}>
-              <Grid.Column width={3} verticalAlign="middle">
-              </Grid.Column>
-              <Grid.Column width={10} textAlign="right" className="userInput">
-                <Button color='blue' onClick={this.handleSubmit}>Save</Button>
-              </Grid.Column>
-            </Grid.Row>
-          </Form>
+            </Grid.Column>
+          </Grid.Row>
+        ) : (
+            <div></div>
+          )
+        }
+      </Form>
     );
   }
 }

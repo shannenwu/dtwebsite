@@ -1,7 +1,7 @@
 import React from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import {
-  Grid, Message, Header, Segment, Form, Button, Container
+  Grid, Message, Header, Segment, Form, Button, Container, Input
 } from 'semantic-ui-react';
 import axios from 'axios';
 
@@ -18,12 +18,9 @@ class Login extends React.Component {
     };
   }
 
-  handleInputChange = (event) => {
-    const { target } = event;
-    const { value } = target;
-    const { name } = target;
+  handleChange = (e, { name, value }) => {
     this.setState({
-      [name]: value,
+      [name]: value
     });
   }
 
@@ -88,19 +85,19 @@ class Login extends React.Component {
             <Form>
               <Form.Field>
                 <label>Email</label>
-                <input
+                <Input
                   name="email"
-                  onChange={this.handleInputChange}
+                  onChange={this.handleChange}
                   value={email}
                 />
               </Form.Field>
               <Form.Field style={{marginBottom: '0em'}}>
                 <label>Password</label>
-                <input
+                <Input
                   name="password"
                   autoComplete="off"
                   type="password"
-                  onChange={this.handleInputChange}
+                  onChange={this.handleChange}
                   value={password}
                 />
               </Form.Field>

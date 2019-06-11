@@ -25,7 +25,7 @@ app.get('/whoami', function (req, res) {
     }
 });
 
-app.post('/profile/info',
+app.post('/users/:user_id/update',
     connect.ensureLoggedIn(), [
         check('gender').optional().custom(value => {
             var genderOptions = ['male', 'female', 'other', '']
@@ -60,7 +60,7 @@ app.post('/profile/info',
             experience: req.body.experience
         };
         User.findOneAndUpdate({
-            email: req.user.email
+            _id: req.params.user_id
         }, updatedUserData, { new: true }).then((user) => {
             if (user === null) {
                 res.status(403).send('Unauthorized request.');

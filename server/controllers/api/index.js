@@ -12,7 +12,8 @@ app.get('/', (req, res) => {
 });
 
 // api routes
-app.use(require('./profile'));
+app.use(require('./users'));
+app.use(require('./shows'));
 
 // 401 Unauthorized
 app.get('/unauthorized', (req, res) => {

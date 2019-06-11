@@ -48,6 +48,9 @@ var UserSchema = new mongoose.Schema({
     },
     resetPasswordExpires: {
         type: Date
+    },
+    roles: {
+        type: Array
     }
 });
 

@@ -1,6 +1,5 @@
 /* eslint-disable import/no-unresolved */
 import React from 'react';
-import '../css/app.css';
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 import { Grid, Segment, Loader } from 'semantic-ui-react';
 import Home from './pages/Home';
@@ -10,16 +9,20 @@ import Login from './pages/Login';
 import Profile from './pages/Profile';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
+import AdminPage from './pages/AdminPage';
 import NavBar from './modules/Navbar';
-import { Spinner } from './modules/Spinner';
 import axios from 'axios';
+import '../css/app.css';
 
 const PrivateRoute = ({ component: Component, userInfo, loading, ...rest }) => (
-    <Route
+  <Route
       {...rest}
-      render={(props) => userInfo !== null && !loading
-        ? <Component {...props} userInfo={userInfo} />
-        : <Redirect to={{pathname: '/login', state: {from: props.location}}} />}
+      render={(props) => {
+        if (userInfo !== null && !loading) {
+          return <Component {...props} userInfo={userInfo} />
+        }
+        return <Redirect to={{pathname: '/', state: {from: props.location}}} />}
+      }
     />
 )
 
@@ -45,9 +48,18 @@ class App extends React.Component {
   }
 
   logout = () => {
-    this.setState({
-      userInfo: null,
-    });
+    axios.get('/logout')
+      .then(
+        (response) => {
+          if (!response.data.authenticated) {
+            this.setState({
+              userInfo: null,
+            });
+          } else {
+            console.log("error logging out user")
+          }
+        },
+      );
   };
 
   getUser = () => {
@@ -83,7 +95,7 @@ class App extends React.Component {
     }
     return (
       <div>
-        <Grid padded>
+        <Grid stretched padded style={{height: '100vh'}}>
           <Grid.Column width={3}>
             <NavBar
               userInfo={userInfo}
@@ -95,12 +107,12 @@ class App extends React.Component {
               <Switch>
                 <Route exact path="/" component={Home} />
                 <Route exact path="/about" component={About} />
-                <Route exact path='/login' render={(props) => <Login {...props} loginUser={this.loginUser} />}/>
+                <Route exact path="/login" render={(props) => <Login {...props} loginUser={this.loginUser} />}/>
                 <Route exact path="/signup" component={SignUp} />
                 <Route exact path="/forgot" component={ForgotPassword} />
                 <Route exact path="/reset/:resetPasswordToken" component={ResetPassword} />
-                <PrivateRoute userInfo={userInfo} loading={loading} path='/profile' component={Profile} />
-                <Redirect from='/logout' to='/login'/>
+                <PrivateRoute path='/profile' userInfo={userInfo} loading={loading} component={Profile} />
+                <PrivateRoute exact path="/admin" userInfo={userInfo} loading={loading} component={AdminPage} />
               </Switch>
             </Segment>
           </Grid.Column>

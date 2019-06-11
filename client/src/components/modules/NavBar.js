@@ -48,7 +48,12 @@ class NavBar extends Component {
               <Menu.Item as={Link} to="/profile">
                 Profile
               </Menu.Item>
-              <Menu.Item as={Link} to="/logout" onClick={logout}>
+              {userInfo.roles.includes("admin") ? (
+                <Menu.Item as={Link} to="/admin">
+                  Admin
+                </Menu.Item>
+              ) : <div></div>}
+              <Menu.Item as={'a'} to="/logout" onClick={logout}>
                 Logout
               </Menu.Item>
             </React.Fragment>

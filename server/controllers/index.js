@@ -39,11 +39,17 @@ app.use(require('./login'));
 app.use(require('./profile'));
 app.use(require('./forgotPassword'));
 app.use(require('./resetPassword'));
+app.use(require('./admin'));
 app.use('/api', require('./api'));
 
 // logout
 app.get('/logout', (req, res) => {
   req.logout();
+  req.session.destroy(function (err) {
+    if (err) { return next(err); }
+    // The response should indicate that the user is no longer authenticated.
+    return res.send({ authenticated: req.isAuthenticated() });
+  });
 });
 
 module.exports = app;

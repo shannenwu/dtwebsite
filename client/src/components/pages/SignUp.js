@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Button, Form, Container, Header, Message,
+  Button, Form, Container, Header, Message, Input
 } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -20,12 +20,9 @@ class SignUp extends React.Component {
     };
   }
 
-  handleInputChange = (event) => {
-    const { target } = event;
-    const { value } = target;
-    const { name } = target;
+  handleChange = (e, { name, value }) => {
     this.setState({
-      [name]: value,
+      [name]: value
     });
   }
 
@@ -82,39 +79,39 @@ class SignUp extends React.Component {
           <Form>
             <Form.Field required>
               <label>First Name</label>
-              <input
+              <Input
                 name="firstName"
                 placeholder="John"
-                onChange={this.handleInputChange}
+                onChange={this.handleChange}
                 value={firstName}
               />
             </Form.Field>
             <Form.Field required>
               <label>Last Name</label>
-              <input
+              <Input
                 name="lastName"
                 placeholder="Smith"
-                onChange={this.handleInputChange}
+                onChange={this.handleChange}
                 value={lastName}
               />
             </Form.Field>
             <Form.Field required>
               <label>Email</label>
-              <input
+              <Input
                 name="email"
                 placeholder="example@mit.edu"
-                onChange={this.handleInputChange}
+                onChange={this.handleChange}
                 value={email}
               />
             </Form.Field>
             <Form.Field required>
               <label>Password</label>
-              <input
+              <Input
                 name="password"
                 placeholder="Password at least 6 characters long"
                 autoComplete="off"
                 type="password"
-                onChange={this.handleInputChange}
+                onChange={this.handleChange}
                 value={password}
               />
             </Form.Field>

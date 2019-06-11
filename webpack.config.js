@@ -49,7 +49,8 @@ module.exports = {
       '/about': 'http://localhost:3000',
       '/logout': 'http://localhost:3000',
       '/forgot': 'http://localhost:3000',
-      '/reset': 'http://localhost:3000'
+      '/reset': 'http://localhost:3000',
+      '/admin': 'http://localhost:3000'
     }
   }
 };

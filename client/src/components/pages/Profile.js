@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Header, Menu, Grid
 } from 'semantic-ui-react';
 import UserInfo from '../modules/UserInfo';
-import PropTypes from 'prop-types';
 
 class Profile extends Component {
   constructor(props) {
@@ -23,7 +23,6 @@ class Profile extends Component {
   }
 
   componentDidMount() {
-    // this.getProfile(this.props.match.params.user);
     document.title = "User Profile";
   }
 
@@ -74,20 +73,6 @@ class Profile extends Component {
       </Grid>
     )
   }
-
-  // getProfile = (id) => {
-  //     fetch("/api/user?_id=" + id)
-  //         .then(res => res.json())
-  //         .then(
-  //             userObj => {
-  //                 this.setState({
-  //                     name: userObj.name,
-  //                     latestPost: userObj.last_post,
-  //                     id: id
-  //                 });
-  //             }
-  //         );
-  // }
 }
 
 export default Profile;
