@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Header, Menu, Grid
+  Header, Menu, Grid,
 } from 'semantic-ui-react';
 import UserInfo from '../modules/UserInfo';
 
@@ -10,12 +10,12 @@ class Profile extends Component {
     super(props);
 
     this.state = {
-      activeItem: 'personal'
+      activeItem: 'personal',
     };
   }
 
   static propTypes = {
-    userInfo: PropTypes.object
+    userInfo: PropTypes.objectOf(PropTypes.shape()),
   }
 
   static defaultProps = {
@@ -23,45 +23,45 @@ class Profile extends Component {
   }
 
   componentDidMount() {
-    document.title = "User Profile";
+    document.title = 'User Profile';
   }
 
   handleItemClick = (event, { name }) => this.setState({ activeItem: name })
 
   render() {
-    const { activeItem } = this.state
+    const { activeItem } = this.state;
     const { userInfo } = this.props;
-    var tab = <UserInfo userInfo={userInfo}/>
+    let tab = <UserInfo userInfo={userInfo} />;
     if (activeItem === 'personal') {
-      tab = <UserInfo userInfo={userInfo}/>
+      tab = <UserInfo userInfo={userInfo} />;
     } else if (activeItem === 'prefs') {
-      tab = <div>PREFS</div>
+      tab = <div>PREFS</div>;
     } else if (activeItem === 'conflicts') {
-      tab = <div>CONFLICTS</div>
+      tab = <div>CONFLICTS</div>;
     }
     return (
       <Grid padded columns={1}>
         <Grid.Column>
           <Header as="h1">
-            {userInfo.firstName + " " + userInfo.lastName}
+            {`${userInfo.firstName} ${userInfo.lastName}`}
           </Header>
           <Menu tabular pointing secondary stackable>
             <Menu.Item
-              name='personal'
+              name="personal"
               active={activeItem === 'personal'}
               onClick={this.handleItemClick}
             >
               Personal Information
             </Menu.Item>
             <Menu.Item
-              name='prefs'
+              name="prefs"
               active={activeItem === 'prefs'}
               onClick={this.handleItemClick}
             >
               Dance Preferences
             </Menu.Item>
             <Menu.Item
-              name='conflicts'
+              name="conflicts"
               active={activeItem === 'conflicts'}
               onClick={this.handleItemClick}
             >
@@ -71,7 +71,7 @@ class Profile extends Component {
           {tab}
         </Grid.Column>
       </Grid>
-    )
+    );
   }
 }
 

@@ -1,29 +1,23 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   Grid, Header, Form, Button, Icon, Card, Loader
 } from 'semantic-ui-react';
+import DanceModal from './DanceModal';
 import axios from 'axios';
-import ShowModal from './ShowModal';
 import '../../css/app.css';
 
-class ShowList extends React.Component {
+class DanceList extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       modalOpen: false,
+      loading: false, // change later
+      dances: []
     };
   }
 
   componentDidMount() {
-  }
-
-  static propTypes = {
-    shows: PropTypes.array,
-    selectedShow: PropTypes.number,
-    selectShow: PropTypes.func,
-    loading: PropTypes.bool
   }
 
   handleChange = (e, { name, value }) => {
@@ -43,33 +37,31 @@ class ShowList extends React.Component {
   render() {
     const {
       modalOpen,
+      loading,
+      dances
     } = this.state;
     const {
-      shows,
-      selectedShow,
-      selectShow,
-      loading
     } = this.props;
 
       return (
         <div>
           <Header as="h3">
-            Shows
+            Dances
           </Header>
           <div onClick={this.handleOpen}><Icon link name="add" /></div>
-          <ShowModal open={modalOpen} handleClose={this.handleClose} />
+          <DanceModal open={modalOpen} handleClose={this.handleClose} />
           {loading ? <Loader></Loader> : (
-            shows.map(showObj => {
-              var pre = showObj.semester === 'fall' ? 'F' : 'S';
-              var yr = showObj.year.toString().substring(2);
-              var className = showObj._id === selectedShow ? 'selected' : '';
+            dances.map(danceObj => {
+            //   var pre = showObj.semester === 'fall' ? 'F' : 'S';
+            //   var yr = showObj.year.toString().substring(2);
+            //   var className = showObj._id === selectedShow ? 'selected' : '';
               return <Card 
-                key={showObj._id}
+                key={danceObj._id}
                 className={className}
-                onClick={() => selectShow(showObj._id)}
+                // onClick={() => selectShow(showObj._id)}
                 >
                   <Card.Content>
-                  {pre+yr+' | '+showObj.name}
+                  {/* {pre+yr+' | '+showObj.name} */}
                   </Card.Content>
                 </Card>
             })
@@ -80,4 +72,4 @@ class ShowList extends React.Component {
   }
 }
 
-export default ShowList;
+export default DanceList;

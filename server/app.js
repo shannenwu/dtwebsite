@@ -18,6 +18,16 @@ app.get('/*', function(req, res) {
   res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
 });
 
+//socket s
+app.set('socketio', io);
+
+io.on('connection', function(socket){
+  console.log('a user connected');
+  socket.on('disconnect', function(){
+    console.log('user disconnected');
+  });
+});
+
 http.listen(3000, () => {
   console.log(`Listening on port 3000 and looking in folder ${publicPath}`);
 });

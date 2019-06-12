@@ -1,7 +1,7 @@
 import React from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import {
-  Grid, Message, Header, Segment, Form, Button, Container, Input
+  Grid, Message, Header, Segment, Form, Button, Container, Input,
 } from 'semantic-ui-react';
 import axios from 'axios';
 
@@ -14,13 +14,13 @@ class Login extends React.Component {
       password: '',
       showError: false,
       errorMsg: [],
-      redirect: false
+      redirect: false,
     };
   }
 
   handleChange = (e, { name, value }) => {
     this.setState({
-      [name]: value
+      [name]: value,
     });
   }
 
@@ -30,35 +30,38 @@ class Login extends React.Component {
       email,
       password,
     } = this.state;
+    const {
+      loginUser,
+    } = this.props;
+
     axios.post('/login', {
       email,
       password,
     })
       .then((response) => {
-        this.props.loginUser(response.data);
+        loginUser(response.data);
         this.setState({
           showError: false,
           errorMsg: [],
-          redirect: true
+          redirect: true,
         });
       })
       .catch((error) => {
-        console.log(error.response.data);
         if (error.response.data.errors !== undefined) {
           // form validation errors
-          var msgList = [];
-          error.response.data.errors.forEach(element => {
+          const msgList = [];
+          error.response.data.errors.forEach((element) => {
             msgList.push(element.msg);
           });
           this.setState({
             showError: true,
-            errorMsg: msgList
-          })
+            errorMsg: msgList,
+          });
         } else {
           // bad email or password errors
           this.setState({
             showError: true,
-            errorMsg: [error.response.data]
+            errorMsg: [error.response.data],
           });
         }
       });
@@ -70,10 +73,10 @@ class Login extends React.Component {
       password,
       showError,
       errorMsg,
-      redirect
+      redirect,
     } = this.state;
     if (redirect) {
-      return <Redirect to='/profile' />
+      return <Redirect to="/profile" />;
     }
     return (
       <Grid padded centered columns={2}>
@@ -91,7 +94,7 @@ class Login extends React.Component {
                   value={email}
                 />
               </Form.Field>
-              <Form.Field style={{marginBottom: '0em'}}>
+              <Form.Field style={{ marginBottom: '0em' }}>
                 <label>Password</label>
                 <Input
                   name="password"
@@ -101,18 +104,17 @@ class Login extends React.Component {
                   value={password}
                 />
               </Form.Field>
-            <Container as={Link} to="/forgot" style={{marginBottom: '1em'}}>Forgot your password?</Container>
-            <Button type="submit" onClick={this.handleSubmit} fluid color="blue">
+              <Container as={Link} to="/forgot" style={{ marginBottom: '1em' }}>Forgot your password?</Container>
+              <Button type="submit" onClick={this.handleSubmit} fluid color="blue">
               Login
-            </Button>
+              </Button>
             </Form>
             {showError === true && errorMsg.length !== 0 && (
               <Message
                 error
                 header="Please fix the following and try again."
                 list={errorMsg}
-              >
-              </Message>
+              />
             )}
           </Segment>
           <Message>

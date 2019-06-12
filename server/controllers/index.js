@@ -36,10 +36,8 @@ app.use(express.static('public'));
 // routes
 app.use(require('./signup'));
 app.use(require('./login'));
-app.use(require('./profile'));
 app.use(require('./forgotPassword'));
 app.use(require('./resetPassword'));
-app.use(require('./admin'));
 app.use('/api', require('./api'));
 
 // logout

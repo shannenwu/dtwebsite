@@ -1,7 +1,10 @@
 /* eslint-disable import/no-unresolved */
 import React from 'react';
-import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
+import {
+  Route, Switch, withRouter, Redirect,
+} from 'react-router-dom';
 import { Grid, Segment, Loader } from 'semantic-ui-react';
+import axios from 'axios';
 import Home from './pages/Home';
 import About from './pages/About';
 import SignUp from './pages/SignUp';
@@ -11,20 +14,22 @@ import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import AdminPage from './pages/AdminPage';
 import NavBar from './modules/Navbar';
-import axios from 'axios';
 import '../css/app.css';
 
-const PrivateRoute = ({ component: Component, userInfo, loading, ...rest }) => (
+const PrivateRoute = ({
+  component: Component, userInfo, loading, ...rest
+}) => (
   <Route
-      {...rest}
-      render={(props) => {
-        if (userInfo !== null && !loading) {
-          return <Component {...props} userInfo={userInfo} />
-        }
-        return <Redirect to={{pathname: '/', state: {from: props.location}}} />}
+    {...rest}
+    render={(props) => {
+      if (userInfo !== null && !loading) {
+        return <Component {...props} userInfo={userInfo} />;
       }
-    />
-)
+      return <Redirect to={{ pathname: '/', state: { from: props.location } }} />;
+    }
+      }
+  />
+);
 
 class App extends React.Component {
   constructor(props) {
@@ -43,7 +48,7 @@ class App extends React.Component {
   loginUser = (userObj) => {
     this.setState({
       userInfo: userObj,
-      loading: false
+      loading: false,
     });
   }
 
@@ -56,7 +61,7 @@ class App extends React.Component {
               userInfo: null,
             });
           } else {
-            console.log("error logging out user")
+            console.log('error logging out user');
           }
         },
       );
@@ -66,16 +71,16 @@ class App extends React.Component {
     axios.get('/api/whoami')
       .then(
         (response) => {
-          var userObj = response.data;
+          const userObj = response.data;
           if (userObj._id !== undefined) {
             this.setState({
               userInfo: userObj,
-              loading: false
+              loading: false,
             });
           } else {
             this.setState({
               userInfo: null,
-              loading: false
+              loading: false,
             });
           }
         },
@@ -86,16 +91,16 @@ class App extends React.Component {
   render() {
     const {
       userInfo,
-      loading
+      loading,
     } = this.state;
     if (loading) {
       return (
-        <Loader size='massive'>Loading</Loader>
-      )
+        <Loader size="massive">Loading</Loader>
+      );
     }
     return (
       <div>
-        <Grid stretched padded style={{height: '100vh'}}>
+        <Grid stretched padded style={{ height: '100vh' }}>
           <Grid.Column width={3}>
             <NavBar
               userInfo={userInfo}
@@ -107,11 +112,11 @@ class App extends React.Component {
               <Switch>
                 <Route exact path="/" component={Home} />
                 <Route exact path="/about" component={About} />
-                <Route exact path="/login" render={(props) => <Login {...props} loginUser={this.loginUser} />}/>
+                <Route exact path="/login" render={props => <Login {...props} loginUser={this.loginUser} />} />
                 <Route exact path="/signup" component={SignUp} />
                 <Route exact path="/forgot" component={ForgotPassword} />
                 <Route exact path="/reset/:resetPasswordToken" component={ResetPassword} />
-                <PrivateRoute path='/profile' userInfo={userInfo} loading={loading} component={Profile} />
+                <PrivateRoute path="/profile" userInfo={userInfo} loading={loading} component={Profile} />
                 <PrivateRoute exact path="/admin" userInfo={userInfo} loading={loading} component={AdminPage} />
               </Switch>
             </Segment>

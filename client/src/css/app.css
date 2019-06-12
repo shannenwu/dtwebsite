@@ -22,3 +22,8 @@ body {
     flex-direction: column;
 
 }
+
+.selected {
+    background-color: #008fbc !important;; 
+    color: white !important;
+}

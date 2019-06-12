@@ -15,6 +15,18 @@ const publicPath = path.resolve(__dirname, '..', '..', '..', 'client', 'dist');
 
 // This file handles paths to modify shows. These routes are prefixed by /api/{ENDPOINT}
 
+app.get('/shows/:show_id?', (req, res) => {
+    if (req.params.show_id) {
+        Show.findById(req.params.show_id, (err, doc) => {
+            res.send(doc);
+        });
+    } else {
+        Show.find({}).sort({date: 'desc'}).exec((err, docs) => { 
+            res.send(docs);
+        });
+    }
+});
+
 app.post('/shows',
     connect.ensureLoggedIn(), [
         check('semester').optional().custom(value => {
@@ -34,19 +46,30 @@ app.post('/shows',
         if (!errors.isEmpty()) {
             return res.status(422).send({ errors: errors.array() });
         }
+        if (req.body.semester === 'fall') {
+            date = new Date(req.body.year, 8);
+        } else {
+            date = new Date(req.body.year, 1);
+        }
         var newShowData = {
             name: req.body.name,
             description: req.body.description,
             year: req.body.year,
             semester: req.body.semester,
             dances: req.body.dances,
-            prefsOpen: req.body.prefsOpen
+            prefsOpen: req.body.prefsOpen,
+            date: date
         };
         const newShowObj = new Show(newShowData);
         newShowObj.save(err => {
-            if (err) return res.status(500).send(err);
+            if (err) {
+                return res.status(500).send(err);
+            }
+            const io = req.app.get('socketio');
+            io.emit("show", newShowObj);
             return res.status(200).send(newShowObj);
         });
+
     }
 );
 

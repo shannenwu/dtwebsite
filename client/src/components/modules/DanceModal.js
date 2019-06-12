@@ -5,16 +5,13 @@ import {
 } from 'semantic-ui-react';
 import axios from 'axios';
 
-class ShowModal extends React.Component {
+class DanceModal extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       name: '',
       description: '',
-      year: '',
-      semester: '',
-      prefsOpen: false,
     };
   }
 
@@ -22,7 +19,6 @@ class ShowModal extends React.Component {
     open: PropTypes.bool,
     handleClose: PropTypes.func,
   }
-
   componentDidMount() {
   }
 
@@ -36,10 +32,7 @@ class ShowModal extends React.Component {
     event.preventDefault();
     const {
       name,
-      description,
-      year,
-      semester,
-      prefsOpen,
+      description
     } = this.state;
 
     const {
@@ -62,7 +55,6 @@ class ShowModal extends React.Component {
         handleClose();
       })
       .catch((error) => {
-        console.log(error);
         const msgList = [];
         error.response.data.errors.forEach((element) => {
           msgList.push(element.msg);
@@ -77,14 +69,12 @@ class ShowModal extends React.Component {
   render() {
     const {
       name,
-      description,
-      year,
-      semester,
+      description
     } = this.state;
 
     const {
-      open,
-      handleClose,
+        open,
+        handleClose
     } = this.props;
 
     return (
@@ -93,9 +83,9 @@ class ShowModal extends React.Component {
           open={open}
           onClose={handleClose}
         >
-          <Modal.Header>Add a Show</Modal.Header>
+          <Modal.Header>Add a Dance</Modal.Header>
           <Modal.Content scrolling>
-            <Form>
+            {/* <Form>
               <Form.Group inline>
                 <label>Semester</label>
                 <Form.Radio
@@ -142,7 +132,7 @@ class ShowModal extends React.Component {
                 <Button color="green" floated="right" onClick={this.handleSubmit}>Save</Button>
                 <Button floated="right" onClick={handleClose}>Cancel</Button>
               </Modal.Actions>
-            </Form>
+            </Form> */}
           </Modal.Content>
         </Modal>
       </div>
@@ -150,4 +140,4 @@ class ShowModal extends React.Component {
   }
 }
 
-export default ShowModal;
+export default DanceModal;

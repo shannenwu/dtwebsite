@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Grid, Message, Button, Modal, Header
+  Grid, Message, Button, Modal, Header,
 } from 'semantic-ui-react';
 import Cropper from 'react-cropper';
-import 'cropperjs/dist/cropper.css'; 
+import 'cropperjs/dist/cropper.css';
 import './modules.css';
 
 class ImageModal extends React.Component {
@@ -15,12 +15,12 @@ class ImageModal extends React.Component {
       validateErr: '',
       imageSelected: false,
       modalOpen: false,
-      src: null
+      src: null,
     };
   }
 
   static propTypes = {
-    handleImageCrop: PropTypes.func
+    handleImageCrop: PropTypes.func,
   }
 
   static defaultProps = {
@@ -28,27 +28,27 @@ class ImageModal extends React.Component {
 
   onChange = (e) => {
     e.preventDefault();
-    this.setState({ validateErr: "" });
+    this.setState({ validateErr: '' });
     let files;
     if (e.dataTransfer) {
-        files = e.dataTransfer.files;
+      files = e.dataTransfer.files;
     } else if (e.target) {
-        files = e.target.files;
+      files = e.target.files;
     }
 
-    if (files[0].size > 1024*1024*25) {
-        this.setState({
-            src: null,
-            imageSelected: false,
-            validateErr: "File size cannot be larger than 25 MB."
-        });
-        e.target.value = null;
-        return;
+    if (files[0].size > 1024 * 1024 * 25) {
+      this.setState({
+        src: null,
+        imageSelected: false,
+        validateErr: 'File size cannot be larger than 25 MB.',
+      });
+      e.target.value = null;
+      return;
     }
 
     const reader = new FileReader();
     reader.onload = () => {
-        this.setState({ src: reader.result });
+      this.setState({ src: reader.result });
     };
     reader.readAsDataURL(files[0]);
     this.setState({ imageSelected: true });
@@ -57,16 +57,16 @@ class ImageModal extends React.Component {
   handleOpen = () => this.setState({ modalOpen: true })
 
   handleClose = () => {
-    this.setState({ 
-      modalOpen: false, 
-      imageSelected: false
-    })
+    this.setState({
+      modalOpen: false,
+      imageSelected: false,
+    });
   }
 
   cropImage = () => {
     const { handleImageCrop } = this.props;
     if (typeof this.cropper.getCroppedCanvas() === 'undefined') {
-        return;
+      return;
     }
     handleImageCrop(this.cropper.getCroppedCanvas().toDataURL());
     this.handleClose();
@@ -77,42 +77,42 @@ class ImageModal extends React.Component {
       validateErr,
       imageSelected,
       modalOpen,
-      src
+      src,
     } = this.state;
 
     let content;
     if (imageSelected) {
-        content = (
-          <Grid centered>
+      content = (
+        <Grid centered>
           <Grid.Row>
-          <Cropper
-            ref='cropper'
-            src={src}
-            style={{height: 300, width: 400}}
+            <Cropper
+              ref="cropper"
+              src={src}
+              style={{ height: 300, width: 400 }}
             // Cropper.js options
-            aspectRatio={1 / 1}
-            guides={false}
-            zoomable={false}
-            zoomOnTouch={false}
-            zoomOnWheel={false}
-            viewMode={1}
-            ref={cropper => { this.cropper = cropper; }}
-          />
+              aspectRatio={1 / 1}
+              guides={false}
+              zoomable={false}
+              zoomOnTouch={false}
+              zoomOnWheel={false}
+              viewMode={1}
+              ref={(cropper) => { this.cropper = cropper; }}
+            />
           </Grid.Row>
           <Grid.Row>
-          <div>
-            <Button color='green' floated='right' onClick={this.cropImage}>Save</Button>
-            <Button floated='right' onClick={this.handleClose}>Cancel</Button>
-          </div>
+            <div>
+              <Button color="green" floated="right" onClick={this.cropImage}>Save</Button>
+              <Button floated="right" onClick={this.handleClose}>Cancel</Button>
+            </div>
           </Grid.Row>
-          </Grid>
-        );
+        </Grid>
+      );
     } else {
-        content = <div></div>;
+      content = <div />;
     }
 
     return (
-      <Modal 
+      <Modal
         trigger={<Button onClick={this.handleOpen}>Select New Photo</Button>}
         open={modalOpen}
         onClose={this.handleClose}
@@ -120,12 +120,12 @@ class ImageModal extends React.Component {
         <Modal.Header>Select Photo</Modal.Header>
         <Modal.Content image>
           <Modal.Description>
-            <input type={'file'} name={'imageData'} accept="image/*" onChange={this.onChange} style={{paddingBottom: '1.5rem'}}/>
+            <input type="file" name="imageData" accept="image/*" onChange={this.onChange} style={{ paddingBottom: '1.5rem' }} />
             {content}
           </Modal.Description>
         </Modal.Content>
       </Modal>
-      );
+    );
   }
 }
 

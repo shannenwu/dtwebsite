@@ -1,22 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Grid, Message, Form, Button, Dropdown, Input, Image
+  Grid, Message, Form, Button, Dropdown, Input, Image,
 } from 'semantic-ui-react';
-import ImageModal from './ImageModal';
 import axios from 'axios';
+import ImageModal from './ImageModal';
 import './modules.css';
 
 const genderOptions = [
   { key: 'm', text: 'Male', value: 'male' },
   { key: 'f', text: 'Female', value: 'female' },
   { key: 'o', text: 'Other', value: 'other' },
-]
+];
 
 const yearOptions = [];
 const begYear = new Date().getFullYear() - 2;
-for (var i = 0; i < 7; i++) {
-  var year = begYear + i;
+for (let i = 0; i < 7; i++) {
+  const year = begYear + i;
   yearOptions.push({ key: i.toString(), text: year.toString(), value: year });
 }
 
@@ -24,7 +24,7 @@ const affilOptions = [
   { key: 'u', text: 'Undergraduate', value: 'undergraduate' },
   { key: 'g', text: 'Graduate', value: 'graduate' },
   { key: 'o1', text: 'Other', value: 'other' },
-]
+];
 
 class UserInfo extends React.Component {
   constructor(props) {
@@ -39,13 +39,13 @@ class UserInfo extends React.Component {
       image: '',
       messageFromServer: '',
       showError: false,
-      errorMsg: []
+      errorMsg: [],
 
     };
   }
 
   static propTypes = {
-    userInfo: PropTypes.object
+    userInfo: PropTypes.object,
   }
 
   static defaultProps = {
@@ -54,7 +54,7 @@ class UserInfo extends React.Component {
 
   componentDidMount() {
     const {
-      userInfo
+      userInfo,
     } = this.props;
     this.setState({
       gender: userInfo.gender,
@@ -62,7 +62,7 @@ class UserInfo extends React.Component {
       affiliation: userInfo.affiliation,
       livingGroup: userInfo.livingGroup,
       experience: userInfo.experience,
-      image: '/profile_images/' + userInfo._id.toString() + '.jpeg'
+      image: `/profile_images/${userInfo._id.toString()}.jpeg`,
     });
   }
 
@@ -73,10 +73,10 @@ class UserInfo extends React.Component {
       affiliation,
       livingGroup,
       experience,
-      image
+      image,
     } = this.state;
     const {
-      userInfo
+      userInfo,
     } = this.props;
     event.preventDefault();
 
@@ -86,44 +86,44 @@ class UserInfo extends React.Component {
       affiliation,
       livingGroup,
       experience,
-      image
+      image,
     })
       .then((response) => {
         console.log(response.data.message);
         this.setState({
           messageFromServer: response.data.message,
           showError: false,
-          errorMsg: []
+          errorMsg: [],
         });
       })
       .catch((error) => {
-        var msgList = [];
-        error.response.data.errors.forEach(element => {
+        const msgList = [];
+        error.response.data.errors.forEach((element) => {
           msgList.push(element.msg);
         });
         this.setState({
           showError: true,
-          errorMsg: msgList
-        })
+          errorMsg: msgList,
+        });
       });
   };
 
   handleChange = (e, { name, value }) => {
     this.setState({
-      [name]: value
+      [name]: value,
     });
   }
 
   handleImageCrop = (img) => {
     this.setState({
-      image: img
+      image: img,
     });
   }
 
   handleDismiss = () => {
     this.setState({
-      messageFromServer: ''
-    })
+      messageFromServer: '',
+    });
   }
 
   render() {
@@ -134,7 +134,7 @@ class UserInfo extends React.Component {
       livingGroup,
       experience,
       image,
-      messageFromServer
+      messageFromServer,
     } = this.state;
 
     return (
@@ -146,7 +146,7 @@ class UserInfo extends React.Component {
           <Dropdown
             as={Grid.Column}
             width={10}
-            name='gender'
+            name="gender"
             selection
             options={genderOptions}
             value={gender || ''}
@@ -160,7 +160,7 @@ class UserInfo extends React.Component {
           <Dropdown
             as={Grid.Column}
             width={10}
-            name='year'
+            name="year"
             selection
             scrolling
             search
@@ -177,7 +177,7 @@ class UserInfo extends React.Component {
           <Dropdown
             as={Grid.Column}
             width={10}
-            name='affiliation'
+            name="affiliation"
             selection
             search
             upward={false}
@@ -219,10 +219,11 @@ class UserInfo extends React.Component {
           <Grid.Column width={10} textAlign="left" className="userInput">
             {image ? (
               <Grid.Row>
-                <Image wrapped size='small' src={image} onError={(e)=>{e.target.onerror = null; e.target.src=""}} />
-              </Grid.Row>)
+                <Image wrapped size="small" src={image} onError={(e) => { e.target.onerror = null; e.target.src = ''; }} />
+              </Grid.Row>
+            )
               : (
-                <div></div>
+                <div />
               )}
             <Grid.Row>
               <ImageModal
@@ -233,11 +234,11 @@ class UserInfo extends React.Component {
         </Grid.Row>
         <Grid.Row width={13}>
           <Grid.Column width={13} className="userInput">
-            <Button floated='right' color='blue' onClick={this.handleSubmit}>Save</Button>
+            <Button floated="right" color="blue" onClick={this.handleSubmit}>Save</Button>
           </Grid.Column>
         </Grid.Row>
 
-        {messageFromServer === "User information updated!" ? (
+        {messageFromServer === 'User information updated!' ? (
           <Grid.Row width={13}>
             <Grid.Column width={13} className="userInput">
               <Message
@@ -248,8 +249,8 @@ class UserInfo extends React.Component {
             </Grid.Column>
           </Grid.Row>
         ) : (
-            <div></div>
-          )
+          <div />
+        )
         }
       </Form>
     );

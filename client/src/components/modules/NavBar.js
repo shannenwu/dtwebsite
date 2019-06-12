@@ -8,8 +8,8 @@ class NavBar extends Component {
     super(props);
 
     this.state = {
-      visible: true
-    }
+      visible: true,
+    };
   }
 
   static propTypes = {
@@ -24,15 +24,19 @@ class NavBar extends Component {
   render() {
     const {
       userInfo,
-      logout
+      logout,
     } = this.props;
     const {
-      visible
+      visible,
     } = this.state;
     return (
       <div>
-        <Menu borderless fluid vertical size="large"
-          >
+        <Menu
+          borderless
+          fluid
+          vertical
+          size="large"
+        >
           <Menu.Item as={Link} to="/">
             Home
           </Menu.Item>
@@ -48,12 +52,12 @@ class NavBar extends Component {
               <Menu.Item as={Link} to="/profile">
                 Profile
               </Menu.Item>
-              {userInfo.roles.includes("admin") ? (
+              {userInfo.roles.includes('admin') ? (
                 <Menu.Item as={Link} to="/admin">
                   Admin
                 </Menu.Item>
-              ) : <div></div>}
-              <Menu.Item as={'a'} to="/logout" onClick={logout}>
+              ) : <div />}
+              <Menu.Item as="a" to="/logout" onClick={logout}>
                 Logout
               </Menu.Item>
             </React.Fragment>

@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Grid, Message, Header, Form, Button
+  Grid, Message, Header, Form, Button,
 } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -34,38 +34,38 @@ class ResetPassword extends React.Component {
       confirmPassword,
     } = this.state;
 
-    var resetLink = '/reset/' + this.props.match.params.resetPasswordToken;
+    const resetLink = `/reset/${this.props.match.params.resetPasswordToken}`;
 
     axios.post(resetLink, {
-      password: password,
-      confirmPassword: confirmPassword,
-      resetPasswordToken: this.props.match.params.resetPasswordToken
+      password,
+      confirmPassword,
+      resetPasswordToken: this.props.match.params.resetPasswordToken,
     })
       .then((response) => {
         console.log(response.data.message);
         this.setState({
           messageFromServer: response.data.message,
           showError: false,
-          errorMsg: []
+          errorMsg: [],
         });
       })
       .catch((error) => {
         console.log(error.response.data);
         if (error.response.data.errors !== undefined) {
           // form validation errors
-          var msgList = [];
-          error.response.data.errors.forEach(element => {
+          const msgList = [];
+          error.response.data.errors.forEach((element) => {
             msgList.push(element.msg);
           });
           this.setState({
             showError: true,
-            errorMsg: msgList
-          })
+            errorMsg: msgList,
+          });
         } else {
           // unregistered email
           this.setState({
             showError: true,
-            errorMsg: [error.response.data]
+            errorMsg: [error.response.data],
           });
         }
       });
@@ -77,7 +77,7 @@ class ResetPassword extends React.Component {
       confirmPassword,
       showError,
       errorMsg,
-      messageFromServer
+      messageFromServer,
     } = this.state;
     if (messageFromServer === '') {
       return (
@@ -109,15 +109,14 @@ class ResetPassword extends React.Component {
               </Form.Field>
               <Button type="submit" onClick={this.handleSubmit} color="blue">
                 Reset Password
-                            </Button>
+              </Button>
             </Form>
             {showError === true && errorMsg.length !== 0 && (
               <Message
                 error
                 header="Please fix the following and try again."
                 list={errorMsg}
-              >
-              </Message>
+              />
             )}
           </Grid.Column>
         </Grid>

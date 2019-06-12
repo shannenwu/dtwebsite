@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Button, Form, Container, Header, Message, Input
+  Button, Form, Container, Header, Message, Input,
 } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -16,13 +16,13 @@ class SignUp extends React.Component {
       password: '',
       messageFromServer: '',
       showError: false,
-      errorMsg: []
+      errorMsg: [],
     };
   }
 
   handleChange = (e, { name, value }) => {
     this.setState({
-      [name]: value
+      [name]: value,
     });
   }
 
@@ -45,18 +45,18 @@ class SignUp extends React.Component {
         this.setState({
           messageFromServer: response.data.message,
           showError: false,
-          errorMsg: []
+          errorMsg: [],
         });
       })
       .catch((error) => {
-        var msgList = [];
-        error.response.data.errors.forEach(element => {
+        const msgList = [];
+        error.response.data.errors.forEach((element) => {
           msgList.push(element.msg);
         });
         this.setState({
           showError: true,
-          errorMsg: msgList
-        })
+          errorMsg: msgList,
+        });
       });
   };
 
@@ -68,7 +68,7 @@ class SignUp extends React.Component {
       password,
       messageFromServer,
       showError,
-      errorMsg
+      errorMsg,
     } = this.state;
     if (messageFromServer === '') {
       return (
@@ -122,8 +122,7 @@ class SignUp extends React.Component {
               error
               header="Please fix the following and try again."
               list={errorMsg}
-            >
-            </Message>
+            />
           )}
         </Container>
       );
@@ -137,6 +136,7 @@ class SignUp extends React.Component {
         </div>
       );
     }
+    return <div />;
   }
 }
 

@@ -16,7 +16,7 @@ const publicPath = path.resolve(__dirname, '..', '..', '..', 'client', 'dist');
 
 // This file handles paths to modify the user profile. These routes are prefixed by /api/{ENDPOINT}
 
-app.get('/whoami', function (req, res) {
+app.get('/whoami', (req, res) => {
     if (req.isAuthenticated()) {
         res.send(req.user);
     }
