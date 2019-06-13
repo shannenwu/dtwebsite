@@ -5,6 +5,25 @@ import {
 } from 'semantic-ui-react';
 import axios from 'axios';
 
+const styleOptions = [
+  { key: 'h', text: 'Hip Hop', value: 'hip hop' },
+  { key: 'g', text: 'Contemporary', value: 'contemp' },
+  { key: 'f', text: 'Fusion', value: 'fusion' },
+  { key: 'b', text: 'Ballet', value: 'ballet' },
+  { key: 't', text: 'Tap', value: 'tap' },
+  { key: 'o', text: 'Other', value: 'other' },
+];
+
+const levelOptions = [
+  { key: 'al', text: 'All Levels', value: 'all levels' },
+  { key: 'b', text: 'Beginner', value: 'beginner' },
+  { key: 'bi', text: 'Beg/Int', value: 'beg/int' },
+  { key: 'i', text: 'Int', value: 'int' },
+  { key: 'ia', text: 'Int/Adv', value: 'int/adv' },
+  { key: 'a', text: 'Advanced', value: 'advanced' },
+  { key: 'o', text: 'Other', value: 'other' },
+];
+
 class DanceModal extends React.Component {
   constructor(props) {
     super(props);
@@ -12,13 +31,18 @@ class DanceModal extends React.Component {
     this.state = {
       name: '',
       description: '',
+      choreographers: [],
+      style: '',
+      level: '',
     };
   }
 
   static propTypes = {
     open: PropTypes.bool,
     handleClose: PropTypes.func,
+    show: PropTypes.string
   }
+
   componentDidMount() {
   }
 
@@ -32,49 +56,58 @@ class DanceModal extends React.Component {
     event.preventDefault();
     const {
       name,
-      description
+      description,
+      choreographers,
+      style,
+      level
     } = this.state;
 
     const {
       handleClose,
+      show,
     } = this.props;
 
-    axios.post('/api/shows', {
+    axios.post('/api/dances/create', {
       name,
       description,
-      year,
-      semester,
-      prefsOpen,
+      choreographers,
+      style,
+      level,
+      show
     })
       .then((response) => {
-        this.setState({
-          messageFromServer: response.data.message,
-          showError: false,
-          errorMsg: [],
-        });
+        // this.setState({
+        //   messageFromServer: response.data.message,
+        //   showError: false,
+        //   errorMsg: [],
+        // });
         handleClose();
       })
       .catch((error) => {
-        const msgList = [];
-        error.response.data.errors.forEach((element) => {
-          msgList.push(element.msg);
-        });
-        this.setState({
-          showError: true,
-          errorMsg: msgList,
-        });
+        // const msgList = [];
+        // error.response.data.errors.forEach((element) => {
+        //   msgList.push(element.msg);
+        // });
+        // this.setState({
+        //   showError: true,
+        //   errorMsg: msgList,
+        // });
       });
   };
 
   render() {
     const {
       name,
-      description
+      description,
+      choreographers,
+      style,
+      level
     } = this.state;
 
     const {
-        open,
-        handleClose
+      open,
+      handleClose,
+      userOptions
     } = this.props;
 
     return (
@@ -85,31 +118,45 @@ class DanceModal extends React.Component {
         >
           <Modal.Header>Add a Dance</Modal.Header>
           <Modal.Content scrolling>
-            {/* <Form>
-              <Form.Group inline>
-                <label>Semester</label>
-                <Form.Radio
-                  name="semester"
-                  label="Fall"
-                  value="fall"
-                  checked={semester === 'fall'}
-                  onChange={this.handleChange}
-                />
-                <Form.Radio
-                  name="semester"
-                  label="Spring"
-                  value="spring"
-                  checked={semester === 'spring'}
-                  onChange={this.handleChange}
-                />
-              </Form.Group>
+            <Form>
               <Form.Field>
-                <label>Year</label>
-                <Input
-                  name="year"
-                  placeholder="YYYY"
+                <label>Choreographers</label>
+                <Dropdown
+                  name="choreographers"
+                  selection
+                  search
+                  multiple
+                  scrolling
+                  upward={false}
+                  options={userOptions}
+                  value={choreographers || []}
                   onChange={this.handleChange}
-                  value={year}
+                />
+              </Form.Field>
+              <Form.Field>
+                <label>Style</label>
+                <Dropdown
+                  name="style"
+                  selection
+                  search
+                  scrolling
+                  upward={false}
+                  options={styleOptions}
+                  value={style || ''}
+                  onChange={this.handleChange}
+                />
+              </Form.Field>
+              <Form.Field>
+                <label>Level</label>
+                <Dropdown
+                  name="level"
+                  selection
+                  search
+                  scrolling
+                  upward={false}
+                  options={levelOptions}
+                  value={level || ''}
+                  onChange={this.handleChange}
                 />
               </Form.Field>
               <Form.Field>
@@ -132,7 +179,7 @@ class DanceModal extends React.Component {
                 <Button color="green" floated="right" onClick={this.handleSubmit}>Save</Button>
                 <Button floated="right" onClick={handleClose}>Cancel</Button>
               </Modal.Actions>
-            </Form> */}
+            </Form>
           </Modal.Content>
         </Modal>
       </div>

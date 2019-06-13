@@ -17,12 +17,12 @@ import NavBar from './modules/Navbar';
 import '../css/app.css';
 
 const PrivateRoute = ({
-  component: Component, userInfo, loading, ...rest
+  component: Component, authed, userInfo, loading, ...rest
 }) => (
   <Route
     {...rest}
     render={(props) => {
-      if (userInfo !== null && !loading) {
+      if (authed && !loading) {
         return <Component {...props} userInfo={userInfo} />;
       }
       return <Redirect to={{ pathname: '/', state: { from: props.location } }} />;
@@ -116,8 +116,8 @@ class App extends React.Component {
                 <Route exact path="/signup" component={SignUp} />
                 <Route exact path="/forgot" component={ForgotPassword} />
                 <Route exact path="/reset/:resetPasswordToken" component={ResetPassword} />
-                <PrivateRoute path="/profile" userInfo={userInfo} loading={loading} component={Profile} />
-                <PrivateRoute exact path="/admin" userInfo={userInfo} loading={loading} component={AdminPage} />
+                <PrivateRoute path="/profile" authed={userInfo!==null} userInfo={userInfo} loading={loading} component={Profile} />
+                <PrivateRoute exact path="/admin" authed={userInfo && userInfo.isAdmin} userInfo={userInfo} loading={loading} component={AdminPage} />
               </Switch>
             </Segment>
           </Grid.Column>

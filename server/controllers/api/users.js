@@ -14,18 +14,21 @@ const { check, validationResult } = require('express-validator/check');
 
 const publicPath = path.resolve(__dirname, '..', '..', '..', 'client', 'dist');
 
-// This file handles paths to modify the user profile. These routes are prefixed by /api/{ENDPOINT}
+// This file handles paths to get/modify/delete/create user data.. These routes are prefixed by /api/{ENDPOINT}
 
-app.get('/whoami', (req, res) => {
-    if (req.isAuthenticated()) {
-        res.send(req.user);
-    }
-    else {
-        res.send({});
+app.get('/:user_id?', (req, res) => {
+    if (req.params.user_id) {
+        User.findById(req.params.user_id, (err, doc) => {
+            res.send(doc);
+        });
+    } else {
+        User.find({}).sort({firstName: 'ascending'}).exec((err, docs) => { 
+            res.send(docs);
+        });
     }
 });
 
-app.post('/users/:user_id/update',
+app.post('/:user_id/update',
     connect.ensureLoggedIn(), [
         check('gender').optional().custom(value => {
             var genderOptions = ['male', 'female', 'other', '']

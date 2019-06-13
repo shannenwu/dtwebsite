@@ -6,7 +6,7 @@ const path = require('path');
 // Router added at "/api"
 const app = express.Router();
 
-// Import User Schema
+// Import Show Schema
 const Show = require('../../models/show.js');
 
 const { check, validationResult } = require('express-validator/check');
@@ -15,7 +15,7 @@ const publicPath = path.resolve(__dirname, '..', '..', '..', 'client', 'dist');
 
 // This file handles paths to modify shows. These routes are prefixed by /api/{ENDPOINT}
 
-app.get('/shows/:show_id?', (req, res) => {
+app.get('/:show_id?', (req, res) => {
     if (req.params.show_id) {
         Show.findById(req.params.show_id, (err, doc) => {
             res.send(doc);
@@ -27,7 +27,7 @@ app.get('/shows/:show_id?', (req, res) => {
     }
 });
 
-app.post('/shows',
+app.post('/create',
     connect.ensureLoggedIn(), [
         check('semester').optional().custom(value => {
             var semesterOptions = ['fall', 'spring']

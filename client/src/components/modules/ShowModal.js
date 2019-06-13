@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Grid, Header, Form, Button, Modal, Icon, Dropdown, Input,
+  Form, Button, Modal, Input,
 } from 'semantic-ui-react';
 import axios from 'axios';
 
@@ -46,7 +46,7 @@ class ShowModal extends React.Component {
       handleClose,
     } = this.props;
 
-    axios.post('/api/shows', {
+    axios.post('/api/shows/create', {
       name,
       description,
       year,
@@ -54,23 +54,23 @@ class ShowModal extends React.Component {
       prefsOpen,
     })
       .then((response) => {
-        this.setState({
-          messageFromServer: response.data.message,
-          showError: false,
-          errorMsg: [],
-        });
+        // this.setState({
+        //   messageFromServer: response.data.message,
+        //   showError: false,
+        //   errorMsg: [],
+        // });
         handleClose();
       })
       .catch((error) => {
         console.log(error);
-        const msgList = [];
-        error.response.data.errors.forEach((element) => {
-          msgList.push(element.msg);
-        });
-        this.setState({
-          showError: true,
-          errorMsg: msgList,
-        });
+        // const msgList = [];
+        // error.response.data.errors.forEach((element) => {
+        //   msgList.push(element.msg);
+        // });
+        // this.setState({
+        //   showError: true,
+        //   errorMsg: msgList,
+        // });
       });
   };
 

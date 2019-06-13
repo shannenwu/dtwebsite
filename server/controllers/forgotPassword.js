@@ -17,10 +17,6 @@ const publicPath = path.resolve(__dirname, '..', '..', 'client', 'dist');
 
 const nodemailer = require('nodemailer');
 
-app.get('/forgot', (req, res) => {
-    res.sendFile(publicPath + '/index.html');
-});
-
 app.post('/forgot', [
     check('email').isEmail().withMessage('Valid email required!'),
 ], (req, res) => {

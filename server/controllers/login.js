@@ -13,10 +13,6 @@ const { check, validationResult } = require('express-validator/check');
 
 const publicPath = path.resolve(__dirname, '..', '..', 'client', 'dist');
 
-app.get('/login', (req, res) => {
-    res.sendFile(publicPath + '/index.html');
-});
-
 app.post('/login', [
     check('email').isEmail().withMessage('Email is not valid.'),
     check('password').not().isEmpty().withMessage('Please enter your password.')

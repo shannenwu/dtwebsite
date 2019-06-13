@@ -15,7 +15,7 @@ class Profile extends Component {
   }
 
   static propTypes = {
-    userInfo: PropTypes.objectOf(PropTypes.shape()),
+    userInfo: PropTypes.object,
   }
 
   static defaultProps = {

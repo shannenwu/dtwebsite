@@ -52,7 +52,7 @@ class NavBar extends Component {
               <Menu.Item as={Link} to="/profile">
                 Profile
               </Menu.Item>
-              {userInfo.roles.includes('admin') ? (
+              {userInfo.isAdmin ? (
                 <Menu.Item as={Link} to="/admin">
                   Admin
                 </Menu.Item>

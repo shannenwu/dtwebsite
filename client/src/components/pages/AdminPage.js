@@ -3,12 +3,13 @@ import {
   Grid, Header, Form, Button, Modal, Icon,
 } from 'semantic-ui-react';
 import axios from 'axios';
+import io from 'socket.io-client';
 import ShowList from '../modules/ShowList';
 import DanceList from '../modules/DanceList';
-import io from 'socket.io-client';
 
 class AdminPage extends React.Component {
   _isMounted = false;
+
   constructor(props) {
     super(props);
 
@@ -18,7 +19,7 @@ class AdminPage extends React.Component {
       shows: [],
       selectedShow: null,
       loading: true,
-      endpoint: 'http://localhost:3000'
+      endpoint: 'http://localhost:3000',
     };
   }
 
@@ -31,16 +32,15 @@ class AdminPage extends React.Component {
     this.getShows();
     const socket = io(endpoint);
     socket.on('show', (showObj) => {
-      var newShows = [showObj].concat(this.state.shows);
-      newShows.sort((a,b) => (a.date > b.date) ? -1 : ((b.date > a.date) ? 1 : 0)); 
+      const newShows = [showObj].concat(this.state.shows);
+      newShows.sort((a, b) => ((a.date > b.date) ? -1 : ((b.date > a.date) ? 1 : 0)));
       if (this._isMounted) {
         this.setState({
           shows: newShows,
-          selectedShow: showObj._id
+          selectedShow: showObj._id,
         });
       }
-    })
-
+    });
   }
 
   componentWillUnmount() {
@@ -53,17 +53,17 @@ class AdminPage extends React.Component {
         (response) => {
           const shows = response.data;
           this.setState({
-            shows: shows,
+            shows,
             selectedShow: shows[0]._id,
-            loading: false
-          })
+            loading: false,
+          });
         },
       );
   }
 
   selectShow = (id) => {
     this.setState({
-      selectedShow: id
+      selectedShow: id,
     });
   }
 
@@ -71,7 +71,7 @@ class AdminPage extends React.Component {
     const {
       shows,
       selectedShow,
-      loading
+      loading,
     } = this.state;
 
     return (
@@ -81,7 +81,7 @@ class AdminPage extends React.Component {
         </Header>
         <Grid padded columns={3} style={{ height: '100%' }}>
           <Grid.Column>
-            <ShowList shows={shows} selectedShow={selectedShow} selectShow={this.selectShow} loading={loading}/>
+            <ShowList shows={shows} selectedShow={selectedShow} selectShow={this.selectShow} loading={loading} />
           </Grid.Column>
           <Grid.Column>
             <DanceList selectedShow={selectedShow} />

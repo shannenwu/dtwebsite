@@ -11,9 +11,19 @@ app.get('/', (req, res) => {
     })
 });
 
+app.get('/whoami', (req, res) => {
+    if (req.isAuthenticated()) {
+        res.send(req.user);
+    }
+    else {
+        res.send({});
+    }
+});
+
 // api routes
-app.use(require('./users'));
-app.use(require('./shows'));
+app.use('/users', require('./users'));
+app.use('/shows', require('./shows'));
+app.use('/dances', require('./dances'));
 
 // 401 Unauthorized
 app.get('/unauthorized', (req, res) => {

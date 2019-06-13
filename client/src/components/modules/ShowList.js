@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Grid, Header, Form, Button, Icon, Card, Loader
+  Grid, Header, Form, Button, Icon, Card, Loader,
 } from 'semantic-ui-react';
 import axios from 'axios';
 import ShowModal from './ShowModal';
@@ -21,9 +21,9 @@ class ShowList extends React.Component {
 
   static propTypes = {
     shows: PropTypes.array,
-    selectedShow: PropTypes.number,
+    selectedShow: PropTypes.string,
     selectShow: PropTypes.func,
-    loading: PropTypes.bool
+    loading: PropTypes.bool,
   }
 
   handleChange = (e, { name, value }) => {
@@ -48,35 +48,36 @@ class ShowList extends React.Component {
       shows,
       selectedShow,
       selectShow,
-      loading
+      loading,
     } = this.props;
 
-      return (
-        <div>
-          <Header as="h3">
+    return (
+      <div>
+        <Header as="h3">
             Shows
-          </Header>
-          <div onClick={this.handleOpen}><Icon link name="add" /></div>
-          <ShowModal open={modalOpen} handleClose={this.handleClose} />
-          {loading ? <Loader></Loader> : (
-            shows.map(showObj => {
-              var pre = showObj.semester === 'fall' ? 'F' : 'S';
-              var yr = showObj.year.toString().substring(2);
-              var className = showObj._id === selectedShow ? 'selected' : '';
-              return <Card 
+        </Header>
+        <div onClick={this.handleOpen}><Icon link name="add" /></div>
+        <ShowModal open={modalOpen} handleClose={this.handleClose} />
+        {loading ? <Loader /> : (
+          shows.map((showObj) => {
+            const pre = showObj.semester === 'fall' ? 'F' : 'S';
+            const yr = showObj.year.toString().substring(2);
+            const className = showObj._id === selectedShow ? 'selected' : '';
+            return (
+              <Card
                 key={showObj._id}
                 className={className}
                 onClick={() => selectShow(showObj._id)}
-                >
-                  <Card.Content>
-                  {pre+yr+' | '+showObj.name}
-                  </Card.Content>
-                </Card>
-            })
-          )}
-        </div>
-      );
-      
+              >
+                <Card.Content>
+                  {`${pre + yr} | ${showObj.name}`}
+                </Card.Content>
+              </Card>
+            );
+          })
+        )}
+      </div>
+    );
   }
 }
 

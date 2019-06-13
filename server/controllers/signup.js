@@ -1,6 +1,5 @@
 // require Express
 const express = require('express');
-const path = require('path');
 
 // Intitialize App
 const app = express.Router();
@@ -10,13 +9,7 @@ const User = require('../models/user.js');
 
 const { check, validationResult } = require('express-validator/check');
 
-const publicPath = path.resolve(__dirname, '..', '..', 'client', 'dist');
-
 // This file defines the endpoints for user registration.
-
-app.get('/signup', (req, res) => {
-    res.sendFile(publicPath + '/index.html');
-});
 
 app.post('/signup', [
     check('firstName').not().isEmpty().withMessage('First name cannot be empty.'),
@@ -38,8 +31,7 @@ app.post('/signup', [
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             email: req.body.email,
-            password: req.body.password,
-            roles: ['user']
+            password: req.body.password
         };
         User.create(newUserData, (err, user) => {
             if (err) {
