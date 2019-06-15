@@ -13,46 +13,26 @@ class DanceList extends React.Component {
   constructor(props) {
     super(props);
 
+    this.socket = io('http://localhost:3000');
+
     this.state = {
       modalOpen: false,
       loading: false, // change later
-      dances: [],
-      userOptions: []
+      userOptions: [],
+      endpoint: 'http://localhost:3000',
     };
   }
 
   componentDidMount() {
     this._isMounted = true;
     this.getUserOptions();
-
-    const socket = io(endpoint);
-    socket.on('dance', (danceObj) => {
-      const newDances = [danceObj].concat(this.state.dances);
-      if (this._isMounted) {
-        this.setState({
-          dances: newDances
-        });
-      }
-    });
   }
 
   static propTypes = {
-    selectedShow: PropTypes.string
+    selectedShow: PropTypes.object,
+    loading: PropTypes.bool,
+    handleDeleteDance: PropTypes.func
   }
-
-  // getDances = () => {
-  //   axios.get('/api/shows')
-  //     .then(
-  //       (response) => {
-  //         const shows = response.data;
-  //         this.setState({
-  //           shows,
-  //           selectedShow: shows[0]._id,
-  //           loading: false,
-  //         });
-  //       },
-  //     );
-  // }
 
   getUserOptions = () => {
     axios.get('/api/users')
@@ -91,11 +71,12 @@ class DanceList extends React.Component {
     const {
       modalOpen,
       loading,
-      dances,
       userOptions
     } = this.state;
     const {
-      selectedShow
+      dances,
+      selectedShow,
+      handleDeleteDance
     } = this.props;
 
     return (
@@ -112,11 +93,12 @@ class DanceList extends React.Component {
             //   var className = showObj._id === selectedShow ? 'selected' : '';
             return <Card
               key={danceObj._id}
-              className={className}
+              // className={className}
             // onClick={() => selectShow(showObj._id)}
             >
               <Card.Content>
-                {/* {pre+yr+' | '+showObj.name} */}
+                {danceObj.name}
+                <Icon name='cancel' link onClick={() => handleDeleteDance(danceObj._id)} />
               </Card.Content>
             </Card>
           })

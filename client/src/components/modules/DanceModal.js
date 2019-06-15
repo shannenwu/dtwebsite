@@ -40,7 +40,7 @@ class DanceModal extends React.Component {
   static propTypes = {
     open: PropTypes.bool,
     handleClose: PropTypes.func,
-    show: PropTypes.string
+    show: PropTypes.object
   }
 
   componentDidMount() {
@@ -81,6 +81,13 @@ class DanceModal extends React.Component {
         //   showError: false,
         //   errorMsg: [],
         // });
+          this.setState({
+            name: '',
+            description: '',
+            choreographers: [],
+            style: '',
+            level: '',
+        });
         handleClose();
       })
       .catch((error) => {

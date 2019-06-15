@@ -6,6 +6,7 @@ import axios from 'axios';
 import io from 'socket.io-client';
 import ShowList from '../modules/ShowList';
 import DanceList from '../modules/DanceList';
+import ShowSettings from '../modules/ShowSettings';
 
 class AdminPage extends React.Component {
   _isMounted = false;
@@ -17,6 +18,9 @@ class AdminPage extends React.Component {
 
     this.state = {
       shows: [],
+      dances: [],
+      activeShow: null,
+      prefsOpen: false,
       selectedShow: null,
       loading: true,
       endpoint: 'http://localhost:3000',
@@ -37,7 +41,15 @@ class AdminPage extends React.Component {
       if (this._isMounted) {
         this.setState({
           shows: newShows,
-          selectedShow: showObj._id,
+          selectedShow: showObj,
+        });
+      }
+    });
+    socket.on('dance', (danceObj) => {
+      const newDances = [danceObj].concat(this.state.dances);
+      if (this._isMounted) {
+        this.setState({
+          dances: newDances
         });
       }
     });
@@ -47,30 +59,121 @@ class AdminPage extends React.Component {
     this._isMounted = false;
   }
 
+
   getShows = () => {
     axios.get('/api/shows')
       .then(
         (response) => {
           const shows = response.data;
+          var activeShow = shows.find(obj => {
+            return obj.isActive === true
+          })
           this.setState({
             shows,
-            selectedShow: shows[0]._id,
+            activeShow,
+            selectedShow: shows[0],
             loading: false,
+            prefsOpen: activeShow.prefsOpen
+          });
+          return this.getDances(shows[0]._id);
+        },
+      );
+  }
+
+  getDances = (id) => {
+    axios.get(`/api/dances/${id}/all`)
+      .then(
+        (response) => {
+          const dances = response.data;
+          this.setState({
+            dances
           });
         },
       );
   }
 
-  selectShow = (id) => {
+  selectShow = (showObj) => {
     this.setState({
-      selectedShow: id,
+      selectedShow: showObj,
     });
+    this.getDances(showObj._id);
+  }
+
+  handleDeleteShow = (id) => {
+    const {
+      shows
+    } = this.state;
+    axios.delete(`/api/shows/${id}`)
+      .then(
+        (response) => {
+          const removedShow = response.data;
+          var showsCopy = [...shows];
+          const index = showsCopy.findIndex(x => x._id === removedShow._id);
+          if (index !== -1) {
+            showsCopy.splice(index, 1);
+            this.setState({
+              shows: showsCopy
+            });
+          }
+        },
+      );
+  }
+
+  handleDeleteDance = (id) => {
+    const {
+      dances
+    } = this.state;
+    axios.delete(`/api/dances/${id}`)
+      .then(
+        (response) => {
+          const removedDance = response.data;
+          var dancesCopy = [...dances];
+          const index = dancesCopy.findIndex(x => x._id === removedDance._id);
+          if (index !== -1) {
+            dancesCopy.splice(index, 1);
+            this.setState({
+              dances: dancesCopy
+            });
+          }
+        },
+      );
+  }
+
+  setActiveShow = (id) => {
+    axios.post(`/api/shows/${id}/active-show`)
+      .then(
+        (response) => {
+          const activeShow = response.data;
+          this.setState({
+            activeShow
+          });
+        },
+      );
+  }
+
+  togglePrefs = () => {
+    const {
+      activeShow,
+      prefsOpen
+    } = this.state;
+    axios.post(`/api/shows/${activeShow._id}/prefs?open=${!prefsOpen}`)
+      .then(
+        (response) => {
+          const activeShow = response.data;
+          this.setState({
+            prefsOpen: !prefsOpen
+          });
+        },
+      );
   }
 
   render() {
     const {
       shows,
+      dances,
       selectedShow,
+      activeShow,
+      prefsOpen,
       loading,
     } = this.state;
 
@@ -81,10 +184,21 @@ class AdminPage extends React.Component {
         </Header>
         <Grid padded columns={3} style={{ height: '100%' }}>
           <Grid.Column>
-            <ShowList shows={shows} selectedShow={selectedShow} selectShow={this.selectShow} loading={loading} />
+            <ShowList
+              shows={shows}
+              activeShow={activeShow}
+              selectedShow={selectedShow}
+              selectShow={this.selectShow}
+              handleDeleteShow={this.handleDeleteShow}
+              loading={loading}
+            />
           </Grid.Column>
           <Grid.Column>
-            <DanceList selectedShow={selectedShow} />
+            <DanceList
+              selectedShow={selectedShow}
+              dances={dances}
+              handleDeleteDance={this.handleDeleteDance}
+              loading={loading} />
           </Grid.Column>
           <Grid.Column stretched>
             <Grid.Row style={{ height: '50%' }}>
@@ -93,9 +207,13 @@ class AdminPage extends React.Component {
               </Header>
             </Grid.Row>
             <Grid.Row style={{ height: '50%' }}>
-              <Header as="h3">
-                Show Settings
-              </Header>
+              <ShowSettings
+                activeShow={activeShow}
+                setActiveShow={this.setActiveShow}
+                selectedShow={selectedShow}
+                prefsOpen={prefsOpen}
+                togglePrefs={this.togglePrefs}
+              />
             </Grid.Row>
           </Grid.Column>
         </Grid>

@@ -14,11 +14,17 @@ const { check, validationResult } = require('express-validator/check');
 
 const publicPath = path.resolve(__dirname, '..', '..', '..', 'client', 'dist');
 
-// This file handles paths to modify shows. These routes are prefixed by /api/{ENDPOINT}
+// This file handles paths to modify dances. These routes are prefixed by /api/{ENDPOINT}
 
 app.get('/:dance_id', (req, res) => {
     Dance.findById(req.params.dance_id, (err, doc) => {
         res.send(doc);
+    });
+});
+
+app.get('/:show_id/all', (req, res) => {
+    Dance.find({show: req.params.show_id}, (err, docs) => {
+        res.send(docs);
     });
 });
 
@@ -43,7 +49,7 @@ app.post('/create',
             choreographers: req.body.choreographers,
             style: req.body.style,
             level: req.body.level,
-            show: req.body.show,
+            show: req.body.show._id,
             acceptedDancers: [],
         };
 
@@ -53,6 +59,7 @@ app.post('/create',
             if (err) {
                 return res.status(500).send(err);
             }
+
             const io = req.app.get('socketio');
             io.emit("dance", newDanceObj);
             return res.status(200).send(newDanceObj);
@@ -60,5 +67,17 @@ app.post('/create',
 
     }
 );
+
+app.delete("/:dance_id", (req, res) => {
+    Dance.findByIdAndDelete(req.params.dance_id, (err, doc) => {
+      if (err) {
+        console.log("error deleting");
+        res.status(500);
+      } else {
+        console.log(`deleted dance ${req.params.dance_id}`);
+        res.status(200).send(doc);
+      }
+    });
+  });
 
 module.exports = app;

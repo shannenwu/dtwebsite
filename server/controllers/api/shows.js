@@ -21,10 +21,22 @@ app.get('/:show_id?', (req, res) => {
             res.send(doc);
         });
     } else {
-        Show.find({}).sort({date: 'desc'}).exec((err, docs) => { 
+        Show.find({}).sort({ date: 'desc' }).exec((err, docs) => {
             res.send(docs);
         });
     }
+});
+
+app.delete("/:show_id", (req, res) => {
+    Show.findByIdAndDelete(req.params.show_id, (err, doc) => {
+        if (err) {
+            console.log("error deleting");
+            res.status(500);
+        } else {
+            console.log(`deleted show ${req.params.show_id}`);
+            res.status(200).send(doc);
+        }
+    });
 });
 
 app.post('/create',
@@ -72,5 +84,23 @@ app.post('/create',
 
     }
 );
+
+app.post("/:show_id/active-show", (req, res) => {
+    Show.updateMany({ isActive: true }, { isActive: false }, (err, docs) => {
+        Show.findByIdAndUpdate(req.params.show_id, {
+            isActive: true
+        }, { new: true }, (err, doc) => {
+            res.status(200).send(doc);
+        });
+    });
+});
+
+app.post("/:show_id/prefs", (req, res) => {
+    Show.findByIdAndUpdate(req.params.show_id, {
+        prefsOpen: req.query.open
+    }, { new: true }, (err, doc) => {
+        res.status(200).send(doc);
+    });
+});
 
 module.exports = app;

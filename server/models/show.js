@@ -18,16 +18,16 @@ var ShowSchema = new Schema({
         type: String,
         required: 'semester (fall/spring) is required'
     },
-    dances: {
-        type: [{ type: Schema.Types.ObjectId, ref: 'Dance' }]
-    },
     prefsOpen: {
         type: Boolean
     },
     date: {
         type: Date,
         required: 'date required to sort shows by time'
-    }
+    },
+    isActive: {
+        type: Boolean
+    },
 });
 
 var Show = mongoose.model('Show', ShowSchema)
