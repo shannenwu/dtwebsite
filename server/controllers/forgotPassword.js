@@ -8,7 +8,7 @@ require('dotenv').config()
 const app = express.Router();
 
 // Import User Schema
-const User = require('../models/user.js');
+const User = require('../models/User.js');
 const crypto = require('crypto');
 
 const { check, validationResult } = require('express-validator/check');
@@ -61,7 +61,7 @@ app.post('/forgot', [
                 if (err) {
                     console.error('there was an error: ', err);
                 } else {
-                    console.log('here is the res: ', response);
+                    console.log('email res: ', response);
                     res.status(200).send({message: 'Recovery email sent!'});
                 }
             });

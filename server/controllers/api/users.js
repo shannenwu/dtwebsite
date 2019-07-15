@@ -7,14 +7,16 @@ const Jimp = require('jimp');
 // Router added at "/api"
 const app = express.Router();
 
-// Import User Schema
-const User = require('../../models/user.js');
+// Import Schemas
+const User = require('../../models/User.js');
 
 const { check, validationResult } = require('express-validator/check');
 
 const publicPath = path.resolve(__dirname, '..', '..', '..', 'client', 'dist');
 
-// This file handles paths to get/modify/delete/create user data.. These routes are prefixed by /api/{ENDPOINT}
+// This file handles paths to get/modify/delete/create user data. These routes are prefixed by /api/users/{ENDPOINT}
+
+// TODO CHECK VALIDATION
 
 app.get('/:user_id?', (req, res) => {
     if (req.params.user_id) {
@@ -22,13 +24,14 @@ app.get('/:user_id?', (req, res) => {
             res.send(doc);
         });
     } else {
-        User.find({}).sort({firstName: 'ascending'}).exec((err, docs) => { 
+        User.find({}).sort({ firstName: 'ascending' }).exec((err, docs) => {
             res.send(docs);
         });
     }
 });
 
-app.post('/:user_id/update',
+
+app.post('/:user_id',
     connect.ensureLoggedIn(), [
         check('gender').optional().custom(value => {
             var genderOptions = ['male', 'female', 'other', '']
@@ -68,22 +71,23 @@ app.post('/:user_id/update',
             if (user === null) {
                 res.status(403).send('Unauthorized request.');
             } else {
-                if (req.body.image.includes('/^data:image\/png;base64,/')) {
+                if (req.body.image.includes('data:image\/png;base64,')) {
                     var base64Data = req.body.image.replace(/^data:image\/png;base64,/, "");
                     var fileName = user._id.toString() + ".jpeg";
                     Jimp.read(Buffer.from(base64Data, 'base64'), (err, image) => {
                         if (err) throw err;
                         image
-                        .resize(512, 512) // resize
-                        .quality(60) // set JPEG quality
-                        .write(publicPath+"/profile_images/"+fileName); // save
-                      });
+                            .resize(512, 512) // resize
+                            .quality(60) // set JPEG quality
+                            .write(publicPath + "/profile_images/" + fileName); // save
+                    });
                 }
                 user.save((err, newUser) => {
                     res.status(200).send({ message: 'User information updated!' });
                 });
             }
         });
-    });
+    }
+);
 
 module.exports = app;

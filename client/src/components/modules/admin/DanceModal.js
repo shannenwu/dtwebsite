@@ -5,6 +5,8 @@ import {
 } from 'semantic-ui-react';
 import axios from 'axios';
 
+// TODO move options to separate config file
+
 const styleOptions = [
   { key: 'h', text: 'Hip Hop', value: 'hip hop' },
   { key: 'g', text: 'Contemporary', value: 'contemp' },
@@ -67,7 +69,7 @@ class DanceModal extends React.Component {
       show,
     } = this.props;
 
-    axios.post('/api/dances/create', {
+    axios.post('/api/dances', {
       name,
       description,
       choreographers,

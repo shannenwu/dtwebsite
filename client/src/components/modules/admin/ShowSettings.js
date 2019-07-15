@@ -4,7 +4,7 @@ import {
   Grid, Header, Button, Card, Loader, Checkbox, Icon
 } from 'semantic-ui-react';
 import axios from 'axios';
-import '../../css/app.css';
+import './admin.css';
 
 class ShowSettings extends React.Component {
   constructor(props) {

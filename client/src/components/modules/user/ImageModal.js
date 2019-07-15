@@ -5,7 +5,7 @@ import {
 } from 'semantic-ui-react';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
-import './modules.css';
+import './user.css';
 
 class ImageModal extends React.Component {
   constructor(props) {
@@ -101,7 +101,7 @@ class ImageModal extends React.Component {
           </Grid.Row>
           <Grid.Row>
             <div>
-              <Button color="green" floated="right" onClick={this.cropImage}>Save</Button>
+              <Button color="green" floated="right" onClick={this.cropImage}>Crop</Button>
               <Button floated="right" onClick={this.handleClose}>Cancel</Button>
             </div>
           </Grid.Row>

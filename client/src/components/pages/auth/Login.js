@@ -1,7 +1,7 @@
 import React from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import {
-  Grid, Message, Header, Segment, Form, Button, Container, Input,
+  Grid, Message, Header, Segment, Form, Button, Container, Input, Dimmer, Loader
 } from 'semantic-ui-react';
 import axios from 'axios';
 
@@ -15,6 +15,7 @@ class Login extends React.Component {
       showError: false,
       errorMsg: [],
       redirect: false,
+      loading: false,
     };
   }
 
@@ -34,6 +35,10 @@ class Login extends React.Component {
       loginUser,
     } = this.props;
 
+    this.setState({
+      loading: true
+    })
+
     axios.post('/login', {
       email,
       password,
@@ -44,6 +49,7 @@ class Login extends React.Component {
           showError: false,
           errorMsg: [],
           redirect: true,
+          loading: false
         });
       })
       .catch((error) => {
@@ -56,12 +62,14 @@ class Login extends React.Component {
           this.setState({
             showError: true,
             errorMsg: msgList,
+            loading: false
           });
         } else {
           // bad email or password errors
           this.setState({
             showError: true,
             errorMsg: [error.response.data],
+            loading: false
           });
         }
       });
@@ -74,12 +82,16 @@ class Login extends React.Component {
       showError,
       errorMsg,
       redirect,
+      loading
     } = this.state;
     if (redirect) {
       return <Redirect to="/profile" />;
     }
     return (
       <Grid padded centered columns={2}>
+        <Dimmer active={loading} inverted>
+          <Loader />
+        </Dimmer>
         <Grid.Column>
           <Header as="h1">
             Welcome Back!
@@ -106,7 +118,7 @@ class Login extends React.Component {
               </Form.Field>
               <Container as={Link} to="/forgot" style={{ marginBottom: '1em' }}>Forgot your password?</Container>
               <Button type="submit" onClick={this.handleSubmit} fluid color="blue">
-              Login
+                Login
               </Button>
             </Form>
             {showError === true && errorMsg.length !== 0 && (

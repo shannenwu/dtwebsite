@@ -6,7 +6,7 @@ const path = require('path');
 const app = express.Router();
 
 // Import User Schema
-const User = require('../models/user.js');
+const User = require('../models/User.js');
 
 const { check, validationResult } = require('express-validator/check');
 

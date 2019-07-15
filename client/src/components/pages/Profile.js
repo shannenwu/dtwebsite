@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 import {
   Header, Menu, Grid,
 } from 'semantic-ui-react';
-import UserInfo from '../modules/UserInfo';
+import UserInfo from '../modules/user/UserInfo';
+import PrefsheetInfo from '../modules/user/PrefsheetInfo';
 
 class Profile extends Component {
   constructor(props) {
@@ -11,6 +13,15 @@ class Profile extends Component {
 
     this.state = {
       activeItem: 'personal',
+      prefData: {
+        maxDances: -1,
+        rankedDances: [],
+        danceOptions: []
+      },
+      activeShow: '',
+      messageFromServer: '',
+      errorMsg: [],
+      loading: true
     };
   }
 
@@ -24,18 +35,174 @@ class Profile extends Component {
 
   componentDidMount() {
     document.title = 'User Profile';
+    this.getPrefsheet();
+  }
+
+  getActiveShow = async () => {
+    try {
+      const response = await axios.get('/api/shows/active');
+      return response.data;
+    } catch (e) {
+      console.log(e); // TODO FIX LATER
+    }
+  }
+
+  getPrefsheet = async () => {
+    const {
+      userInfo,
+    } = this.props;
+
+    try {
+      const activeShow = await this.getActiveShow();
+
+      const [prefResponse, danceResponse] = await Promise.all([
+        axios.get(`/api/prefsheets/user/${userInfo._id}?show_id=${activeShow._id}`),
+        axios.get(`/api/dances/${activeShow._id}/all`)
+      ]);
+
+      const prefsheet = prefResponse.data;
+      const danceOptions = this.getDanceOptions(danceResponse.data);
+
+      if (prefsheet === null) {
+        var prefData = {
+          ...this.state.prefData,
+          maxDances: -1,
+          rankedDances: Array(danceOptions.length).fill({ dance: '' }),
+          danceOptions: danceOptions
+        }
+      } else {
+        const filledRankedDances =
+          prefsheet.rankedDances.concat(Array(danceOptions.length - prefsheet.rankedDances.length)
+            .fill({ dance: '' }))
+        var prefData = {
+          ...this.state.prefData,
+          maxDances: prefsheet.maxDances,
+          rankedDances: filledRankedDances,
+          danceOptions: danceOptions
+        }
+      }
+      this.setState({ activeShow, prefData, loading: false });
+    } catch (e) {
+      console.log(e); // TODO FIX LATER
+    }
+  }
+
+  getDanceOptions = (dances) => {
+    var danceOptions = dances.map((dance, index) => {
+      const names =
+        dance.choreographers.map(c => {
+          return c.firstName + ' ' + c.lastName
+        }).join(', ')
+      const levelStyle = dance.level + ' ' + dance.style;
+      return {
+        key: index,
+        text: names + ': ' + levelStyle,
+        value: dance._id
+      };
+    });
+    danceOptions.unshift({ key: 100, text: 'No dance selected.', value: '' });
+    return danceOptions;
+  }
+
+  handleInputChange = (e, { name, value }) => {
+    this.setState({
+      prefData: {
+        ...this.state.prefData,
+        [name]: value
+      }
+    });
+  }
+
+  handleListChange = (e, { name, value }) => {
+    const { rankedDances } = this.state.prefData;
+    const copy = [...rankedDances];
+    copy[name] = { dance: value }
+    this.setState({
+      prefData: {
+        ...this.state.prefData,
+        rankedDances: copy
+      }
+    });
   }
 
   handleItemClick = (event, { name }) => this.setState({ activeItem: name })
 
+  handleDismiss = () => {
+    this.setState({
+      messageFromServer: '',
+      errorMsg: []
+    });
+  }
+  
+  handleSubmit = (event) => {
+    const {
+      prefData,
+      activeShow
+    } = this.state;
+    const {
+      userInfo
+    } = this.props;
+    event.preventDefault();
+
+    axios.post(`/api/prefsheets/user/${userInfo._id}`, {
+      show: activeShow,
+      maxDances: prefData.maxDances,
+      rankedDances: prefData.rankedDances
+    })
+      .then((response) => {
+        console.log(response.data.message);
+        this.setState({
+          messageFromServer: response.data.message,
+          errorMsg: [],
+        });
+      })
+      .catch((error) => {
+        if (error.response.data.errors !== undefined) {
+          // form validation errors
+          const msgList = [];
+          error.response.data.errors.forEach((element) => {
+            msgList.push(element.msg);
+          });
+          this.setState({
+            errorMsg: msgList
+          });
+        } else {
+          // other bad errors
+          this.setState({
+            errorMsg: [error.response.data]
+          });
+        }
+      });
+  };
+
+
   render() {
-    const { activeItem } = this.state;
+    const {
+      activeItem,
+      prefData,
+      activeShow,
+      messageFromServer,
+      errorMsg,
+      loading
+    } = this.state;
     const { userInfo } = this.props;
     let tab = <UserInfo userInfo={userInfo} />;
+
     if (activeItem === 'personal') {
       tab = <UserInfo userInfo={userInfo} />;
     } else if (activeItem === 'prefs') {
-      tab = <div>PREFS</div>;
+      tab = <PrefsheetInfo
+        userInfo={userInfo}
+        prefData={prefData}
+        activeShow={activeShow}
+        handleInputChange={this.handleInputChange}
+        handleListChange={this.handleListChange}
+        handleSubmit={this.handleSubmit}
+        handleDismiss={this.handleDismiss}
+        loading={loading}
+        messageFromServer={messageFromServer}
+        errorMsg={errorMsg}
+      />;
     } else if (activeItem === 'conflicts') {
       tab = <div>CONFLICTS</div>;
     }

@@ -46,7 +46,7 @@ class ShowModal extends React.Component {
       handleClose,
     } = this.props;
 
-    axios.post('/api/shows/create', {
+    axios.post('/api/shows', {
       name,
       description,
       year,

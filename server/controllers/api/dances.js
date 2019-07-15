@@ -7,14 +7,16 @@ const path = require('path');
 const app = express.Router();
 
 // Import Dance, Show Schema
-const Dance = require('../../models/dance.js');
-const Show = require('../../models/show.js');
+const Dance = require('../../models/Dance.js');
+const Show = require('../../models/Show.js');
 
 const { check, validationResult } = require('express-validator/check');
 
 const publicPath = path.resolve(__dirname, '..', '..', '..', 'client', 'dist');
 
-// This file handles paths to modify dances. These routes are prefixed by /api/{ENDPOINT}
+// This file handles paths to modify dances. These routes are prefixed by /api/dances/{ENDPOINT}
+
+// TODO VALIDATION LATER
 
 app.get('/:dance_id', (req, res) => {
     Dance.findById(req.params.dance_id, (err, doc) => {
@@ -22,13 +24,18 @@ app.get('/:dance_id', (req, res) => {
     });
 });
 
+// TODO to put in shows or this file
 app.get('/:show_id/all', (req, res) => {
-    Dance.find({show: req.params.show_id}, (err, docs) => {
+    Dance
+        .find({show: req.params.show_id})
+        .populate('choreographers')
+        .exec((err, docs) => {
         res.send(docs);
     });
 });
 
-app.post('/create',
+// Create a dance.
+app.post('/',
     connect.ensureLoggedIn(), [
         check('choreographers')
         .custom(data => 

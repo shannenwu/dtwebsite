@@ -5,7 +5,7 @@ import {
 } from 'semantic-ui-react';
 import axios from 'axios';
 import ImageModal from './ImageModal';
-import './modules.css';
+import './user.css';
 
 const genderOptions = [
   { key: 'm', text: 'Male', value: 'male' },
@@ -40,7 +40,6 @@ class UserInfo extends React.Component {
       messageFromServer: '',
       showError: false,
       errorMsg: [],
-
     };
   }
 
@@ -66,7 +65,7 @@ class UserInfo extends React.Component {
     });
   }
 
-  handleSubmit = async (event) => {
+  handleSubmit = (event) => {
     const {
       gender,
       year,
@@ -80,7 +79,7 @@ class UserInfo extends React.Component {
     } = this.props;
     event.preventDefault();
 
-    axios.post(`/api/users/${userInfo._id}/update`, {
+    axios.post(`/api/users/${userInfo._id}`, {
       gender,
       year,
       affiliation,
@@ -97,7 +96,7 @@ class UserInfo extends React.Component {
         });
       })
       .catch((error) => {
-        const msgList = [];
+        const msgList = []; // TODO test if this error handling works
         error.response.data.errors.forEach((element) => {
           msgList.push(element.msg);
         });

@@ -7,13 +7,22 @@ const path = require('path');
 const app = express.Router();
 
 // Import Show Schema
-const Show = require('../../models/show.js');
+const Show = require('../../models/Show.js');
+const util = require("../util.js");
 
 const { check, validationResult } = require('express-validator/check');
 
 const publicPath = path.resolve(__dirname, '..', '..', '..', 'client', 'dist');
 
-// This file handles paths to modify shows. These routes are prefixed by /api/{ENDPOINT}
+// This file handles paths to modify shows. These routes are prefixed by /api/shows/{ENDPOINT}
+
+//TODO VALIDATION LATER
+
+app.get("/active", (req, res) => {
+    util.getActiveShow().then(show => {
+        return res.status(200).send(show);
+    })
+});
 
 app.get('/:show_id?', (req, res) => {
     if (req.params.show_id) {
@@ -39,7 +48,7 @@ app.delete("/:show_id", (req, res) => {
     });
 });
 
-app.post('/create',
+app.post('/',
     connect.ensureLoggedIn(), [
         check('semester').optional().custom(value => {
             var semesterOptions = ['fall', 'spring']
@@ -95,6 +104,7 @@ app.post("/:show_id/active-show", (req, res) => {
     });
 });
 
+// Sets the selected show's prefsheets to be visible/open.
 app.post("/:show_id/prefs", (req, res) => {
     Show.findByIdAndUpdate(req.params.show_id, {
         prefsOpen: req.query.open
