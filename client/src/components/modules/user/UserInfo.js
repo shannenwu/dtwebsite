@@ -138,13 +138,12 @@ class UserInfo extends React.Component {
 
     return (
       <Form as={Grid} stackable>
-        <Grid.Row width={13}>
+        <Grid.Row>
           <Grid.Column width={3} verticalAlign="middle">
             <label className="userInfoLabels">Gender</label>
           </Grid.Column>
           <Dropdown
             as={Grid.Column}
-            width={10}
             name="gender"
             selection
             options={genderOptions}

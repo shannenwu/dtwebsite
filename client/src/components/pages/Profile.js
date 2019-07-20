@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import {
-  Header, Menu, Grid,
+  Header, Menu, Grid, Dimmer, Loader
 } from 'semantic-ui-react';
 import UserInfo from '../modules/user/UserInfo';
 import PrefsheetInfo from '../modules/user/PrefsheetInfo';
@@ -18,7 +18,7 @@ class Profile extends Component {
         rankedDances: [],
         danceOptions: []
       },
-      activeShow: '',
+      activeShow: null,
       messageFromServer: '',
       errorMsg: [],
       loading: true
@@ -63,14 +63,7 @@ class Profile extends Component {
       const prefsheet = prefResponse.data;
       const danceOptions = this.getDanceOptions(danceResponse.data);
 
-      if (prefsheet === null) {
-        var prefData = {
-          ...this.state.prefData,
-          maxDances: -1,
-          rankedDances: Array(danceOptions.length).fill({ dance: '' }),
-          danceOptions: danceOptions
-        }
-      } else {
+      if (prefsheet.rankedDances) {
         const filledRankedDances =
           prefsheet.rankedDances.concat(Array(danceOptions.length - prefsheet.rankedDances.length)
             .fill({ dance: '' }))
@@ -80,10 +73,17 @@ class Profile extends Component {
           rankedDances: filledRankedDances,
           danceOptions: danceOptions
         }
+      } else {
+        var prefData = {
+          ...this.state.prefData,
+          maxDances: -1,
+          rankedDances: Array(danceOptions.length).fill({ dance: '' }),
+          danceOptions: danceOptions
+        }
       }
       this.setState({ activeShow, prefData, loading: false });
     } catch (e) {
-      console.log(e); // TODO FIX LATER
+      console.log(e); // TODO ERROR HANDLE
     }
   }
 
@@ -133,7 +133,7 @@ class Profile extends Component {
       errorMsg: []
     });
   }
-  
+
   handleSubmit = (event) => {
     const {
       prefData,
@@ -150,7 +150,6 @@ class Profile extends Component {
       rankedDances: prefData.rankedDances
     })
       .then((response) => {
-        console.log(response.data.message);
         this.setState({
           messageFromServer: response.data.message,
           errorMsg: [],
@@ -199,12 +198,19 @@ class Profile extends Component {
         handleListChange={this.handleListChange}
         handleSubmit={this.handleSubmit}
         handleDismiss={this.handleDismiss}
-        loading={loading}
         messageFromServer={messageFromServer}
         errorMsg={errorMsg}
       />;
     } else if (activeItem === 'conflicts') {
       tab = <div>CONFLICTS</div>;
+    }
+
+    if (loading) {
+      return (
+        <Dimmer active inverted>
+          <Loader></Loader>
+        </Dimmer>
+      );
     }
     return (
       <Grid padded columns={1}>
@@ -220,20 +226,23 @@ class Profile extends Component {
             >
               Personal Information
             </Menu.Item>
-            <Menu.Item
-              name="prefs"
-              active={activeItem === 'prefs'}
-              onClick={this.handleItemClick}
-            >
-              Dance Preferences
-            </Menu.Item>
-            <Menu.Item
-              name="conflicts"
-              active={activeItem === 'conflicts'}
-              onClick={this.handleItemClick}
-            >
-              Practice Availabilities
-            </Menu.Item>
+            {activeShow.prefsOpen ? (
+              <React.Fragment>
+                <Menu.Item
+                  name="prefs"
+                  active={activeItem === 'prefs'}
+                  onClick={this.handleItemClick}
+                >
+                  Dance Preferences
+                </Menu.Item>
+                <Menu.Item
+                  name="conflicts"
+                  active={activeItem === 'conflicts'}
+                  onClick={this.handleItemClick}
+                >
+                  Practice Availabilities
+                </Menu.Item>
+              </React.Fragment>) : <div></div>}
           </Menu>
           {tab}
         </Grid.Column>

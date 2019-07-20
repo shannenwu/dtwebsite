@@ -17,40 +17,18 @@ class DanceList extends React.Component {
 
     this.state = {
       modalOpen: false,
-      loading: false, // change later
-      userOptions: [],
       endpoint: 'http://localhost:3000',
     };
   }
 
   componentDidMount() {
     this._isMounted = true;
-    this.getUserOptions();
   }
 
   static propTypes = {
     selectedShow: PropTypes.object,
-    loading: PropTypes.bool,
-    handleDeleteDance: PropTypes.func
-  }
-
-  getUserOptions = () => {
-    axios.get('/api/users')
-      .then(
-        (response) => {
-          const users = response.data;
-          var userOptions = users.map(user => {
-            return {
-              key: user.firstName + ' ' + user.lastName,
-              text: user.firstName + ' ' + user.lastName,
-              value: user._id
-            };
-          })
-          this.setState({
-            userOptions: userOptions
-          })
-        },
-      );
+    handleDeleteDance: PropTypes.func,
+    userOptions: PropTypes.array
   }
 
   handleChange = (e, { name, value }) => {
@@ -61,22 +39,17 @@ class DanceList extends React.Component {
 
   handleOpen = () => this.setState({ modalOpen: true })
 
-  handleClose = () => {
-    this.setState({
-      modalOpen: false,
-    });
-  }
+  handleClose = () => this.setState({ modalOpen: false })
 
   render() {
     const {
-      modalOpen,
-      loading,
-      userOptions
+      modalOpen
     } = this.state;
     const {
       dances,
       selectedShow,
-      handleDeleteDance
+      handleDeleteDance,
+      userOptions
     } = this.props;
 
     return (
@@ -85,24 +58,23 @@ class DanceList extends React.Component {
           Dances
           </Header>
         <div onClick={this.handleOpen}><Icon link name="add" /></div>
-        <DanceModal userOptions={userOptions} open={modalOpen} handleClose={this.handleClose} show={selectedShow}/>
-        {loading ? <Loader></Loader> : (
-          dances.map(danceObj => {
-            //   var pre = showObj.semester === 'fall' ? 'F' : 'S';
-            //   var yr = showObj.year.toString().substring(2);
-            //   var className = showObj._id === selectedShow ? 'selected' : '';
-            return <Card
-              key={danceObj._id}
-              // className={className}
-            // onClick={() => selectShow(showObj._id)}
-            >
-              <Card.Content>
-                {danceObj.name}
-                <Icon name='cancel' link onClick={() => handleDeleteDance(danceObj._id)} />
-              </Card.Content>
-            </Card>
-          })
-        )}
+        <DanceModal userOptions={userOptions} open={modalOpen} handleClose={this.handleClose} show={selectedShow} />
+        {dances.map(danceObj => {
+          //   var pre = showObj.semester === 'fall' ? 'F' : 'S';
+          //   var yr = showObj.year.toString().substring(2);
+          //   var className = showObj._id === selectedShow ? 'selected' : '';
+          return <Card
+            key={danceObj._id}
+          // className={className}
+          // onClick={() => selectShow(showObj._id)}
+          >
+            <Card.Content>
+              {danceObj.name}
+              {/* <Icon name='cancel' link onClick={() => handleDeleteDance(danceObj._id)} /> */}
+            </Card.Content>
+          </Card>
+        })
+        }
       </div>
     );
 

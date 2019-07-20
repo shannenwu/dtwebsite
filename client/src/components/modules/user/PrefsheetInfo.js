@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Grid, Message, Form, Button, Dropdown, Dimmer, Loader
+  Grid, Message, Form, Button, Dropdown
 } from 'semantic-ui-react';
-import axios from 'axios';
 import './user.css';
 
 const maxNumberOptions = [
@@ -30,13 +29,17 @@ class PrefsheetInfo extends React.Component {
     handleSubmit: PropTypes.func,
     messageFromServer: PropTypes.string,
     errorMsg: PropTypes.array,
-    loading: PropTypes.bool
+    isLate: PropTypes.bool,
+    handleLateChange: PropTypes.func
+  }
+
+  static defaultProps = {
+    messageFromServer: '',
+    errorMsg: [],
+    isLate: false
   }
 
   componentDidMount() {
-    const {
-      activeShow
-    } = this.props;
   }
 
   render() {
@@ -49,20 +52,27 @@ class PrefsheetInfo extends React.Component {
       handleDismiss,
       messageFromServer,
       errorMsg,
-      loading
+      userOptions,
+      isLate,
     } = this.props;
 
-    if (!activeShow.prefsOpen) {
-      return (<div>Prefs are not open!</div>)
-    } else if (loading) {
-      return (
-        <Dimmer active inverted>
-          <Loader></Loader>
-        </Dimmer>
-      );
-    }
     return (
       <Form as={Grid} stackable>
+        {isLate ? 
+        <Form.Field>
+          <label>Dancer</label>
+          <Dropdown
+            name="userId"
+            selection
+            search
+            scrolling
+            upward={false}
+            options={userOptions}
+            value={prefData.userId || ''}
+            onChange={handleInputChange}
+          />
+        </Form.Field> : <div></div>
+        }
         <Grid.Row width={13}>
           <Grid.Column width={3} verticalAlign="middle">
             <label className="userInfoLabels">Max number of dances</label>
@@ -74,7 +84,7 @@ class PrefsheetInfo extends React.Component {
             search
             upward={false}
             options={maxNumberOptions}
-            value={prefData.maxDances || ''}
+            value={prefData.maxDances || -1}
             onChange={handleInputChange}
           />
         </Grid.Row>
@@ -89,6 +99,7 @@ class PrefsheetInfo extends React.Component {
                 width={10}
                 name={index}
                 selection
+                clearable
                 search
                 upward={false}
                 options={prefData.danceOptions}

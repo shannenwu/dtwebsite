@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-var ShowSchema = new Schema({
+var showSchema = new Schema({
     name: {
         type: String,
         trim: true
@@ -30,5 +30,5 @@ var ShowSchema = new Schema({
     },
 });
 
-var Show = mongoose.model('Show', ShowSchema)
+var Show = mongoose.model('Show', showSchema)
 module.exports = Show;

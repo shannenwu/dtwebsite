@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 
 const BCRYPT_SALT_ROUNDS = 12;
 
-var UserSchema = new mongoose.Schema({
+var userSchema = new mongoose.Schema({
     firstName: {
         type: String,
         trim: true,
@@ -54,7 +54,7 @@ var UserSchema = new mongoose.Schema({
     }
 });
 
-UserSchema.pre('save', function (next) {
+userSchema.pre('save', function (next) {
     var user = this;
     if (this.isModified('password')) {
         // hash password with salt
@@ -69,14 +69,14 @@ UserSchema.pre('save', function (next) {
     }
 });
 
-UserSchema.methods.validPassword = function (password, cb) {
+userSchema.methods.validPassword = function (password, cb) {
     bcrypt.compare(password, this.password, function (err, isMatch) {
         if (err) return cb(err);
         cb(null, isMatch);
     })
 }
 
-UserSchema.statics.authenticate = (email, password, cb) => {
+userSchema.statics.authenticate = (email, password, cb) => {
     User.findOne({
         email: email
     }, (err, user) => {
@@ -103,7 +103,7 @@ UserSchema.statics.authenticate = (email, password, cb) => {
     })
 }
 
-UserSchema.statics.validPassword = (user, password, cb) => {
+userSchema.statics.validPassword = (user, password, cb) => {
     bcrypt.compare(password, user.password, function (err, result) {
         if (result === true) {
             return cb(null, user);
@@ -116,5 +116,5 @@ UserSchema.statics.validPassword = (user, password, cb) => {
     })
 };
 
-var User = mongoose.model('User', UserSchema)
+var User = mongoose.model('User', userSchema)
 module.exports = User;

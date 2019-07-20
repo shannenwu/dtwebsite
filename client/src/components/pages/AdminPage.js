@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Grid, Header, Form, Button, Modal, Icon,
+  Grid, Header, Dimmer, Loader
 } from 'semantic-ui-react';
 import axios from 'axios';
 import io from 'socket.io-client';
@@ -22,6 +22,7 @@ class AdminPage extends React.Component {
       activeShow: null,
       prefsOpen: false,
       selectedShow: null,
+      userOptions: [],
       loading: true,
       endpoint: 'http://localhost:3000',
     };
@@ -33,7 +34,8 @@ class AdminPage extends React.Component {
 
     document.title = 'Admin Page';
     // make get request to load shows, dances
-    this.getShows();
+    this.getShowsAndDances();
+    this.getUserOptions();
     const socket = io(endpoint);
     socket.on('show', (showObj) => {
       const newShows = [showObj].concat(this.state.shows);
@@ -59,28 +61,51 @@ class AdminPage extends React.Component {
     this._isMounted = false;
   }
 
-
-  getShows = () => {
-    axios.get('/api/shows')
+  getUserOptions = () => {
+    axios.get('/api/users')
       .then(
         (response) => {
-          const shows = response.data;
-          var activeShow = shows.find(obj => {
-            return obj.isActive === true
+          const users = response.data;
+          var userOptions = users.map(user => {
+            return {
+              key: user.firstName + ' ' + user.lastName,
+              text: user.firstName + ' ' + user.lastName,
+              value: user._id
+            };
           })
           this.setState({
-            shows,
-            activeShow,
-            selectedShow: shows[0],
-            loading: false,
-            prefsOpen: activeShow.prefsOpen
-          });
-          return this.getDances(shows[0]._id);
+            userOptions: userOptions
+          })
         },
       );
   }
 
-  getDances = (id) => {
+  getShowsAndDances = async () => {
+    try {
+      const [activeShowResponse, allShowsResponse] = await Promise.all([
+        axios.get('/api/shows/active'),
+        axios.get('/api/shows')
+      ]);
+
+      const activeShow = activeShowResponse.data;
+      const selectedShow = allShowsResponse.data[0];
+
+      const dancesResponse = await axios.get(`/api/dances/${selectedShow._id}/all`);
+
+      this.setState({
+        shows: allShowsResponse.data,
+        dances: dancesResponse.data,
+        activeShow,
+        selectedShow,
+        loading: false,
+        prefsOpen: activeShow.prefsOpen
+      })
+    } catch (e) {
+      console.log(e); // TODO ERROR HANDLE 
+    }
+  }
+
+  getDances = async (id) => {
     axios.get(`/api/dances/${id}/all`)
       .then(
         (response) => {
@@ -92,11 +117,12 @@ class AdminPage extends React.Component {
       );
   }
 
-  selectShow = (showObj) => {
+  selectShow = async (showObj) => {
+    const dancesResponse = await axios.get(`/api/dances/${showObj._id}/all`);
     this.setState({
+      dances: dancesResponse.data,
       selectedShow: showObj,
     });
-    this.getDances(showObj._id);
   }
 
   handleDeleteShow = (id) => {
@@ -167,16 +193,39 @@ class AdminPage extends React.Component {
       );
   }
 
+  generateAuditionNumbers = () => {
+    const {
+      activeShow
+    } = this.state;
+    axios.post(`/api/prefsheets/generate-audition-numbers/${activeShow._id}/`)
+    .then(
+      (response) => {
+        // this.setState({
+        //   // TODO: some success message.
+        // });
+        return response;
+      },
+    );
+  }
+
   render() {
     const {
       shows,
       dances,
       selectedShow,
       activeShow,
+      userOptions,
       prefsOpen,
       loading,
     } = this.state;
 
+    if (loading) {
+      return (
+        <Dimmer active inverted>
+          <Loader></Loader>
+        </Dimmer>
+      );
+    }
     return (
       <React.Fragment>
         <Header as="h1">
@@ -190,7 +239,6 @@ class AdminPage extends React.Component {
               selectedShow={selectedShow}
               selectShow={this.selectShow}
               handleDeleteShow={this.handleDeleteShow}
-              loading={loading}
             />
           </Grid.Column>
           <Grid.Column>
@@ -198,7 +246,7 @@ class AdminPage extends React.Component {
               selectedShow={selectedShow}
               dances={dances}
               handleDeleteDance={this.handleDeleteDance}
-              loading={loading} />
+              userOptions={userOptions} />
           </Grid.Column>
           <Grid.Column stretched>
             <Grid.Row style={{ height: '50%' }}>
@@ -213,6 +261,8 @@ class AdminPage extends React.Component {
                 selectedShow={selectedShow}
                 prefsOpen={prefsOpen}
                 togglePrefs={this.togglePrefs}
+                generateAuditionNumbers={this.generateAuditionNumbers}
+                userOptions={userOptions}
               />
             </Grid.Row>
           </Grid.Column>

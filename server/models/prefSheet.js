@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-var PrefsheetSchema = new Schema({
+var prefsheetSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId, ref: 'User'
     },
@@ -35,5 +35,5 @@ var PrefsheetSchema = new Schema({
 
 // TODO pre-save maxDances number, ensure that status accepted <= 4
 
-var Prefsheet = mongoose.model('Prefsheet', PrefsheetSchema)
+var Prefsheet = mongoose.model('Prefsheet', prefsheetSchema)
 module.exports = Prefsheet;

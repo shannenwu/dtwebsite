@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-var DanceSchema = new Schema({
+var danceSchema = new Schema({
     name: {
         type: String,
         trim: true
@@ -29,5 +29,5 @@ var DanceSchema = new Schema({
     }
 });
 
-var Dance = mongoose.model('Dance', DanceSchema)
+var Dance = mongoose.model('Dance', danceSchema)
 module.exports = Dance;
