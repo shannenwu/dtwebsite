@@ -27,6 +27,9 @@ class Profile extends Component {
 
   static propTypes = {
     userInfo: PropTypes.object,
+    getActiveShow: PropTypes.func,
+    getDances: PropTypes.func,
+    getDanceOptions: PropTypes.func
   }
 
   static defaultProps = {
@@ -38,30 +41,25 @@ class Profile extends Component {
     this.getPrefsheet();
   }
 
-  getActiveShow = async () => {
-    try {
-      const response = await axios.get('/api/shows/active');
-      return response.data;
-    } catch (e) {
-      console.log(e); // TODO FIX LATER
-    }
-  }
-
   getPrefsheet = async () => {
     const {
       userInfo,
+      getActiveShow,
+      getDances,
+      getDanceOptions
     } = this.props;
 
     try {
-      const activeShow = await this.getActiveShow();
+      const activeShowResponse = await getActiveShow();
+      const activeShow = activeShowResponse.data;
 
-      const [prefResponse, danceResponse] = await Promise.all([
-        axios.get(`/api/prefsheets/user/${userInfo._id}?show_id=${activeShow._id}`),
-        axios.get(`/api/dances/${activeShow._id}/all`)
+      const [prefResponse, dancesResponse] = await Promise.all([
+        axios.get(`/api/prefsheets/user/${userInfo._id}`),
+        getDances(activeShow._id)
       ]);
 
       const prefsheet = prefResponse.data;
-      const danceOptions = this.getDanceOptions(danceResponse.data);
+      const danceOptions = getDanceOptions(dancesResponse.data);
 
       if (prefsheet.rankedDances) {
         const filledRankedDances =
@@ -85,23 +83,6 @@ class Profile extends Component {
     } catch (e) {
       console.log(e); // TODO ERROR HANDLE
     }
-  }
-
-  getDanceOptions = (dances) => {
-    var danceOptions = dances.map((dance, index) => {
-      const names =
-        dance.choreographers.map(c => {
-          return c.firstName + ' ' + c.lastName
-        }).join(', ')
-      const levelStyle = dance.level + ' ' + dance.style;
-      return {
-        key: index,
-        text: names + ': ' + levelStyle,
-        value: dance._id
-      };
-    });
-    danceOptions.unshift({ key: 100, text: 'No dance selected.', value: '' });
-    return danceOptions;
   }
 
   handleInputChange = (e, { name, value }) => {
@@ -145,7 +126,6 @@ class Profile extends Component {
     event.preventDefault();
 
     axios.post(`/api/prefsheets/user/${userInfo._id}`, {
-      show: activeShow,
       maxDances: prefData.maxDances,
       rankedDances: prefData.rankedDances
     })
@@ -213,40 +193,38 @@ class Profile extends Component {
       );
     }
     return (
-      <Grid padded columns={1}>
-        <Grid.Column>
-          <Header as="h1">
-            {`${userInfo.firstName} ${userInfo.lastName}`}
-          </Header>
-          <Menu tabular pointing secondary stackable>
-            <Menu.Item
-              name="personal"
-              active={activeItem === 'personal'}
-              onClick={this.handleItemClick}
-            >
-              Personal Information
+      <div id="profile">
+        <Header as="h1">
+          {`${userInfo.firstName} ${userInfo.lastName}`}
+        </Header>
+        <Menu tabular pointing secondary stackable>
+          <Menu.Item
+            name="personal"
+            active={activeItem === 'personal'}
+            onClick={this.handleItemClick}
+          >
+            Personal Information
             </Menu.Item>
-            {activeShow.prefsOpen ? (
-              <React.Fragment>
-                <Menu.Item
-                  name="prefs"
-                  active={activeItem === 'prefs'}
-                  onClick={this.handleItemClick}
-                >
-                  Dance Preferences
+          {activeShow.prefsOpen ? (
+            <React.Fragment>
+              <Menu.Item
+                name="prefs"
+                active={activeItem === 'prefs'}
+                onClick={this.handleItemClick}
+              >
+                Dance Preferences
                 </Menu.Item>
-                <Menu.Item
-                  name="conflicts"
-                  active={activeItem === 'conflicts'}
-                  onClick={this.handleItemClick}
-                >
-                  Practice Availabilities
+              <Menu.Item
+                name="conflicts"
+                active={activeItem === 'conflicts'}
+                onClick={this.handleItemClick}
+              >
+                Practice Availabilities
                 </Menu.Item>
-              </React.Fragment>) : <div></div>}
-          </Menu>
-          {tab}
-        </Grid.Column>
-      </Grid>
+            </React.Fragment>) : <div></div>}
+        </Menu>
+        {tab}
+      </div>
     );
   }
 }

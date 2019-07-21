@@ -50,7 +50,8 @@ var userSchema = new mongoose.Schema({
         type: Date
     },
     isAdmin: {
-        type: Boolean
+        type: Boolean,
+        default: false
     }
 });
 

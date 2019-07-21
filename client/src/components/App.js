@@ -3,7 +3,7 @@ import React from 'react';
 import {
   Route, Switch, withRouter, Redirect,
 } from 'react-router-dom';
-import { Grid, Segment, Loader } from 'semantic-ui-react';
+import { Loader } from 'semantic-ui-react';
 import axios from 'axios';
 import Home from './pages/static/Home';
 import About from './pages/static/About';
@@ -17,19 +17,19 @@ import NavBar from './modules/Navbar';
 import '../css/app.css';
 
 const PrivateRoute = ({
-  component: Component, authed, userInfo, loading, ...rest
+  component: Component, authed, loading, ...rest
 }) => (
-  <Route
-    {...rest}
-    render={(props) => {
-      if (authed && !loading) {
-        return <Component {...props} userInfo={userInfo} />;
+    <Route
+      {...rest}
+      render={(props) => {
+        if (authed && !loading) {
+          return <Component {...props} {...rest} />;
+        }
+        return <Redirect to={{ pathname: '/', state: { from: props.location } }} />;
       }
-      return <Redirect to={{ pathname: '/', state: { from: props.location } }} />;
-    }
       }
-  />
-);
+    />
+  );
 
 class App extends React.Component {
   constructor(props) {
@@ -37,7 +37,7 @@ class App extends React.Component {
 
     this.state = {
       userInfo: null,
-      loading: true,
+      loading: true
     };
   }
 
@@ -87,11 +87,45 @@ class App extends React.Component {
       );
   }
 
+  getActiveShow = async () => {
+    try {
+      const response = await axios.get('/api/shows/active');
+      return response;
+    } catch (e) {
+      console.log(e); // TODO FIX LATER
+    }
+  }
+
+  getDances = async (show_id) => {
+    try {
+      const response = await axios.get(`/api/dances/${show_id}/all`);
+      return response;
+    } catch (e) {
+      console.log(e); // TODO FIX LATER
+    }
+  }
+
+  getDanceOptions = (dances) => {
+    var danceOptions = dances.map((dance, index) => {
+      const names =
+        dance.choreographers.map(c => {
+          return c.firstName + ' ' + c.lastName
+        }).join(', ')
+      const levelStyle = dance.level + ' ' + dance.style;
+      return {
+        key: index,
+        text: names + ': ' + levelStyle,
+        value: dance._id
+      };
+    });
+    danceOptions.unshift({ key: 100, text: 'No dance selected.', value: '' });
+    return danceOptions;
+  }
 
   render() {
     const {
       userInfo,
-      loading,
+      loading
     } = this.state;
     if (loading) {
       return (
@@ -99,29 +133,43 @@ class App extends React.Component {
       );
     }
     return (
-      <div>
-        <Grid stretched padded style={{ height: '100vh' }}>
-          <Grid.Column width={3}>
-            <NavBar
-              userInfo={userInfo}
-              logout={this.logout}
-            />
-          </Grid.Column>
-          <Grid.Column width={13}>
-            <Segment>
-              <Switch>
-                <Route exact path="/" component={Home} />
-                <Route exact path="/about" component={About} />
-                <Route exact path="/login" render={props => <Login {...props} loginUser={this.loginUser} />} />
-                <Route exact path="/signup" component={SignUp} />
-                <Route exact path="/forgot" component={ForgotPassword} />
-                <Route exact path="/reset/:resetPasswordToken" component={ResetPassword} />
-                <PrivateRoute path="/profile" authed={userInfo!==null} userInfo={userInfo} loading={loading} component={Profile} />
-                <PrivateRoute exact path="/admin" authed={userInfo && userInfo.isAdmin} userInfo={userInfo} loading={loading} component={AdminPage} />
-              </Switch>
-            </Segment>
-          </Grid.Column>
-        </Grid>
+      <div className="wrapper">
+        <div className="navbar">
+          <NavBar
+            userInfo={userInfo}
+            logout={this.logout}
+          />
+        </div>
+        <div className="main-content">
+          <div className="container">
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route exact path="/about" component={About} />
+              <Route exact path="/login" render={props => <Login {...props} loginUser={this.loginUser} />} />
+              <Route exact path="/signup" component={SignUp} />
+              <Route exact path="/forgot" component={ForgotPassword} />
+              <Route exact path="/reset/:resetPasswordToken" component={ResetPassword} />
+              <PrivateRoute 
+                exact path="/profile" 
+                authed={userInfo !== null} 
+                loading={loading} 
+                userInfo={userInfo}
+                getActiveShow={this.getActiveShow}
+                getDances={this.getDances}
+                getDanceOptions={this.getDanceOptions}
+                component={Profile} />
+              <PrivateRoute 
+                exact path="/admin" 
+                authed={userInfo && userInfo.isAdmin} 
+                loading={loading}
+                userInfo={userInfo} 
+                getActiveShow={this.getActiveShow}
+                getDances={this.getDances}
+                getDanceOptions={this.getDanceOptions}
+                component={AdminPage} />
+            </Switch>
+          </div>
+        </div>
       </div>
     );
   }

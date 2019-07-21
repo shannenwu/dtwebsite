@@ -27,7 +27,8 @@ class ShowSettings extends React.Component {
     prefsOpen: PropTypes.bool,
     togglePrefs: PropTypes.func,
     generateAuditionNumbers: PropTypes.func,
-    userOptions: PropTypes.array
+    userOptions: PropTypes.array,
+    danceOptions: PropTypes.array
   }
 
   // TODO implement changes to handle late prefs
@@ -65,7 +66,8 @@ class ShowSettings extends React.Component {
         setActiveShow,
         selectedShow,
         togglePrefs,
-        userOptions
+        userOptions,
+        danceOptions
     } = this.props;
 
     return (
@@ -94,7 +96,7 @@ class ShowSettings extends React.Component {
         <Grid.Row>
             Late Preference Sheets
             <div onClick={this.handleOpen}><Icon link name="add" /></div>
-            <LatePrefsheetModal userOptions={userOptions} open={latePrefOpen} handleClose={this.handleClose} activeShow={activeShow} />
+            <LatePrefsheetModal userOptions={userOptions} danceOptions={danceOptions} open={latePrefOpen} handleClose={this.handleClose} activeShow={activeShow} />
         </Grid.Row>
       </div>
     );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import {
   Grid, Message, Form, Button, Dropdown
@@ -23,7 +23,6 @@ class PrefsheetInfo extends React.Component {
   static propTypes = {
     userInfo: PropTypes.object,
     prefData: PropTypes.object,
-    activeShow: PropTypes.object,
     handleInputChange: PropTypes.func,
     handleListChange: PropTypes.func,
     handleSubmit: PropTypes.func,
@@ -45,7 +44,6 @@ class PrefsheetInfo extends React.Component {
   render() {
     const {
       prefData,
-      activeShow,
       handleInputChange,
       handleListChange,
       handleSubmit,
@@ -57,23 +55,27 @@ class PrefsheetInfo extends React.Component {
     } = this.props;
 
     return (
-      <Form as={Grid} stackable>
-        {isLate ? 
-        <Form.Field>
-          <label>Dancer</label>
-          <Dropdown
-            name="userId"
-            selection
-            search
-            scrolling
-            upward={false}
-            options={userOptions}
-            value={prefData.userId || ''}
-            onChange={handleInputChange}
-          />
-        </Form.Field> : <div></div>
+      <Form as={Grid} padded stackable>
+        {isLate ?
+          <Grid.Row>
+            <Grid.Column width={3} verticalAlign="middle">
+              <label className="userInfoLabels">Dancer</label>
+            </Grid.Column>
+            <Dropdown
+              name="userId"
+              width={13}
+              selection
+              search
+              scrolling
+              upward={false}
+              options={userOptions}
+              value={prefData.userId || ''}
+              onChange={handleInputChange}
+            />
+          </Grid.Row>
+          : <div></div>
         }
-        <Grid.Row width={13}>
+        <Grid.Row>
           <Grid.Column width={3} verticalAlign="middle">
             <label className="userInfoLabels">Max number of dances</label>
           </Grid.Column>
@@ -90,13 +92,13 @@ class PrefsheetInfo extends React.Component {
         </Grid.Row>
         {prefData.rankedDances.map((rankedDance, index) => {
           return (
-            <Grid.Row key={index} width={13}>
+            <Grid.Row key={index}>
               <Grid.Column width={3} verticalAlign="middle" textAlign="right">
-                <label className="userInfoLabels">{index + 1}:</label>
+                <label className="userInfoLabels">{index + 1}.</label>
               </Grid.Column>
               <Dropdown
                 as={Grid.Column}
-                width={10}
+                width={13}
                 name={index}
                 selection
                 clearable
@@ -110,16 +112,17 @@ class PrefsheetInfo extends React.Component {
           )
         })}
 
-        <Grid.Row width={13}>
-          <Grid.Column width={13} className="userInput">
-            <Button floated="right" color="blue" onClick={handleSubmit}>Save</Button>
+        <Grid.Row>
+          <Grid.Column width={16} className="userInput">
+            <Button floated="right" color="blue" onClick={handleSubmit}>Submit</Button>
           </Grid.Column>
         </Grid.Row>
 
         {errorMsg.length !== 0 && (
-          <Grid.Row width={13}>
-            <Grid.Column width={13} className="userInput">
+          <Grid.Row>
+            <Grid.Column width={16} className="userInput">
               <Message
+                className="response"
                 negative
                 header="Please fix the following and try again."
                 list={errorMsg}
@@ -128,9 +131,10 @@ class PrefsheetInfo extends React.Component {
           </Grid.Row>
         )}
         {messageFromServer === 'Preference sheet updated!' ? (
-          <Grid.Row width={13}>
-            <Grid.Column width={13} className="userInput">
+          <Grid.Row>
+            <Grid.Column width={16} className="userInput">
               <Message
+                className="response"
                 onDismiss={handleDismiss}
                 header={messageFromServer}
                 positive

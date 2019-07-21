@@ -21,7 +21,8 @@ const publicPath = path.resolve(__dirname, '..', '..', '..', 'client', 'dist');
 app.get('/user/:user_id?',
     connect.ensureLoggedIn(),
     async (req, res) => {
-        var show_id = req.query.show_id ? req.query.show_id : await util.getActiveShow()._id;
+        var showResponse = await util.getActiveShow();
+        var show_id = showResponse._id;
 
         if (req.params.user_id) {
             Prefsheet
@@ -53,11 +54,7 @@ app.post('/user/:user_id',
                 Array.isArray(data)
                 &&
                 data.length).withMessage('At least one dance must be preffed.'),
-        check('maxDances').isInt({ gt: 0, lt: 5 }).withMessage('Desired dances must be between 1 and 4.'),
-        check('show')
-            .custom(data =>
-                data.prefsOpen
-                ).withMessage('Prefs are not open for this show.')
+        check('maxDances').isInt({ gt: 0, lt: 5 }).withMessage('Desired dances must be between 1 and 4.')
     ],
     async (req, res) => {
         const errors = validationResult(req);
@@ -65,7 +62,25 @@ app.post('/user/:user_id',
             return res.status(422).send({ errors: errors.array() });
         }
 
-        var show_id = req.body.show ? req.body.show : await util.getActiveShow()._id;
+        var showResponse = await util.getActiveShow();
+        var show_id = showResponse._id;
+        var lateData = {} // defaults to empty
+
+        if (!showResponse.prefsOpen) {
+            // Non-admins cannot submit late prefsheets. 
+            // Admin must include late flag to submit a late prefsheet.
+            if (!req.user.isAdmin) {
+                return res.status(400).send('Prefs are not open for this show.')
+            } else if (req.user.isAdmin && req.query.late) {
+                var lastAuditionNumber = await Prefsheet.countDocuments({show: show_id});
+                lateData = { isLate: true, auditionNumber: lastAuditionNumber+1 };
+            }
+        }
+
+        // Have the user submit on their own account if prefs are still open.
+        if (showResponse.prefsOpen && req.query.late) {
+            return res.status(400).send('Late prefsheets cannot be added because prefs are still open.')
+        }
 
         // Strips empty dances from the list. 
         var filteredRankedDances = req.body.rankedDances.filter((rankedDance) => {
@@ -86,7 +101,7 @@ app.post('/user/:user_id',
             rankedDances: filteredRankedDances 
         };
 
-        Prefsheet.findOneAndUpdate(query, updatedPrefSheetData, options)
+        Prefsheet.findOneAndUpdate(query, {...updatedPrefSheetData, ...lateData}, options)
             .then(prefsheet => {
                 res.status(200).send({ message: 'Preference sheet updated!' });
             })
@@ -97,10 +112,12 @@ app.post('/user/:user_id',
 );
 
 // TODO add some validation logic here.
-app.post('/generate-audition-numbers/:show_id?',
+// Generates audition numbers for ALL prefsheets in the database. Will reset late prefsheets as well.
+app.post('/generate-audition-numbers',
     connect.ensureLoggedIn(), 
     async (req, res) => {
-        var show_id = req.params.show_id ? req.params.show_id : await util.getActiveShow()._id;
+        var showResponse = await util.getActiveShow();
+        var show_id = showResponse._id;
 
         var query = { show: show_id }
 
@@ -114,7 +131,7 @@ app.post('/generate-audition-numbers/:show_id?',
                        ({
                          updateOne: {
                            filter: { _id: pref._id },
-                           update: { auditionNumber: numbers[index] }
+                           update: { auditionNumber: numbers[index], isLate: false }
                          }
                        })
                      )

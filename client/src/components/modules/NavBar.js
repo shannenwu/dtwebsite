@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Menu } from 'semantic-ui-react';
+import '../../css/app.css';
 
 class NavBar extends Component {
   constructor(props) {
@@ -21,6 +22,10 @@ class NavBar extends Component {
     userInfo: null,
   }
 
+  handleItemClick = (path) => {
+    this.props.history.push(path);
+  }
+
   render() {
     const {
       userInfo,
@@ -31,38 +36,46 @@ class NavBar extends Component {
     } = this.state;
     return (
       <div>
-        <Menu
-          borderless
-          fluid
-          vertical
-          size="large"
-        >
-          <Menu.Item as={Link} to="/">
+        <div id="logo">
+          <img src="/site_images/dtlogo-white.png"/>
+        </div>
+        <div className="item">
+          <Link to="/">
             Home
-          </Menu.Item>
-          <Menu.Item as={Link} to="/about">
+            </Link>
+        </div>
+        <div className="item">
+          <Link to="/about">
             About
-          </Menu.Item>
-          {userInfo === null ? (
-            <Menu.Item as={Link} to="/login">
+            </Link>
+        </div>
+        {userInfo === null ? (
+          <div className="item">
+            <Link to="/login">
               Login
-            </Menu.Item>
-          ) : (
+              </Link>
+          </div>
+        ) : (
             <React.Fragment>
-              <Menu.Item as={Link} to="/profile">
-                Profile
-              </Menu.Item>
+              <div className="item">
+                <Link to="/profile">
+                  Profile
+                </Link>
+              </div>
               {userInfo.isAdmin ? (
-                <Menu.Item as={Link} to="/admin">
-                  Admin
-                </Menu.Item>
+                <div className="item">
+                  <Link to="/admin">
+                    Admin
+                  </Link>
+                </div>
               ) : <div />}
-              <Menu.Item as="a" to="/logout" onClick={logout}>
-                Logout
-              </Menu.Item>
+              <div className="item" onClick={logout}>
+                <Link to="/logout">
+                  Logout
+                </Link>
+              </div>
             </React.Fragment>
           )}
-        </Menu>
       </div>
     );
   }

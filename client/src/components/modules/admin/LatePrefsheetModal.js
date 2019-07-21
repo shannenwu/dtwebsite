@@ -13,14 +13,16 @@ class LatePrefsheetModal extends React.Component {
     this.state = {
       userId: '',
       maxDances: -1,
-      rankedDances: []
+      rankedDances: new Array(10).fill({dance: ''})
     };
   }
 
   static propTypes = {
     open: PropTypes.bool,
     handleClose: PropTypes.func,
-    activeShow: PropTypes.object
+    activeShow: PropTypes.object,
+    userOptions: PropTypes.array, 
+    danceOptions: PropTypes.array 
   }
 
   componentDidMount() {
@@ -54,8 +56,7 @@ class LatePrefsheetModal extends React.Component {
       activeShow,
     } = this.props;
 
-    axios.post(`/api/prefsheets/user/${userId}`, {
-      show: activeShow,
+    axios.post(`/api/prefsheets/user/${userId}?late=true`, {
       maxDances: maxDances,
       rankedDances: rankedDances
     })
@@ -83,7 +84,8 @@ class LatePrefsheetModal extends React.Component {
       open,
       handleClose,
       activeShow,
-      userOptions
+      userOptions,
+      danceOptions
     } = this.props;
 
     return (
@@ -95,7 +97,7 @@ class LatePrefsheetModal extends React.Component {
           <Modal.Header>Create Late Prefsheet</Modal.Header>
           <Modal.Content scrolling>
             <PrefsheetInfo
-              prefData={{userId, maxDances, rankedDances}}
+              prefData={{userId, maxDances, rankedDances, danceOptions}}
               activeShow={activeShow}
               handleInputChange={this.handleLateChange}
               handleListChange={this.handleListChange}
@@ -104,25 +106,6 @@ class LatePrefsheetModal extends React.Component {
               isLate={true}
             >
             </PrefsheetInfo>
-            <Form>
-              <Form.Field>
-                <label>Dancer</label>
-                <Dropdown
-                  name="userId"
-                  selection
-                  search
-                  scrolling
-                  upward={false}
-                  options={userOptions}
-                  value={userId || ''}
-                  onChange={this.handleChange}
-                />
-              </Form.Field>
-              <Modal.Actions>
-                <Button color="green" floated="right" onClick={this.handleSubmit}>Save</Button>
-                <Button floated="right" onClick={handleClose}>Cancel</Button>
-              </Modal.Actions>
-            </Form>
           </Modal.Content>
         </Modal>
       </div>

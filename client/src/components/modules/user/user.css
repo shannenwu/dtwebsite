@@ -1,5 +1,5 @@
 img {
-    max-width: 100%; /* This rule is very important, please do not ignore this! */
+    max-width: 100%;
 }
 
 .cropper {
@@ -11,6 +11,9 @@ img {
 }
 
 .userInput {
-    padding-left: 0rem !important;
-    padding-right: 0rem !important;
+    padding: 0rem !important;
+}
+
+.response {
+    text-align: center;
 }

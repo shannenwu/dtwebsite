@@ -1,0 +1,31 @@
+.navbar {
+    position: fixed;
+    width: var(--navbar-width);
+    height: 100%;
+    background-color: #80d3d8;
+    overflow: auto;
+  }
+  
+  .navbar .item {
+      width: 100%;
+      padding: 16px;
+      transition-duration: .1s;
+      transition: border-left,.5s,linear;
+      border-left: 0 solid transparent;
+      text-align: center;
+      font-size: 1.1em;
+  }
+  
+  .navbar #logo {
+      padding: 40px;
+  }
+  
+  .navbar .item:hover {
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.2);
+      opacity: 1;
+  }
+  
+  .navbar .item a {
+      color: #ffffff;
+  }

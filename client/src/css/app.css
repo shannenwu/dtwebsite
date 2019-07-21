@@ -1,24 +1,76 @@
 html {
-    height: 100%;
+  height: 100%;
 }
 
 body {
-    margin: 0;
-    height: 100%;
+  margin: 0;
+  height: 100%;
 }
 
 #root {
-    height: 100%;
+  height: 100%;
 }
 
-.center{
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translateY(-50%) translateX(-50%);
-    text-align: center;
-    color: #fff;
-    display: flex;
-    flex-direction: column;
+.center {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  text-align: center;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+}
 
+:root {
+  --navbar-width: 250px;
+}
+
+.navbar {
+  position: fixed;
+  width: var(--navbar-width);
+  height: 100%;
+  background-color: #80d3d8;
+  overflow: auto;
+}
+
+.navbar .item {
+    width: 100%;
+    padding: 16px;
+    transition-duration: .1s;
+    transition: border-left,.5s,linear;
+    border-left: 0 solid transparent;
+    text-align: center;
+    font-size: 1.1em;
+}
+
+.navbar #logo {
+    padding: 40px;
+}
+
+.navbar .item:hover {
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.2);
+    opacity: 1;
+}
+
+.navbar .item a {
+    color: #ffffff;
+}
+
+.wrapper {
+  display: flex;
+  align-items: stretch;
+  min-height: 100vh;
+}
+
+.main-content {
+  width: 100%;
+  min-height: 100%;
+  margin-left: var(--navbar-width);
+}
+
+.container {
+    padding: 40px;
+    height: 100vh;
 }

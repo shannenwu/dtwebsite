@@ -106,11 +106,13 @@ app.post("/:show_id/active-show", (req, res) => {
 
 // Sets the selected show's prefsheets to be visible/open.
 app.post("/:show_id/prefs", (req, res) => {
-    Show.findByIdAndUpdate(req.params.show_id, {
-        prefsOpen: req.query.open
-    }, { new: true }, (err, doc) => {
-        res.status(200).send(doc);
-    });
+    if (req.query.open != undefined) {
+        Show.findByIdAndUpdate(req.params.show_id, {
+            prefsOpen: req.query.open
+        }, { new: true }, (err, doc) => {
+            res.status(200).send(doc);
+        });
+    }
 });
 
 module.exports = app;

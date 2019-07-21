@@ -25,6 +25,10 @@ var prefsheetSchema = new Schema({
             default: 'pending' 
         }
     }],
+    isLate: {
+        type: Boolean,
+        default: false
+    }
     // weeklyConflicts: {
     //     type: TBD
     // },

@@ -7,6 +7,8 @@ import axios from 'axios';
 import ImageModal from './ImageModal';
 import './user.css';
 
+// TODO move out options to config file and error handling
+
 const genderOptions = [
   { key: 'm', text: 'Male', value: 'male' },
   { key: 'f', text: 'Female', value: 'female' },
@@ -137,13 +139,14 @@ class UserInfo extends React.Component {
     } = this.state;
 
     return (
-      <Form as={Grid} stackable>
+      <Form as={Grid} padded stackable>
         <Grid.Row>
           <Grid.Column width={3} verticalAlign="middle">
             <label className="userInfoLabels">Gender</label>
           </Grid.Column>
           <Dropdown
             as={Grid.Column}
+            width={13}
             name="gender"
             selection
             options={genderOptions}
@@ -151,70 +154,68 @@ class UserInfo extends React.Component {
             onChange={this.handleChange}
           />
         </Grid.Row>
-        <Grid.Row width={13}>
+        <Grid.Row>
           <Grid.Column width={3} verticalAlign="middle">
             <label className="userInfoLabels">Graduation Year</label>
           </Grid.Column>
           <Dropdown
             as={Grid.Column}
-            width={10}
+            width={13}
             name="year"
             selection
             scrolling
             search
-            upward={false}
             options={yearOptions}
             value={year}
             onChange={this.handleChange}
           />
         </Grid.Row>
-        <Grid.Row width={13}>
+        <Grid.Row>
           <Grid.Column width={3} verticalAlign="middle">
             <label className="userInfoLabels">Affiliation</label>
           </Grid.Column>
           <Dropdown
             as={Grid.Column}
-            width={10}
+            width={13}
             name="affiliation"
             selection
             search
-            upward={false}
             options={affilOptions}
             value={affiliation || ''}
             onChange={this.handleChange}
           />
         </Grid.Row>
-        <Grid.Row width={13}>
+        <Grid.Row>
           <Grid.Column width={3} verticalAlign="middle">
             <label className="userInfoLabels">Living Group</label>
           </Grid.Column>
           <Input
             as={Grid.Column}
-            width={10}
+            width={13}
             name="livingGroup"
             onChange={this.handleChange}
             value={livingGroup || ''}
             className="userInput"
           />
         </Grid.Row>
-        <Grid.Row width={13}>
+        <Grid.Row>
           <Grid.Column width={3} verticalAlign="middle">
             <label className="userInfoLabels">Experience</label>
           </Grid.Column>
           <Input
             as={Grid.Column}
-            width={10}
+            width={13}
             name="experience"
             onChange={this.handleChange}
             value={experience || ''}
             className="userInput"
           />
         </Grid.Row>
-        <Grid.Row width={13}>
+        <Grid.Row>
           <Grid.Column width={3} verticalAlign="middle">
             <label className="userInfoLabels">Photo</label>
           </Grid.Column>
-          <Grid.Column width={10} textAlign="left" className="userInput">
+          <Grid.Column width={13} textAlign="left" className="userInput">
             {image ? (
               <Grid.Row>
                 <Image wrapped size="small" src={image} onError={(e) => { e.target.onerror = null; e.target.src = ''; }} />
@@ -230,16 +231,17 @@ class UserInfo extends React.Component {
             </Grid.Row>
           </Grid.Column>
         </Grid.Row>
-        <Grid.Row width={13}>
-          <Grid.Column width={13} className="userInput">
+        <Grid.Row>
+          <Grid.Column width={16} className="userInput">
             <Button floated="right" color="blue" onClick={this.handleSubmit}>Save</Button>
           </Grid.Column>
         </Grid.Row>
 
         {messageFromServer === 'User information updated!' ? (
-          <Grid.Row width={13}>
-            <Grid.Column width={13} className="userInput">
+          <Grid.Row>
+            <Grid.Column width={16} className="userInput">
               <Message
+                className="response"
                 onDismiss={this.handleDismiss}
                 header={messageFromServer}
                 positive

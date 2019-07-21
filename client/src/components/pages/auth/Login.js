@@ -116,7 +116,9 @@ class Login extends React.Component {
                   value={password}
                 />
               </Form.Field>
-              <Container as={Link} to="/forgot" style={{ marginBottom: '1em' }}>Forgot your password?</Container>
+              <div style={{ marginBottom: '1em' }}>
+                 <Link to="/forgot">Forgot your password?</Link>
+              </div>
               <Button type="submit" onClick={this.handleSubmit} fluid color="blue">
                 Login
               </Button>
@@ -129,7 +131,9 @@ class Login extends React.Component {
               />
             )}
           </Segment>
-          <Message>
+          <Message
+            style={{ textAlign: 'center' }}
+          >
             Need an account?
             {' '}
             <a href="/signup">Sign up!</a>
