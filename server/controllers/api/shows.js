@@ -12,8 +12,6 @@ const util = require("../util.js");
 
 const { check, validationResult } = require('express-validator/check');
 
-const publicPath = path.resolve(__dirname, '..', '..', '..', 'client', 'dist');
-
 // This file handles paths to modify shows. These routes are prefixed by /api/shows/{ENDPOINT}
 
 //TODO VALIDATION LATER

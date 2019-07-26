@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Grid, Message, Form, Button, Dropdown
+  Grid, Message, Form, Button, Dropdown, List
 } from 'semantic-ui-react';
 import './user.css';
 
@@ -41,6 +41,14 @@ class PrefsheetInfo extends React.Component {
   componentDidMount() {
   }
 
+  componentDidUpdate() {
+    this.scrollToBottom();
+  }
+
+  scrollToBottom() {
+    this.el.scrollIntoView({ behavior: 'smooth' });
+  }
+
   render() {
     const {
       prefData,
@@ -55,8 +63,16 @@ class PrefsheetInfo extends React.Component {
     } = this.props;
 
     return (
+      <div>
+      <Message info>
+        View detailed dance descriptions HERE. 
+        Please only pref the dances you want to be in. 
+        Make sure you have also uploaded a profile photo— 
+        choreographers can't accept you into their dance if they don't know who you are!
+        Prefsheets can be re-submitted until they close at 2AM DATE HERE.
+      </Message>
       <Form as={Grid} padded stackable>
-        {isLate ?
+        {isLate &&
           <Grid.Row>
             <Grid.Column width={3} verticalAlign="middle">
               <label className="userInfoLabels">Dancer</label>
@@ -73,7 +89,6 @@ class PrefsheetInfo extends React.Component {
               onChange={handleInputChange}
             />
           </Grid.Row>
-          : <div></div>
         }
         <Grid.Row>
           <Grid.Column width={3} verticalAlign="middle">
@@ -124,13 +139,16 @@ class PrefsheetInfo extends React.Component {
               <Message
                 className="response"
                 negative
-                header="Please fix the following and try again."
-                list={errorMsg}
-              />
+              > 
+                <Message.Header 
+                  content="Please fix the following and try again."
+                />
+                <List items={errorMsg}/>
+              </Message>
             </Grid.Column>
           </Grid.Row>
         )}
-        {messageFromServer === 'Preference sheet updated!' ? (
+        {messageFromServer === 'Preference sheet updated!' && (
           <Grid.Row>
             <Grid.Column width={16} className="userInput">
               <Message
@@ -141,12 +159,12 @@ class PrefsheetInfo extends React.Component {
               />
             </Grid.Column>
           </Grid.Row>
-        ) : (
-            <div />
-          )
-        }
+        )}
+      <div ref={el => { this.el = el; }} />
       </Form>
+      </div>
     );
+    
   }
 }
 

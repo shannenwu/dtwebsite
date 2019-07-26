@@ -143,6 +143,14 @@ class DanceModal extends React.Component {
                 />
               </Form.Field>
               <Form.Field>
+                <label>Name</label>
+                <Input
+                  name="name"
+                  onChange={this.handleChange}
+                  value={name}
+                />
+              </Form.Field>
+              <Form.Field>
                 <label>Style</label>
                 <Dropdown
                   name="style"
@@ -166,14 +174,6 @@ class DanceModal extends React.Component {
                   options={levelOptions}
                   value={level || ''}
                   onChange={this.handleChange}
-                />
-              </Form.Field>
-              <Form.Field>
-                <label>Name</label>
-                <Input
-                  name="name"
-                  onChange={this.handleChange}
-                  value={name}
                 />
               </Form.Field>
               <Form.Field>

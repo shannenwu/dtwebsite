@@ -1,4 +1,5 @@
 // dependencies
+const axios = require('axios');
 const express = require('express');
 const connect = require('connect-ensure-login');
 const path = require('path');
@@ -49,11 +50,11 @@ app.post('/:user_id',
                 return true;
             }
         }),
-        check('year').optional().isNumeric().withMessage('Graduation year must be a number.'),
+        check('year').optional().isNumeric().withMessage('Please select a valid graduation year.'),
         check('livingGroup').optional().isLength({ min: 0, max: 100 }).withMessage('Living group has max character count of 100.'),
         check('experience').optional().isLength({ min: 0, max: 1000 }).withMessage('Experience field has max character count of 1000.'),
     ],
-    (req, res, next) => {
+    (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(422).send({ errors: errors.array() });
@@ -71,17 +72,21 @@ app.post('/:user_id',
             if (user === null) {
                 res.status(403).send('Unauthorized request.');
             } else {
+                var fileName = user._id.toString() + ".jpeg";
+                var imageUrl = publicPath + "/profile_images/" + fileName;
+
+                // This processes images from the cropper.
                 if (req.body.image.includes('data:image\/png;base64,')) {
                     var base64Data = req.body.image.replace(/^data:image\/png;base64,/, "");
-                    var fileName = user._id.toString() + ".jpeg";
                     Jimp.read(Buffer.from(base64Data, 'base64'), (err, image) => {
                         if (err) throw err;
                         image
                             .resize(512, 512) // resize
                             .quality(60) // set JPEG quality
-                            .write(publicPath + "/profile_images/" + fileName); // save
+                            .write(imageUrl);
                     });
                 }
+
                 user.save((err, newUser) => {
                     res.status(200).send({ message: 'User information updated!' });
                 });

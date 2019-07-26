@@ -12,7 +12,7 @@ require('../passport.js'); // rename mayb
 
 // initialize express app
 const app = express();
-// const publicPath = path.resolve(__dirname, '..', 'dist');
+const publicPath = path.resolve(__dirname, '..', '..', 'client', 'dist');
 
 // set POST request body parser
 app.use(bodyParser.urlencoded({limit: "50mb", extended: false, parameterLimit:50000}));
@@ -46,7 +46,7 @@ app.get('/logout', (req, res) => {
   req.session.destroy(function (err) {
     if (err) { return next(err); }
     // The response should indicate that the user is no longer authenticated.
-    return res.send({ authenticated: req.isAuthenticated() });
+    res.sendFile(publicPath + '/index.html');
   });
 });
 

@@ -5,6 +5,7 @@ html {
 body {
   margin: 0;
   height: 100%;
+  overflow-x: scroll !important;
 }
 
 #root {
@@ -24,6 +25,7 @@ body {
 
 :root {
   --navbar-width: 250px;
+  --dancer-card-width: 310px;
 }
 
 .navbar {

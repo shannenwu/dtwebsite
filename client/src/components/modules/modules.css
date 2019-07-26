@@ -1,31 +1,48 @@
-.navbar {
-    position: fixed;
-    width: var(--navbar-width);
-    height: 100%;
-    background-color: #80d3d8;
-    overflow: auto;
-  }
-  
-  .navbar .item {
-      width: 100%;
-      padding: 16px;
-      transition-duration: .1s;
-      transition: border-left,.5s,linear;
-      border-left: 0 solid transparent;
-      text-align: center;
-      font-size: 1.1em;
-  }
-  
-  .navbar #logo {
-      padding: 40px;
-  }
-  
-  .navbar .item:hover {
-      cursor: pointer;
-      background: rgba(255, 255, 255, 0.2);
-      opacity: 1;
-  }
-  
-  .navbar .item a {
-      color: #ffffff;
-  }
+.pending-cards {
+  min-width: var(--dancer-card-width);
+}
+
+.dancer-card .ui.card,
+.ui.cards > .card {
+  min-width: var(--dancer-card-width);
+}
+
+.dancer-card .dancer-image {
+  text-align: center !important;
+}
+
+.dance-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  position: relative;
+  height: 24px;
+}
+
+.dance-name span {
+  padding: 5px;
+  border-radius: 10px;
+  position: absolute;
+  white-space: nowrap;
+  transform: translateX(0);
+  transition: 2s;
+}
+
+/* .dance-name span.pending {
+  background-color: lightskyblue;
+} */
+
+.dance-name span.accepted {
+  background-color: palegreen;
+}
+
+.dance-name span.rejected {
+  background-color: lightpink;
+}
+
+.dance-name span.return {
+  background-color: #ffff77;
+}
+
+.dance-name:hover span {
+  transform: translateX(calc(112px - 100%));
+}

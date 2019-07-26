@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import {
-  Header, Menu, Grid, Dimmer, Loader
+  Header, Menu, Dimmer, Loader, Label, Popup
 } from 'semantic-ui-react';
-import UserInfo from '../modules/user/UserInfo';
-import PrefsheetInfo from '../modules/user/PrefsheetInfo';
+import UserInfo from './UserInfo';
+import PrefsheetInfo from './PrefsheetInfo';
+import ConflictsInfo from './ConflictsInfo';
 
-class Profile extends Component {
+class ProfilePage extends Component {
   constructor(props) {
     super(props);
 
@@ -154,7 +155,6 @@ class Profile extends Component {
       });
   };
 
-
   render() {
     const {
       activeItem,
@@ -182,7 +182,7 @@ class Profile extends Component {
         errorMsg={errorMsg}
       />;
     } else if (activeItem === 'conflicts') {
-      tab = <div>CONFLICTS</div>;
+      tab = <ConflictsInfo />;
     }
 
     if (loading) {
@@ -204,8 +204,8 @@ class Profile extends Component {
             onClick={this.handleItemClick}
           >
             Personal Information
-            </Menu.Item>
-          {activeShow.prefsOpen ? (
+          </Menu.Item>
+          {activeShow.prefsOpen && (
             <React.Fragment>
               <Menu.Item
                 name="prefs"
@@ -220,8 +220,12 @@ class Profile extends Component {
                 onClick={this.handleItemClick}
               >
                 Practice Availabilities
+                <Popup 
+                  content='Please fill out your weekly availabilities for rehearsal times!' 
+                  trigger={<Label circular color='red' size='mini' floating content='!'/>} 
+                />
                 </Menu.Item>
-            </React.Fragment>) : <div></div>}
+            </React.Fragment>)}
         </Menu>
         {tab}
       </div>
@@ -229,4 +233,4 @@ class Profile extends Component {
   }
 }
 
-export default Profile;
+export default ProfilePage;

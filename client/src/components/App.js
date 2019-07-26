@@ -9,11 +9,13 @@ import Home from './pages/static/Home';
 import About from './pages/static/About';
 import SignUp from './pages/auth/SignUp';
 import Login from './pages/auth/Login';
-import Profile from './pages/Profile';
+import AdminPage from './modules/admin/AdminPage';
+import ProfilePage from './modules/user/ProfilePage';
+import ChoreographerPage from './modules/choreographer/ChoreographerPage';
 import ForgotPassword from './pages/auth/ForgotPassword';
 import ResetPassword from './pages/auth/ResetPassword';
-import AdminPage from './pages/AdminPage';
 import NavBar from './modules/Navbar';
+import DancerSelection from './modules/choreographer/DancerSelection';
 import '../css/app.css';
 
 const PrivateRoute = ({
@@ -107,14 +109,10 @@ class App extends React.Component {
 
   getDanceOptions = (dances) => {
     var danceOptions = dances.map((dance, index) => {
-      const names =
-        dance.choreographers.map(c => {
-          return c.firstName + ' ' + c.lastName
-        }).join(', ')
       const levelStyle = dance.level + ' ' + dance.style;
       return {
         key: index,
-        text: names + ': ' + levelStyle,
+        text: dance.name + ': ' + levelStyle,
         value: dance._id
       };
     });
@@ -149,6 +147,7 @@ class App extends React.Component {
               <Route exact path="/signup" component={SignUp} />
               <Route exact path="/forgot" component={ForgotPassword} />
               <Route exact path="/reset/:resetPasswordToken" component={ResetPassword} />
+              <Redirect from="/logout" to="/"/>
               <PrivateRoute 
                 exact path="/profile" 
                 authed={userInfo !== null} 
@@ -157,7 +156,21 @@ class App extends React.Component {
                 getActiveShow={this.getActiveShow}
                 getDances={this.getDances}
                 getDanceOptions={this.getDanceOptions}
-                component={Profile} />
+                component={ProfilePage} />
+              <PrivateRoute 
+                exact path="/choreographer" 
+                authed={userInfo && userInfo.isChoreographer} 
+                loading={loading}
+                userInfo={userInfo} 
+                getActiveShow={this.getActiveShow}
+                getDances={this.getDances}
+                component={ChoreographerPage} />
+              <PrivateRoute 
+                exact path="/choreographer/:danceId" 
+                authed={userInfo && userInfo.isChoreographer} 
+                loading={loading}
+                userInfo={userInfo} 
+                component={DancerSelection} />
               <PrivateRoute 
                 exact path="/admin" 
                 authed={userInfo && userInfo.isAdmin} 

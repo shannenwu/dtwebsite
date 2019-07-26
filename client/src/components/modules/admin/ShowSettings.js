@@ -12,7 +12,8 @@ class ShowSettings extends React.Component {
     super(props);
 
     this.state = {
-      confirmOpen: false,
+      confirmAuditionNumOpen: false,
+      confirmPermissionsOpen: false,
       latePrefOpen: false
     };
   }
@@ -38,17 +39,27 @@ class ShowSettings extends React.Component {
     });
   }
 
-  showConfirmation = () => this.setState({ confirmOpen: true });
+  showAuditionNumConfirmation = () => this.setState({ confirmAuditionNumOpen: true });
 
-  handleConfirm = async () => {
+  showPermissionsConfirmation = () => this.setState({ confirmPermissionsOpen: true });
+
+  // TODO set responses for error or success 
+  handleConfirmAuditionNumbers = async () => {
     const { generateAuditionNumbers } = this.props;
     const response = await generateAuditionNumbers(); // TODO handle response
     this.setState({ 
-      confirmOpen: false 
+      confirmAuditionNumOpen: false 
     });
   }
 
-  handleCancel = () => this.setState({ confirmOpen: false });
+  handleConfirmChoreographers = async () => {
+    const response = await axios.post('/api/permissions/choreographers'); // TODO handle response
+    this.setState({ 
+      confirmPermissionsOpen: false 
+    });
+  }
+
+  handleCancel = () => this.setState({ confirmAuditionNumOpen: false, confirmPermissionsOpen: false });
 
   handleOpen = () => this.setState({ latePrefOpen: true });
 
@@ -57,7 +68,8 @@ class ShowSettings extends React.Component {
 
   render() {
     const {
-      confirmOpen,
+      confirmAuditionNumOpen,
+      confirmPermissionsOpen,
       latePrefOpen
     } = this.state;
     const {
@@ -81,13 +93,13 @@ class ShowSettings extends React.Component {
         </Grid.Row>
         <Grid.Row>
             Audition Numbers
-            <Button onClick={this.showConfirmation}>Generate</Button>
+            <Button onClick={this.showAuditionNumConfirmation}>Generate</Button>
             <Confirm 
-              open={confirmOpen} 
+              open={confirmAuditionNumOpen} 
               content='This will generate new audition numbers for all prefsheets in the active show. Proceed?'
               confirmButton="Yes"
               onCancel={this.handleCancel} 
-              onConfirm={this.handleConfirm} 
+              onConfirm={this.handleConfirmAuditionNumbers} 
             />
         </Grid.Row>
         <Grid.Row>
@@ -97,6 +109,16 @@ class ShowSettings extends React.Component {
             Late Preference Sheets
             <div onClick={this.handleOpen}><Icon link name="add" /></div>
             <LatePrefsheetModal userOptions={userOptions} danceOptions={danceOptions} open={latePrefOpen} handleClose={this.handleClose} activeShow={activeShow} />
+        </Grid.Row>
+        <Grid.Row>
+            <Button onClick={this.showPermissionsConfirmation}>Update Choreographer Permissions</Button>
+            <Confirm 
+              open={confirmPermissionsOpen} 
+              content='This will give/revoke choreographer permissions for dances in the active show. Proceed?'
+              confirmButton="Yes"
+              onCancel={this.handleCancel} 
+              onConfirm={this.handleConfirmChoreographers} 
+            />
         </Grid.Row>
       </div>
     );

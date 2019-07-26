@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Grid, Message, Form, Button, Dropdown, Input, Image,
+  Grid, Message, Form, Button, Dropdown, Input, Image, List
 } from 'semantic-ui-react';
 import axios from 'axios';
 import ImageModal from './ImageModal';
@@ -67,6 +67,14 @@ class UserInfo extends React.Component {
     });
   }
 
+  componentDidUpdate() {
+    this.scrollToBottom();
+  }
+
+  scrollToBottom() {
+    this.el.scrollIntoView({ behavior: 'smooth' });
+  }
+
   handleSubmit = (event) => {
     const {
       gender,
@@ -98,7 +106,7 @@ class UserInfo extends React.Component {
         });
       })
       .catch((error) => {
-        const msgList = []; // TODO test if this error handling works
+        const msgList = []; 
         error.response.data.errors.forEach((element) => {
           msgList.push(element.msg);
         });
@@ -135,6 +143,7 @@ class UserInfo extends React.Component {
       livingGroup,
       experience,
       image,
+      errorMsg,
       messageFromServer,
     } = this.state;
 
@@ -216,14 +225,11 @@ class UserInfo extends React.Component {
             <label className="userInfoLabels">Photo</label>
           </Grid.Column>
           <Grid.Column width={13} textAlign="left" className="userInput">
-            {image ? (
+            {image && (
               <Grid.Row>
                 <Image wrapped size="small" src={image} onError={(e) => { e.target.onerror = null; e.target.src = ''; }} />
               </Grid.Row>
-            )
-              : (
-                <div />
-              )}
+            )}
             <Grid.Row>
               <ImageModal
                 handleImageCrop={this.handleImageCrop}
@@ -236,8 +242,22 @@ class UserInfo extends React.Component {
             <Button floated="right" color="blue" onClick={this.handleSubmit}>Save</Button>
           </Grid.Column>
         </Grid.Row>
-
-        {messageFromServer === 'User information updated!' ? (
+        {errorMsg.length !== 0 && (
+          <Grid.Row>
+            <Grid.Column width={16} className="userInput">
+              <Message
+                className="response"
+                negative
+              >
+                <Message.Header
+                  content="Please fix the following and try again."
+                />
+                <List items={errorMsg} />
+              </Message>
+            </Grid.Column>
+          </Grid.Row>
+        )}
+        {messageFromServer === 'User information updated!' && (
           <Grid.Row>
             <Grid.Column width={16} className="userInput">
               <Message
@@ -248,10 +268,8 @@ class UserInfo extends React.Component {
               />
             </Grid.Column>
           </Grid.Row>
-        ) : (
-          <div />
-        )
-        }
+        )}
+        <div ref={el => { this.el = el; }} />
       </Form>
     );
   }

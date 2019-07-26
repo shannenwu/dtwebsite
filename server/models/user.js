@@ -52,9 +52,14 @@ var userSchema = new mongoose.Schema({
     isAdmin: {
         type: Boolean,
         default: false
+    },
+    isChoreographer: {
+        type: Boolean,
+        default: false
     }
 });
 
+// Mongoose methods cannot use arrow functions because they prevent binding this.
 userSchema.pre('save', function (next) {
     var user = this;
     if (this.isModified('password')) {
@@ -70,6 +75,10 @@ userSchema.pre('save', function (next) {
     }
 });
 
+userSchema.methods.getFullName = function () {
+    return this.firstName + ' ' + this.lastName;
+}
+
 userSchema.methods.validPassword = function (password, cb) {
     bcrypt.compare(password, this.password, function (err, isMatch) {
         if (err) return cb(err);
@@ -77,7 +86,7 @@ userSchema.methods.validPassword = function (password, cb) {
     })
 }
 
-userSchema.statics.authenticate = (email, password, cb) => {
+userSchema.statics.authenticate = function (email, password, cb) {
     User.findOne({
         email: email
     }, (err, user) => {
@@ -103,19 +112,6 @@ userSchema.statics.authenticate = (email, password, cb) => {
         })
     })
 }
-
-userSchema.statics.validPassword = (user, password, cb) => {
-    bcrypt.compare(password, user.password, function (err, result) {
-        if (result === true) {
-            return cb(null, user);
-        } else {
-            var err = new Error('Incorrect password.')
-            err.status = 401;
-            return cb(err);
-
-        }
-    })
-};
 
 var User = mongoose.model('User', userSchema)
 module.exports = User;

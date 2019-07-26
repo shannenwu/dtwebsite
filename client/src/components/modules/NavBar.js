@@ -62,6 +62,13 @@ class NavBar extends Component {
                   Profile
                 </Link>
               </div>
+              {userInfo.isChoreographer ? (
+                <div className="item">
+                  <Link to="/choreographer">
+                    Choreographer
+                  </Link>
+                </div>
+              ) : <div />}
               {userInfo.isAdmin ? (
                 <div className="item">
                   <Link to="/admin">
