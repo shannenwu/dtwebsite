@@ -12,7 +12,6 @@ class ResetPassword extends React.Component {
     this.state = {
       password: '',
       confirmPassword: '',
-      showError: false,
       messageFromServer: '',
       errorMsg: [],
     };
@@ -42,15 +41,12 @@ class ResetPassword extends React.Component {
       resetPasswordToken: this.props.match.params.resetPasswordToken,
     })
       .then((response) => {
-        console.log(response.data.message);
         this.setState({
           messageFromServer: response.data.message,
-          showError: false,
           errorMsg: [],
         });
       })
       .catch((error) => {
-        console.log(error.response.data);
         if (error.response.data.errors !== undefined) {
           // form validation errors
           const msgList = [];
@@ -58,13 +54,11 @@ class ResetPassword extends React.Component {
             msgList.push(element.msg);
           });
           this.setState({
-            showError: true,
             errorMsg: msgList,
           });
         } else {
           // unregistered email
           this.setState({
-            showError: true,
             errorMsg: [error.response.data],
           });
         }
@@ -75,7 +69,6 @@ class ResetPassword extends React.Component {
     const {
       password,
       confirmPassword,
-      showError,
       errorMsg,
       messageFromServer,
     } = this.state;
@@ -111,7 +104,7 @@ class ResetPassword extends React.Component {
                 Reset Password
               </Button>
             </Form>
-            {showError === true && errorMsg.length !== 0 && (
+            {errorMsg.length !== 0 && (
               <Message
                 error
                 header="Please fix the following and try again."

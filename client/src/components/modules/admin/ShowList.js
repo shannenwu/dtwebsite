@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Grid, Header, Form, Button, Icon, Card, Loader, Label
+  Grid, Header, Form, Button, Icon, Card, Loader, Label,
 } from 'semantic-ui-react';
 import axios from 'axios';
 import ShowModal from './ShowModal';
@@ -23,7 +23,7 @@ class ShowList extends React.Component {
     shows: PropTypes.array,
     selectedShow: PropTypes.object,
     selectShow: PropTypes.func,
-    activeShow: PropTypes.object
+    activeShow: PropTypes.object,
   }
 
   handleChange = (e, { name, value }) => {
@@ -48,7 +48,7 @@ class ShowList extends React.Component {
       shows,
       selectedShow,
       selectShow,
-      handleDeleteShow
+      handleDeleteShow,
     } = this.props;
 
     return (
@@ -70,10 +70,12 @@ class ShowList extends React.Component {
             >
               <Card.Content>
                 {`${pre + yr} | ${showObj.name}`}
-                {showObj.isActive ?
-                  <Label color="green">
+                {showObj.isActive
+                  ? (
+                    <Label color="green">
                     ACTIVE
-                  </Label> : <div></div>}
+                    </Label>
+                  ) : <div />}
                 {/* this delete icon needs a confirmation before we delete everything  lol */}
                 {/* <Icon name='cancel' link onClick={() => handleDeleteShow(showObj._id)} /> */}
               </Card.Content>

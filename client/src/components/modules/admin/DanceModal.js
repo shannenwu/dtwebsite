@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Grid, Header, Form, Button, Modal, Icon, Dropdown, Input,
+  Grid, Header, Form, Button, Modal, Message, List, Dropdown, Input,
 } from 'semantic-ui-react';
 import axios from 'axios';
 
@@ -36,13 +36,14 @@ class DanceModal extends React.Component {
       choreographers: [],
       style: '',
       level: '',
+      errorMsg: [],
     };
   }
 
   static propTypes = {
     open: PropTypes.bool,
     handleClose: PropTypes.func,
-    show: PropTypes.object
+    show: PropTypes.object,
   }
 
   componentDidMount() {
@@ -61,7 +62,7 @@ class DanceModal extends React.Component {
       description,
       choreographers,
       style,
-      level
+      level,
     } = this.state;
 
     const {
@@ -75,32 +76,27 @@ class DanceModal extends React.Component {
       choreographers,
       style,
       level,
-      show
+      show,
     })
       .then((response) => {
-        // this.setState({
-        //   messageFromServer: response.data.message,
-        //   showError: false,
-        //   errorMsg: [],
-        // });
-          this.setState({
-            name: '',
-            description: '',
-            choreographers: [],
-            style: '',
-            level: '',
+        this.setState({
+          name: '',
+          description: '',
+          choreographers: [],
+          style: '',
+          level: '',
+          errorMsg: [],
         });
         handleClose();
       })
       .catch((error) => {
-        // const msgList = [];
-        // error.response.data.errors.forEach((element) => {
-        //   msgList.push(element.msg);
-        // });
-        // this.setState({
-        //   showError: true,
-        //   errorMsg: msgList,
-        // });
+        const msgList = [];
+        error.response.data.errors.forEach((element) => {
+          msgList.push(element.msg);
+        });
+        this.setState({
+          errorMsg: msgList,
+        });
       });
   };
 
@@ -110,13 +106,14 @@ class DanceModal extends React.Component {
       description,
       choreographers,
       style,
-      level
+      level,
+      errorMsg,
     } = this.state;
 
     const {
       open,
       handleClose,
-      userOptions
+      userOptions,
     } = this.props;
 
     return (
@@ -188,6 +185,17 @@ class DanceModal extends React.Component {
                 <Button color="green" floated="right" onClick={this.handleSubmit}>Save</Button>
                 <Button floated="right" onClick={handleClose}>Cancel</Button>
               </Modal.Actions>
+              {errorMsg.length !== 0 && (
+                <Message
+                  className="response"
+                  negative
+                >
+                  <Message.Header
+                    content="Please fix the following and try again."
+                  />
+                  <List items={errorMsg} />
+                </Message>
+              )}
             </Form>
           </Modal.Content>
         </Modal>

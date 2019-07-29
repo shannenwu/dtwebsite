@@ -7,7 +7,7 @@ const webpack = require('webpack');
 module.exports = {
   entry: ['@babel/polyfill', entryFile],
   output: {
-    publicPath:"/",
+    publicPath: "/",
     filename: 'bundle.js',
     path: outputDir
   },
@@ -29,9 +29,9 @@ module.exports = {
           }
         ]
       },
-      { 
-        test: /\.(png|woff|woff2|eot|ttf|svg)$/, 
-        loader: 'url-loader?limit=100000' 
+      {
+        test: /\.(png|woff|woff2|eot|ttf|svg)$/,
+        loader: 'url-loader?limit=100000'
       }
     ]
   },
@@ -43,7 +43,13 @@ module.exports = {
     contentBase: './client/dist',
     hot: true,
     proxy: {
-      '/api/*': 'http://localhost:3000'
+      '/api/*': 'http://localhost:3000',
+      '/login': 'http://localhost:3000',
+      '/logout': 'http://localhost:3000',
+      '/forgot': 'http://localhost:3000',
+      '/signup': 'http://localhost:3000',
+      '/admin': 'http://localhost:3000',
+      '/reset': 'http://localhost:3000'
     }
   }
 };

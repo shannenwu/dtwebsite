@@ -21,17 +21,17 @@ import '../css/app.css';
 const PrivateRoute = ({
   component: Component, authed, loading, ...rest
 }) => (
-    <Route
-      {...rest}
-      render={(props) => {
-        if (authed && !loading) {
-          return <Component {...props} {...rest} />;
-        }
-        return <Redirect to={{ pathname: '/', state: { from: props.location } }} />;
+  <Route
+    {...rest}
+    render={(props) => {
+      if (authed && !loading) {
+        return <Component {...props} {...rest} />;
       }
+      return <Redirect to={{ pathname: '/', state: { from: props.location } }} />;
+    }
       }
-    />
-  );
+  />
+);
 
 class App extends React.Component {
   constructor(props) {
@@ -39,7 +39,7 @@ class App extends React.Component {
 
     this.state = {
       userInfo: null,
-      loading: true
+      loading: true,
     };
   }
 
@@ -98,9 +98,9 @@ class App extends React.Component {
     }
   }
 
-  getDances = async (show_id) => {
+  getDances = async (showId) => {
     try {
-      const response = await axios.get(`/api/dances/${show_id}/all`);
+      const response = await axios.get(`/api/dances/${showId}/all`);
       return response;
     } catch (e) {
       console.log(e); // TODO FIX LATER
@@ -108,12 +108,12 @@ class App extends React.Component {
   }
 
   getDanceOptions = (dances) => {
-    var danceOptions = dances.map((dance, index) => {
-      const levelStyle = dance.level + ' ' + dance.style;
+    const danceOptions = dances.map((dance, index) => {
+      const levelStyle = `${dance.level} ${dance.style}`;
       return {
         key: index,
-        text: dance.name + ': ' + levelStyle,
-        value: dance._id
+        text: `${dance.name}: ${levelStyle}`,
+        value: dance._id,
       };
     });
     danceOptions.unshift({ key: 100, text: 'No dance selected.', value: '' });
@@ -123,7 +123,7 @@ class App extends React.Component {
   render() {
     const {
       userInfo,
-      loading
+      loading,
     } = this.state;
     if (loading) {
       return (
@@ -147,39 +147,47 @@ class App extends React.Component {
               <Route exact path="/signup" component={SignUp} />
               <Route exact path="/forgot" component={ForgotPassword} />
               <Route exact path="/reset/:resetPasswordToken" component={ResetPassword} />
-              <Redirect from="/logout" to="/"/>
-              <PrivateRoute 
-                exact path="/profile" 
-                authed={userInfo !== null} 
-                loading={loading} 
+              <Redirect from="/logout" to="/" />
+              <PrivateRoute
+                exact
+                path="/profile"
+                authed={userInfo !== null}
+                loading={loading}
                 userInfo={userInfo}
                 getActiveShow={this.getActiveShow}
                 getDances={this.getDances}
                 getDanceOptions={this.getDanceOptions}
-                component={ProfilePage} />
-              <PrivateRoute 
-                exact path="/choreographer" 
-                authed={userInfo && userInfo.isChoreographer} 
+                component={ProfilePage}
+              />
+              <PrivateRoute
+                exact
+                path="/choreographer"
+                authed={userInfo && userInfo.isChoreographer}
                 loading={loading}
-                userInfo={userInfo} 
+                userInfo={userInfo}
                 getActiveShow={this.getActiveShow}
                 getDances={this.getDances}
-                component={ChoreographerPage} />
-              <PrivateRoute 
-                exact path="/choreographer/:danceId" 
-                authed={userInfo && userInfo.isChoreographer} 
+                component={ChoreographerPage}
+              />
+              <PrivateRoute
+                exact
+                path="/choreographer/:danceId"
+                authed={userInfo && userInfo.isChoreographer}
                 loading={loading}
-                userInfo={userInfo} 
-                component={DancerSelection} />
-              <PrivateRoute 
-                exact path="/admin" 
-                authed={userInfo && userInfo.isAdmin} 
+                userInfo={userInfo}
+                component={DancerSelection}
+              />
+              <PrivateRoute
+                exact
+                path="/admin"
+                authed={userInfo && userInfo.isAdmin}
                 loading={loading}
-                userInfo={userInfo} 
+                userInfo={userInfo}
                 getActiveShow={this.getActiveShow}
                 getDances={this.getDances}
                 getDanceOptions={this.getDanceOptions}
-                component={AdminPage} />
+                component={AdminPage}
+              />
             </Switch>
           </div>
         </div>

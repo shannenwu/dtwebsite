@@ -92,6 +92,7 @@ app.post('/',
     }
 );
 
+// TODO have this function give permissions to choreographers 
 app.post("/:show_id/active-show", (req, res) => {
     Show.updateMany({ isActive: true }, { isActive: false }, (err, docs) => {
         Show.findByIdAndUpdate(req.params.show_id, {

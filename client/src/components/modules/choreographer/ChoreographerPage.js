@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Link
+  Link,
 } from 'react-router-dom';
 import axios from 'axios';
 import {
-  Header, List, Image, Button, Icon, Dimmer, Loader
+  Header, List, Image, Button, Icon, Dimmer, Loader,
 } from 'semantic-ui-react';
 
 class ChoreographerPage extends Component {
@@ -14,7 +14,7 @@ class ChoreographerPage extends Component {
 
     this.state = {
       dances: [],
-      loading: true
+      loading: true,
     };
   }
 
@@ -34,27 +34,27 @@ class ChoreographerPage extends Component {
   }
 
   initializeDances = async () => {
-    const { getActiveShow, getDances } = this.props
+    const { getActiveShow, getDances } = this.props;
 
     const activeShowResponse = await getActiveShow();
     const dancesResponse = await getDances(activeShowResponse.data._id);
 
     this.setState({
       dances: dancesResponse.data,
-      loading: false
+      loading: false,
     });
   }
 
   render() {
     const {
       dances,
-      loading
+      loading,
     } = this.state;
 
     if (loading) {
       return (
         <Dimmer active inverted>
-          <Loader></Loader>
+          <Loader />
         </Dimmer>
       );
     }
@@ -63,19 +63,19 @@ class ChoreographerPage extends Component {
         <Header as="h1">
           Choreographer
         </Header>
-        <List divided relaxed verticalAlign='middle' size='big'>
+        <List divided relaxed verticalAlign="middle" size="big">
           {dances.map((dance, index) => {
-            const selectionLink = "/choreographer/" + dance._id;
+            const selectionLink = `/choreographer/${dance._id}`;
             return (
               <List.Item key={index}>
-                <Link to="/about" style={{float: 'right'}}><Icon link name="address book" /></Link>
-                <Link to="/about" style={{float: 'right'}}><Icon link name="calendar alternate outline" /></Link>
-                <Link to={selectionLink} style={{float: 'right'}}><Icon link name="edit outline" /></Link>
+                <Link to="/about" style={{ float: 'right' }}><Icon link name="address book" /></Link>
+                <Link to="/about" style={{ float: 'right' }}><Icon link name="calendar alternate outline" /></Link>
+                <Link to={selectionLink} style={{ float: 'right' }}><Icon link name="edit outline" /></Link>
                 <List.Content>
                   {dance.name}
                 </List.Content>
               </List.Item>
-            )
+            );
           })}
         </List>
       </div>

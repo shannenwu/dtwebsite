@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import {
-  Header, Menu, Dimmer, Loader, Label, Popup
+  Header, Menu, Dimmer, Loader, Label, Popup,
 } from 'semantic-ui-react';
 import UserInfo from './UserInfo';
 import PrefsheetInfo from './PrefsheetInfo';
@@ -17,24 +17,20 @@ class ProfilePage extends Component {
       prefData: {
         maxDances: -1,
         rankedDances: [],
-        danceOptions: []
+        danceOptions: [],
       },
       activeShow: null,
       messageFromServer: '',
       errorMsg: [],
-      loading: true
+      loading: true,
     };
   }
 
   static propTypes = {
-    userInfo: PropTypes.object,
-    getActiveShow: PropTypes.func,
-    getDances: PropTypes.func,
-    getDanceOptions: PropTypes.func
-  }
-
-  static defaultProps = {
-    userInfo: null,
+    userInfo: PropTypes.object.isRequired,
+    getActiveShow: PropTypes.func.isRequired,
+    getDances: PropTypes.func.isRequired,
+    getDanceOptions: PropTypes.func.isRequired,
   }
 
   componentDidMount() {
@@ -47,7 +43,7 @@ class ProfilePage extends Component {
       userInfo,
       getActiveShow,
       getDances,
-      getDanceOptions
+      getDanceOptions,
     } = this.props;
 
     try {
@@ -56,29 +52,29 @@ class ProfilePage extends Component {
 
       const [prefResponse, dancesResponse] = await Promise.all([
         axios.get(`/api/prefsheets/user/${userInfo._id}`),
-        getDances(activeShow._id)
+        getDances(activeShow._id),
       ]);
 
       const prefsheet = prefResponse.data;
       const danceOptions = getDanceOptions(dancesResponse.data);
 
       if (prefsheet.rankedDances) {
-        const filledRankedDances =
-          prefsheet.rankedDances.concat(Array(danceOptions.length - prefsheet.rankedDances.length)
-            .fill({ dance: '' }))
+        const filledRankedDances = prefsheet.rankedDances
+          .concat(Array(danceOptions.length - prefsheet.rankedDances.length)
+            .fill({ dance: '' }));
         var prefData = {
           ...this.state.prefData,
           maxDances: prefsheet.maxDances,
           rankedDances: filledRankedDances,
-          danceOptions: danceOptions
-        }
+          danceOptions,
+        };
       } else {
         var prefData = {
           ...this.state.prefData,
           maxDances: -1,
           rankedDances: Array(danceOptions.length).fill({ dance: '' }),
-          danceOptions: danceOptions
-        }
+          danceOptions,
+        };
       }
       this.setState({ activeShow, prefData, loading: false });
     } catch (e) {
@@ -90,20 +86,20 @@ class ProfilePage extends Component {
     this.setState({
       prefData: {
         ...this.state.prefData,
-        [name]: value
-      }
+        [name]: value,
+      },
     });
   }
 
   handleListChange = (e, { name, value }) => {
     const { rankedDances } = this.state.prefData;
     const copy = [...rankedDances];
-    copy[name] = { dance: value }
+    copy[name] = { dance: value };
     this.setState({
       prefData: {
         ...this.state.prefData,
-        rankedDances: copy
-      }
+        rankedDances: copy,
+      },
     });
   }
 
@@ -112,23 +108,22 @@ class ProfilePage extends Component {
   handleDismiss = () => {
     this.setState({
       messageFromServer: '',
-      errorMsg: []
+      errorMsg: [],
     });
   }
 
   handleSubmit = (event) => {
     const {
       prefData,
-      activeShow
     } = this.state;
     const {
-      userInfo
+      userInfo,
     } = this.props;
     event.preventDefault();
 
     axios.post(`/api/prefsheets/user/${userInfo._id}`, {
       maxDances: prefData.maxDances,
-      rankedDances: prefData.rankedDances
+      rankedDances: prefData.rankedDances,
     })
       .then((response) => {
         this.setState({
@@ -144,12 +139,12 @@ class ProfilePage extends Component {
             msgList.push(element.msg);
           });
           this.setState({
-            errorMsg: msgList
+            errorMsg: msgList,
           });
         } else {
           // other bad errors
           this.setState({
-            errorMsg: [error.response.data]
+            errorMsg: [error.response.data],
           });
         }
       });
@@ -162,7 +157,7 @@ class ProfilePage extends Component {
       activeShow,
       messageFromServer,
       errorMsg,
-      loading
+      loading,
     } = this.state;
     const { userInfo } = this.props;
     let tab = <UserInfo userInfo={userInfo} />;
@@ -170,17 +165,18 @@ class ProfilePage extends Component {
     if (activeItem === 'personal') {
       tab = <UserInfo userInfo={userInfo} />;
     } else if (activeItem === 'prefs') {
-      tab = <PrefsheetInfo
-        userInfo={userInfo}
-        prefData={prefData}
-        activeShow={activeShow}
-        handleInputChange={this.handleInputChange}
-        handleListChange={this.handleListChange}
-        handleSubmit={this.handleSubmit}
-        handleDismiss={this.handleDismiss}
-        messageFromServer={messageFromServer}
-        errorMsg={errorMsg}
-      />;
+      tab = (
+        <PrefsheetInfo
+          prefData={prefData}
+          activeShow={activeShow}
+          handleInputChange={this.handleInputChange}
+          handleListChange={this.handleListChange}
+          handleSubmit={this.handleSubmit}
+          handleDismiss={this.handleDismiss}
+          messageFromServer={messageFromServer}
+          errorMsg={errorMsg}
+        />
+      );
     } else if (activeItem === 'conflicts') {
       tab = <ConflictsInfo />;
     }
@@ -188,7 +184,7 @@ class ProfilePage extends Component {
     if (loading) {
       return (
         <Dimmer active inverted>
-          <Loader></Loader>
+          <Loader />
         </Dimmer>
       );
     }
@@ -213,19 +209,20 @@ class ProfilePage extends Component {
                 onClick={this.handleItemClick}
               >
                 Dance Preferences
-                </Menu.Item>
+              </Menu.Item>
               <Menu.Item
                 name="conflicts"
                 active={activeItem === 'conflicts'}
                 onClick={this.handleItemClick}
               >
                 Practice Availabilities
-                <Popup 
-                  content='Please fill out your weekly availabilities for rehearsal times!' 
-                  trigger={<Label circular color='red' size='mini' floating content='!'/>} 
+                <Popup
+                  content="Please fill out your weekly availabilities for rehearsal times!"
+                  trigger={<Label circular color="red" size="mini" floating content="!" />}
                 />
-                </Menu.Item>
-            </React.Fragment>)}
+              </Menu.Item>
+            </React.Fragment>
+          )}
         </Menu>
         {tab}
       </div>

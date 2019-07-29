@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
-  List
+  List,
 } from 'semantic-ui-react';
 import ItemStatus from './ItemStatus';
 import '../modules.css';
@@ -11,12 +11,12 @@ class PrefList extends Component {
     super(props);
 
     this.state = {
-      loading: true //nuke?
+      loading: true, // nuke?
     };
   }
 
   static propTypes = {
-    rankedDances: PropTypes.array
+    rankedDances: PropTypes.array,
   }
 
   static defaultProps = {
@@ -27,11 +27,11 @@ class PrefList extends Component {
 
   render() {
     const {
-      loading
+      loading,
     } = this.state;
 
     const {
-      rankedDances
+      rankedDances,
     } = this.props;
 
     // if (loading) {
@@ -42,10 +42,8 @@ class PrefList extends Component {
     //   );
     // }
     return (
-      <List verticalAlign='middle' size='small'>
-        {rankedDances.map((pref, index) => {
-          return <ItemStatus key={index} rank={index+1} pref={pref}/>
-        })}
+      <List verticalAlign="middle" size="small">
+        {rankedDances.map((pref, index) => <ItemStatus key={index} rank={index + 1} pref={pref} />)}
       </List>
     );
   }

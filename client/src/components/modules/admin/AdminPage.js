@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Grid, Header, Dimmer, Loader
+  Grid, Header, Dimmer, Loader,
 } from 'semantic-ui-react';
 import axios from 'axios';
 import io from 'socket.io-client';
@@ -34,7 +34,7 @@ class AdminPage extends React.Component {
     userInfo: PropTypes.object,
     getActiveShow: PropTypes.func,
     getDances: PropTypes.func,
-    getDanceOptions: PropTypes.func
+    getDanceOptions: PropTypes.func,
   }
 
   componentDidMount() {
@@ -46,8 +46,7 @@ class AdminPage extends React.Component {
     this.getShowsAndDances();
     this.getUserOptions();
 
-    const socket = io(endpoint);
-    socket.on('show', (showObj) => {
+    this.socket.on('show', (showObj) => {
       const newShows = [showObj].concat(this.state.shows);
       newShows.sort((a, b) => ((a.date > b.date) ? -1 : ((b.date > a.date) ? 1 : 0)));
       if (this._isMounted) {
@@ -57,11 +56,11 @@ class AdminPage extends React.Component {
         });
       }
     });
-    socket.on('dance', (danceObj) => {
+    this.socket.on('dance', (danceObj) => {
       const newDances = [danceObj].concat(this.state.dances);
       if (this._isMounted) {
         this.setState({
-          dances: newDances
+          dances: newDances,
         });
       }
     });
@@ -76,23 +75,21 @@ class AdminPage extends React.Component {
       .then(
         (response) => {
           const users = response.data;
-          var userOptions = users.map(user => {
-            return {
-              key: user.firstName + ' ' + user.lastName,
-              text: user.firstName + ' ' + user.lastName,
-              value: user._id
-            };
-          })
+          const userOptions = users.map(user => ({
+            key: `${user.firstName} ${user.lastName}`,
+            text: `${user.firstName} ${user.lastName}`,
+            value: user._id,
+          }));
           this.setState({
-            userOptions: userOptions
-          })
+            userOptions,
+          });
         },
       );
   }
 
   getAllShows = async () => {
     try {
-      const response = await axios.get(`/api/shows`);
+      const response = await axios.get('/api/shows');
       return response;
     } catch (e) {
       console.log(e); // TODO FIX LATER
@@ -100,15 +97,15 @@ class AdminPage extends React.Component {
   }
 
   getShowsAndDances = async () => {
-    const { 
-      getActiveShow, 
+    const {
+      getActiveShow,
       getDances,
-      getDanceOptions 
+      getDanceOptions,
     } = this.props;
     try {
       const [activeShowResponse, allShowsResponse] = await Promise.all([
         getActiveShow(),
-        this.getAllShows()
+        this.getAllShows(),
       ]);
 
       const activeShow = activeShowResponse.data;
@@ -116,7 +113,7 @@ class AdminPage extends React.Component {
 
       const [selectedDancesResponse, activeDancesResponse] = await Promise.all([
         getDances(selectedShow._id),
-        getDances(selectedShow._id)
+        getDances(selectedShow._id),
       ]);
 
       const danceOptions = getDanceOptions(activeDancesResponse.data);
@@ -128,15 +125,15 @@ class AdminPage extends React.Component {
         selectedShow,
         danceOptions,
         loading: false,
-        prefsOpen: activeShow.prefsOpen
-      })
+        prefsOpen: activeShow.prefsOpen,
+      });
     } catch (e) {
-      console.log(e); // TODO ERROR HANDLE 
+      console.log(e); // TODO ERROR HANDLE
     }
   }
 
   selectShow = async (showObj) => {
-    const {  
+    const {
       getDances,
     } = this.props;
     const dancesResponse = await getDances(showObj._id);
@@ -148,18 +145,18 @@ class AdminPage extends React.Component {
 
   handleDeleteShow = (id) => {
     const {
-      shows
+      shows,
     } = this.state;
     axios.delete(`/api/shows/${id}`)
       .then(
         (response) => {
           const removedShow = response.data;
-          var showsCopy = [...shows];
+          const showsCopy = [...shows];
           const index = showsCopy.findIndex(x => x._id === removedShow._id);
           if (index !== -1) {
             showsCopy.splice(index, 1);
             this.setState({
-              shows: showsCopy
+              shows: showsCopy,
             });
           }
         },
@@ -168,18 +165,18 @@ class AdminPage extends React.Component {
 
   handleDeleteDance = (id) => {
     const {
-      dances
+      dances,
     } = this.state;
     axios.delete(`/api/dances/${id}`)
       .then(
         (response) => {
           const removedDance = response.data;
-          var dancesCopy = [...dances];
+          const dancesCopy = [...dances];
           const index = dancesCopy.findIndex(x => x._id === removedDance._id);
           if (index !== -1) {
             dancesCopy.splice(index, 1);
             this.setState({
-              dances: dancesCopy
+              dances: dancesCopy,
             });
           }
         },
@@ -192,7 +189,7 @@ class AdminPage extends React.Component {
         (response) => {
           const activeShow = response.data;
           this.setState({
-            activeShow
+            activeShow,
           });
         },
       );
@@ -201,29 +198,29 @@ class AdminPage extends React.Component {
   togglePrefs = () => {
     const {
       activeShow,
-      prefsOpen
+      prefsOpen,
     } = this.state;
     axios.post(`/api/shows/${activeShow._id}/prefs?open=${!prefsOpen}`)
       .then(
         (response) => {
           const activeShow = response.data;
           this.setState({
-            prefsOpen: !prefsOpen
+            prefsOpen: !prefsOpen,
           });
         },
       );
   }
 
   generateAuditionNumbers = () => {
-    axios.post(`/api/prefsheets/generate-audition-numbers/`)
-    .then(
-      (response) => {
+    axios.post('/api/prefsheets/generate-audition-numbers/')
+      .then(
+        response =>
         // this.setState({
         //   // TODO: some success message.
         // });
-        return response;
-      },
-    );
+          response
+        ,
+      );
   }
 
   render() {
@@ -241,7 +238,7 @@ class AdminPage extends React.Component {
     if (loading) {
       return (
         <Dimmer active inverted>
-          <Loader></Loader>
+          <Loader />
         </Dimmer>
       );
     }
@@ -265,7 +262,8 @@ class AdminPage extends React.Component {
               selectedShow={selectedShow}
               dances={dances}
               handleDeleteDance={this.handleDeleteDance}
-              userOptions={userOptions} />
+              userOptions={userOptions}
+            />
           </Grid.Column>
           <Grid.Column stretched>
             <Grid.Row style={{ height: '50%' }}>

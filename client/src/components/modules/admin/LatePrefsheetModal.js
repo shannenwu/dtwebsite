@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Grid, Header, Form, Button, Modal, Icon, Dropdown, Input,
+  Modal,
 } from 'semantic-ui-react';
-import PrefsheetInfo from '../user/PrefsheetInfo';
 import axios from 'axios';
+import PrefsheetInfo from '../user/PrefsheetInfo';
 
 class LatePrefsheetModal extends React.Component {
   constructor(props) {
@@ -13,16 +13,18 @@ class LatePrefsheetModal extends React.Component {
     this.state = {
       userId: '',
       maxDances: -1,
-      rankedDances: new Array(10).fill({dance: ''})
+      rankedDances: new Array(10).fill({ dance: '' }),
+      messageFromServer: '',
+      errorMsg: [],
     };
   }
 
   static propTypes = {
     open: PropTypes.bool,
-    handleClose: PropTypes.func,
-    activeShow: PropTypes.object,
-    userOptions: PropTypes.array, 
-    danceOptions: PropTypes.array 
+    handleClose: PropTypes.func.isRequired,
+    activeShow: PropTypes.object.isRequired,
+    userOptions: PropTypes.array.isRequired,
+    danceOptions: PropTypes.array.isRequired,
   }
 
   componentDidMount() {
@@ -37,9 +39,9 @@ class LatePrefsheetModal extends React.Component {
   handleListChange = (e, { name, value }) => {
     const { rankedDances } = this.state;
     const copy = [...rankedDances];
-    copy[name] = { dance: value }
+    copy[name] = { dance: value };
     this.setState({
-      rankedDances: copy
+      rankedDances: copy,
     });
   }
 
@@ -48,28 +50,44 @@ class LatePrefsheetModal extends React.Component {
     const {
       userId,
       maxDances,
-      rankedDances
+      rankedDances,
     } = this.state;
 
     const {
       handleClose,
-      activeShow,
     } = this.props;
 
+    // nothing will happen if the userId is null.
     axios.post(`/api/prefsheets/user/${userId}?late=true`, {
-      maxDances: maxDances,
-      rankedDances: rankedDances
+      maxDances,
+      rankedDances,
     })
       .then((response) => {
         this.setState({
           userId: '',
           maxDances: -1,
-          rankedDances: []
+          rankedDances: new Array(10).fill({ dance: '' }),
+          messageFromServer: response.data.message,
+          errorMsg: [],
         });
         handleClose();
       })
       .catch((error) => {
-        console.log(error);
+        if (error.response.data.errors !== undefined) {
+          // form validation errors
+          const msgList = [];
+          error.response.data.errors.forEach((element) => {
+            msgList.push(element.msg);
+          });
+          this.setState({
+            errorMsg: msgList,
+          });
+        } else {
+          // other bad errors
+          this.setState({
+            errorMsg: [error.response.data],
+          });
+        }
       });
   };
 
@@ -77,7 +95,9 @@ class LatePrefsheetModal extends React.Component {
     const {
       userId,
       maxDances,
-      rankedDances
+      rankedDances,
+      messageFromServer,
+      errorMsg,
     } = this.state;
 
     const {
@@ -85,7 +105,7 @@ class LatePrefsheetModal extends React.Component {
       handleClose,
       activeShow,
       userOptions,
-      danceOptions
+      danceOptions,
     } = this.props;
 
     return (
@@ -97,15 +117,18 @@ class LatePrefsheetModal extends React.Component {
           <Modal.Header>Create Late Prefsheet</Modal.Header>
           <Modal.Content scrolling>
             <PrefsheetInfo
-              prefData={{userId, maxDances, rankedDances, danceOptions}}
+              prefData={{
+                userId, maxDances, rankedDances, danceOptions,
+              }}
               activeShow={activeShow}
               handleInputChange={this.handleLateChange}
               handleListChange={this.handleListChange}
               handleSubmit={this.handleSubmit}
+              messageFromServer={messageFromServer}
+              errorMsg={errorMsg}
               userOptions={userOptions}
-              isLate={true}
-            >
-            </PrefsheetInfo>
+              isLate
+            />
           </Modal.Content>
         </Modal>
       </div>

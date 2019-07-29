@@ -34,12 +34,7 @@ app.get('/:show_id/all', (req, res) => {
 // Create a dance.
 app.post('/',
     connect.ensureLoggedIn(), [
-        check('choreographers')
-            .custom(data =>
-                Array.isArray(data)
-                &&
-                data.length).withMessage('Choreographers field cannot be empty.'),
-        check('name').optional().isLength({ min: 0, max: 100 }).withMessage('Name field has max character count of 100.'),
+        check('name').isLength({ min: 1, max: 100 }).withMessage('Name field is required and has max character count of 100.'),
         check('description').optional().isLength({ min: 0, max: 1000 }).withMessage('Description field has max character count of 1000.'),
     ],
     async (req, res) => {
@@ -66,13 +61,13 @@ app.post('/',
 
             const io = req.app.get('socketio');
             io.emit("dance", newDanceObj);
-            return res.status(200).send(newDanceObj);
+            return res.status(200).send({ message: 'Dance added!' });
         });
 
     }
 );
 
-// TODO: a
+// TODO: implement validations
 app.delete("/:dance_id", (req, res) => {
     Dance.findByIdAndDelete(req.params.dance_id, (err, doc) => {
         if (err) {

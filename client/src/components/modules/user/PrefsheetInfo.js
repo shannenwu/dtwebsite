@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Grid, Message, Form, Button, Dropdown, List
+  Grid, Message, Form, Button, Dropdown, List,
 } from 'semantic-ui-react';
 import './user.css';
 
@@ -9,7 +9,7 @@ const maxNumberOptions = [
   { key: '1', text: '1', value: 1 },
   { key: '2', text: '2', value: 2 },
   { key: '3', text: '3', value: 3 },
-  { key: '4', text: '4', value: 4 }
+  { key: '4', text: '4', value: 4 },
 ];
 
 class PrefsheetInfo extends React.Component {
@@ -21,28 +21,33 @@ class PrefsheetInfo extends React.Component {
   }
 
   static propTypes = {
-    userInfo: PropTypes.object,
     prefData: PropTypes.object,
-    handleInputChange: PropTypes.func,
-    handleListChange: PropTypes.func,
-    handleSubmit: PropTypes.func,
+    handleInputChange: PropTypes.func.isRequired,
+    handleListChange: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    handleDismiss: PropTypes.func,
     messageFromServer: PropTypes.string,
     errorMsg: PropTypes.array,
+    userOptions: PropTypes.array,
     isLate: PropTypes.bool,
-    handleLateChange: PropTypes.func
   }
 
   static defaultProps = {
+    prefData: null,
     messageFromServer: '',
     errorMsg: [],
-    isLate: false
+    userOptions: [],
+    isLate: false,
   }
 
   componentDidMount() {
   }
 
-  componentDidUpdate() {
-    this.scrollToBottom();
+  componentDidUpdate(prevProps) {
+    if (this.props.messageFromServer !== prevProps.messageFromServer
+      || this.props.errorMsg !== prevProps.errorMsg) {
+      this.scrollToBottom();
+    }
   }
 
   scrollToBottom() {
@@ -64,52 +69,56 @@ class PrefsheetInfo extends React.Component {
 
     return (
       <div>
-      <Message info>
-        View detailed dance descriptions HERE. 
-        Please only pref the dances you want to be in. 
-        Make sure you have also uploaded a profile photo— 
-        choreographers can't accept you into their dance if they don't know who you are!
-        Prefsheets can be re-submitted until they close at 2AM DATE HERE.
-      </Message>
-      <Form as={Grid} padded stackable>
-        {isLate &&
+        <Message info>
+          View detailed dance descriptions HERE.
+          Please only pref the dances you want to be in.
+          Make sure you have also uploaded a profile photo—
+          choreographers can't accept you into their dance if they don't know who you are!
+          Prefsheets can be re-submitted until they close at 2AM DATE HERE.
+        </Message>
+        <Form as={Grid} padded stackable>
+          {isLate
+            && (
+              <Grid.Row>
+                <Grid.Column width={3} verticalAlign="middle">
+                  <label className="userInfoLabels">Dancer</label>
+                </Grid.Column>
+                <Dropdown
+                  name="userId"
+                  width={13}
+                  selection
+                  search
+                  scrolling
+                  upward={false}
+                  options={userOptions}
+                  value={prefData.userId || ''}
+                  onChange={handleInputChange}
+                />
+              </Grid.Row>
+            )
+          }
           <Grid.Row>
             <Grid.Column width={3} verticalAlign="middle">
-              <label className="userInfoLabels">Dancer</label>
+              <label className="userInfoLabels">Max number of dances</label>
             </Grid.Column>
             <Dropdown
-              name="userId"
-              width={13}
+              as={Grid.Column}
+              name="maxDances"
               selection
               search
-              scrolling
               upward={false}
-              options={userOptions}
-              value={prefData.userId || ''}
+              options={maxNumberOptions}
+              value={prefData.maxDances || -1}
               onChange={handleInputChange}
             />
           </Grid.Row>
-        }
-        <Grid.Row>
-          <Grid.Column width={3} verticalAlign="middle">
-            <label className="userInfoLabels">Max number of dances</label>
-          </Grid.Column>
-          <Dropdown
-            as={Grid.Column}
-            name="maxDances"
-            selection
-            search
-            upward={false}
-            options={maxNumberOptions}
-            value={prefData.maxDances || -1}
-            onChange={handleInputChange}
-          />
-        </Grid.Row>
-        {prefData.rankedDances.map((rankedDance, index) => {
-          return (
+          {prefData.rankedDances.map((rankedDance, index) => (
             <Grid.Row key={index}>
               <Grid.Column width={3} verticalAlign="middle" textAlign="right">
-                <label className="userInfoLabels">{index + 1}.</label>
+                <label className="userInfoLabels">
+                  {index + 1}
+                  .
+                </label>
               </Grid.Column>
               <Dropdown
                 as={Grid.Column}
@@ -124,47 +133,45 @@ class PrefsheetInfo extends React.Component {
                 onChange={handleListChange}
               />
             </Grid.Row>
-          )
-        })}
+          ))}
 
-        <Grid.Row>
-          <Grid.Column width={16} className="userInput">
-            <Button floated="right" color="blue" onClick={handleSubmit}>Submit</Button>
-          </Grid.Column>
-        </Grid.Row>
-
-        {errorMsg.length !== 0 && (
           <Grid.Row>
             <Grid.Column width={16} className="userInput">
-              <Message
-                className="response"
-                negative
-              > 
-                <Message.Header 
-                  content="Please fix the following and try again."
+              <Button floated="right" color="blue" onClick={handleSubmit}>Submit</Button>
+            </Grid.Column>
+          </Grid.Row>
+
+          {errorMsg.length !== 0 && (
+            <Grid.Row>
+              <Grid.Column width={16} className="userInput">
+                <Message
+                  className="response"
+                  negative
+                >
+                  <Message.Header
+                    content="Please fix the following and try again."
+                  />
+                  <List items={errorMsg} />
+                </Message>
+              </Grid.Column>
+            </Grid.Row>
+          )}
+          {messageFromServer === 'Preference sheet updated!' && (
+            <Grid.Row>
+              <Grid.Column width={16} className="userInput">
+                <Message
+                  className="response"
+                  onDismiss={handleDismiss}
+                  header={messageFromServer}
+                  positive
                 />
-                <List items={errorMsg}/>
-              </Message>
-            </Grid.Column>
-          </Grid.Row>
-        )}
-        {messageFromServer === 'Preference sheet updated!' && (
-          <Grid.Row>
-            <Grid.Column width={16} className="userInput">
-              <Message
-                className="response"
-                onDismiss={handleDismiss}
-                header={messageFromServer}
-                positive
-              />
-            </Grid.Column>
-          </Grid.Row>
-        )}
-      <div ref={el => { this.el = el; }} />
-      </Form>
+              </Grid.Column>
+            </Grid.Row>
+          )}
+          <div ref={(el) => { this.el = el; }} />
+        </Form>
       </div>
     );
-    
   }
 }
 

@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Redirect, Link } from 'react-router-dom';
 import {
-  Grid, Message, Header, Segment, Form, Button, Container, Input, Dimmer, Loader
+  Grid, Message, Header, Segment, Form, Button, Input, Dimmer, Loader,
 } from 'semantic-ui-react';
 import axios from 'axios';
 
@@ -12,11 +13,14 @@ class Login extends React.Component {
     this.state = {
       email: '',
       password: '',
-      showError: false,
       errorMsg: [],
       redirect: false,
       loading: false,
     };
+  }
+
+  static propTypes = {
+    loginUser: PropTypes.func.isRequired,
   }
 
   handleChange = (e, { name, value }) => {
@@ -36,8 +40,8 @@ class Login extends React.Component {
     } = this.props;
 
     this.setState({
-      loading: true
-    })
+      loading: true,
+    });
 
     axios.post('/login', {
       email,
@@ -46,10 +50,9 @@ class Login extends React.Component {
       .then((response) => {
         loginUser(response.data);
         this.setState({
-          showError: false,
           errorMsg: [],
           redirect: true,
-          loading: false
+          loading: false,
         });
       })
       .catch((error) => {
@@ -60,16 +63,14 @@ class Login extends React.Component {
             msgList.push(element.msg);
           });
           this.setState({
-            showError: true,
             errorMsg: msgList,
-            loading: false
+            loading: false,
           });
         } else {
           // bad email or password errors
           this.setState({
-            showError: true,
             errorMsg: [error.response.data],
-            loading: false
+            loading: false,
           });
         }
       });
@@ -79,10 +80,9 @@ class Login extends React.Component {
     const {
       email,
       password,
-      showError,
       errorMsg,
       redirect,
-      loading
+      loading,
     } = this.state;
     if (redirect) {
       return <Redirect to="/profile" />;
@@ -117,13 +117,13 @@ class Login extends React.Component {
                 />
               </Form.Field>
               <div style={{ marginBottom: '1em' }}>
-                 <Link to="/forgot">Forgot your password?</Link>
+                <Link to="/forgot">Forgot your password?</Link>
               </div>
               <Button type="submit" onClick={this.handleSubmit} fluid color="blue">
                 Login
               </Button>
             </Form>
-            {showError === true && errorMsg.length !== 0 && (
+            {errorMsg.length !== 0 && (
               <Message
                 error
                 header="Please fix the following and try again."

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Grid, Message, Form, Button, Dropdown, Input, Image, List
+  Grid, Message, Form, Button, Dropdown, Input, Image, List,
 } from 'semantic-ui-react';
 import axios from 'axios';
 import ImageModal from './ImageModal';
@@ -40,7 +40,6 @@ class UserInfo extends React.Component {
       experience: '',
       image: '',
       messageFromServer: '',
-      showError: false,
       errorMsg: [],
     };
   }
@@ -67,8 +66,11 @@ class UserInfo extends React.Component {
     });
   }
 
-  componentDidUpdate() {
-    this.scrollToBottom();
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.messageFromServer !== prevState.messageFromServer
+      || this.state.errorMsg !== prevState.errorMsg) {
+      this.scrollToBottom();
+    }
   }
 
   scrollToBottom() {
@@ -98,20 +100,17 @@ class UserInfo extends React.Component {
       image,
     })
       .then((response) => {
-        console.log(response.data.message);
         this.setState({
           messageFromServer: response.data.message,
-          showError: false,
           errorMsg: [],
         });
       })
       .catch((error) => {
-        const msgList = []; 
+        const msgList = [];
         error.response.data.errors.forEach((element) => {
           msgList.push(element.msg);
         });
         this.setState({
-          showError: true,
           errorMsg: msgList,
         });
       });
@@ -269,7 +268,7 @@ class UserInfo extends React.Component {
             </Grid.Column>
           </Grid.Row>
         )}
-        <div ref={el => { this.el = el; }} />
+        <div ref={(el) => { this.el = el; }} />
       </Form>
     );
   }

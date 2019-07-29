@@ -15,7 +15,6 @@ class SignUp extends React.Component {
       email: '',
       password: '',
       messageFromServer: '',
-      showError: false,
       errorMsg: [],
     };
   }
@@ -44,7 +43,6 @@ class SignUp extends React.Component {
       .then((response) => {
         this.setState({
           messageFromServer: response.data.message,
-          showError: false,
           errorMsg: [],
         });
       })
@@ -54,7 +52,6 @@ class SignUp extends React.Component {
           msgList.push(element.msg);
         });
         this.setState({
-          showError: true,
           errorMsg: msgList,
         });
       });
@@ -67,7 +64,6 @@ class SignUp extends React.Component {
       email,
       password,
       messageFromServer,
-      showError,
       errorMsg,
     } = this.state;
     if (messageFromServer === '') {
@@ -117,7 +113,7 @@ class SignUp extends React.Component {
             </Form.Field>
             <Button type="submit" onClick={this.handleSubmit}>Register</Button>
           </Form>
-          {showError === true && errorMsg.length !== 0 && (
+          {errorMsg.length !== 0 && (
             <Message
               error
               header="Please fix the following and try again."

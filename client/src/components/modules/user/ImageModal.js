@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Grid, Message, Button, Modal, Header,
+  Grid, Button, Modal, Message,
 } from 'semantic-ui-react';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
@@ -20,10 +20,7 @@ class ImageModal extends React.Component {
   }
 
   static propTypes = {
-    handleImageCrop: PropTypes.func,
-  }
-
-  static defaultProps = {
+    handleImageCrop: PropTypes.func.isRequired,
   }
 
   onChange = (e) => {
@@ -36,11 +33,11 @@ class ImageModal extends React.Component {
       files = e.target.files;
     }
 
-    if (files[0].size > 1024 * 1024 * 25) {
+    if (files[0].size > 1024 * 1024 * 10) {
       this.setState({
         src: null,
         imageSelected: false,
-        validateErr: 'File size cannot be larger than 25 MB.',
+        validateErr: 'File size cannot be larger than 10 MB.',
       });
       e.target.value = null;
       return;
@@ -89,7 +86,7 @@ class ImageModal extends React.Component {
               ref="cropper"
               src={src}
               style={{ height: 300, width: 400 }}
-            // Cropper.js options
+              // Cropper.js options
               aspectRatio={1 / 1}
               guides={false}
               zoomable={false}
@@ -101,7 +98,7 @@ class ImageModal extends React.Component {
           </Grid.Row>
           <Grid.Row>
             <div>
-              <Button color="green" floated="right" onClick={this.cropImage}>Crop</Button>
+              <Button color="green" floafted="right" onClick={this.cropImage}>Crop</Button>
               <Button floated="right" onClick={this.handleClose}>Cancel</Button>
             </div>
           </Grid.Row>
@@ -122,6 +119,12 @@ class ImageModal extends React.Component {
           <Modal.Description>
             <input type="file" name="imageData" accept="image/*" onChange={this.onChange} style={{ paddingBottom: '1.5rem' }} />
             {content}
+            {validateErr === 'File size cannot be larger than 10 MB.' && (
+              <Message
+                header={validateErr}
+                negative
+              />
+            )}
           </Modal.Description>
         </Modal.Content>
       </Modal>

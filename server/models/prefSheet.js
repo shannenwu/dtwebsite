@@ -43,37 +43,50 @@ prefsheetSchema.pre('save', function (next) {
     const err = new Error('error saving prefsheet');
 
     numAccepted = prefsheet.rankedDances.filter(item => item.status === 'accepted').length;
-    if (numAccepted > prefsheet.maxDances) {
+    if (numAccepted > 4) { // max is 4 dances
         return next(err);
     } else {
         next();
     }
 })
 
-// This functions determines if a dancer card is visible to the choreographer, and if it is,
+// This functions determines if a dancer card is actionable to the choreographer, and if it is,
 // return the rank and the status.
-prefsheetSchema.methods.isVisible = function (dance, cb) {
+prefsheetSchema.methods.isActionable = function (dance, cb) {
     var markedReturn = false;
     var foundRank = false;
+    var actionable = false;
     var window = this.maxDances;
 
     var numAccepted = 0;
     var numPending = 0;
     var numReturnBefore = 0; // # of dances marked return preffed before the given dance.
 
-    var rankStatusObj = {};
+    var statsObj = {};
+    var actionableDances = [];
     for (var i = 0; i < this.rankedDances.length; i++) {
         r = this.rankedDances[i];
-        if (window <= 0) {
-            return cb(null, false, rankStatusObj);
-        }
         if (dance.equals(r.dance._id)) {
             foundRank = true;
-            rankStatusObj = { 'rank': i, 'status': r.status };
-            if (r.status === 'accepted' || (window > 0 && r.status === 'pending')) {
-                return cb(null, true, rankStatusObj);
+            statsObj.rank = i;
+            statsObj.status = r.status; // TODO ADD STATS
+
+            if (r.status === 'accepted') {
+                actionable = true;
+                numAccepted += 1;
+                window -= 1;
+                actionableDances.push(r.dance._id);
             } else if (r.status === 'rejected') {
-                return cb(null, false, rankStatusObj);
+                actionable = false;
+            } else if (r.status === 'pending') {
+                if (window > 0) {
+                    actionable = true;
+                    actionableDances.push(r.dance._id);
+                } else {
+                    actionable = false;
+                }
+                numPending += 1;
+                window -= 1;
             } else if (r.status === 'return') {
                 markedReturn = true;
             }
@@ -81,7 +94,11 @@ prefsheetSchema.methods.isVisible = function (dance, cb) {
             if (r.status === 'accepted') {
                 numAccepted += 1;
                 window -= 1;
+                actionableDances.push(r.dance._id);
             } else if (r.status === 'pending') {
+                if (window > 0) {
+                    actionableDances.push(r.dance._id);
+                } 
                 numPending += 1;
                 window -= 1;
             } else if (r.status === 'return') {
@@ -93,17 +110,21 @@ prefsheetSchema.methods.isVisible = function (dance, cb) {
     }
     // The only way to reach this block is if dance was marked as return.
     if (markedReturn) {
-        // A prefsheet will only return if not placed.
+        // A prefsheet will only return if not placed in any other dance.
         if (numAccepted > 0 || numPending > 0) {
-            return cb(null, false, rankStatusObj);
+            actionable = false;
         } else {
             if (window - numReturnBefore > 0) {
-                return cb(null, true, rankStatusObj);
+                actionableDances.push(dance);
+                actionable = true;
             }
         }
     }
-    // Reach this block if given dance was not preffed at all.
-    return cb(null, false); 
+    // Assign stats to stats obj
+    statsObj.numAccepted = numAccepted;
+    statsObj.numPending = numPending;
+    statsObj.actionableDances = actionableDances;
+    return cb(null, actionable, statsObj); 
 };
 
 var Prefsheet = mongoose.model('Prefsheet', prefsheetSchema)

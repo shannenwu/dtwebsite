@@ -188,41 +188,46 @@ app.get('/auditions/:dance_id',
 
                 for (var index in docs) {
                     var doc = docs[index];
-                    doc.isVisible(dance_id, (err, visible, rankStatusObj) => {
-                        if (visible) {
-                            docWithRank = { 'rank': rankStatusObj.rank, 'prefsheet': doc };
-                            if (rankStatusObj.status === 'accepted') {
-                                accepted_docs.push(docWithRank);
-                            } else if (rankStatusObj.status === 'pending') {
-                                pending_docs.push(docWithRank);
-                            } else if (rankStatusObj.status === 'return') {
-                                return_docs.push(docWithRank);
-                            }
+                    doc.isActionable(dance_id, (err, actionable, statsObj) => {
+                        if (err) {
+                            console.log(err);
+                        }
+                        docInfo = { 'stats': statsObj, 'prefsheet': doc, 'actionable': actionable };
+                        if (statsObj.status === 'accepted') {
+                            accepted_docs.push(docInfo);
+                        } else if (statsObj.status === 'pending') {
+                            pending_docs.push(docInfo);
+                        } else if (statsObj.status === 'return') {
+                            return_docs.push(docInfo);
                         }
                     })
                 }
-                // TODO test the sort later.
+                // TODO test the sort 
                 custom = (a, b) => {
-                    return a.rank - b.rank || a.prefsheet.auditionNumber - b.prefsheet.auditionNumber;
+                    return a.stats.rank - b.stats.rank || a.prefsheet.auditionNumber - b.prefsheet.auditionNumber;
                 }
 
                 res.status(200).send({
-                    'accepted': accepted_docs.sort(custom).map(docWithRank => docWithRank.prefsheet),
-                    'pending': pending_docs.sort(custom).map(docWithRank => docWithRank.prefsheet),
-                    'return': return_docs.sort(custom).map(docWithRank => docWithRank.prefsheet)
+                    'accepted': accepted_docs.sort(custom),
+                    'pending': pending_docs.sort(custom),
+                    'return': return_docs.sort(custom)
                 });
             });
     });
 
 
-// Generates audition numbers for ALL prefsheets in the database, including late prefsheets.
+// Performs a status update for the given dance in the given prefsheet.
 app.post('/auditions/:dance_id/:prefsheet_id',
-    // connect.ensureLoggedIn(),
+    connect.ensureLoggedIn(),
     (req, res) => {
         if (!req.user.isAdmin || !req.user.isChoreographer) {
             return res.status(403).send('Unauthorized request.')
         }
 
+        // TODO check if actions are allowed
+        // if (!prevDocInfo.actionable) {
+        //     return res.status(400).send('Unable to take action on this card.');
+        // }
         // TODO validation if choreographer is of this dance
 
         var query = { '_id': req.params.prefsheet_id, 'rankedDances.dance': req.params.dance_id };
@@ -230,20 +235,60 @@ app.post('/auditions/:dance_id/:prefsheet_id',
         var options = { new: true, runValidators: true };
 
         Prefsheet
-        .findOneAndUpdate(query, update, options)
-        .populate('user', 'firstName lastName year')
-        .populate('rankedDances.dance', 'name')
-        .exec((err, doc) => {
-            if (err) {
-                return res.status(400).send('Error updating prefsheet!')
-            }
-            const io = req.app.get('socketio');
-            if (req.body.status === 'accepted') {
-                io.emit('accepted card', doc);
-                return res.status(200).send(doc);
-            }
-        })
+            .findOneAndUpdate(query, update, options)
+            .populate('user', 'firstName lastName year')
+            .populate('rankedDances.dance', 'name')
+            .exec((err, doc) => {
+                if (err) {
+                    return res.status(400).send('Error updating prefsheet!')
+                }
+
+                const newDocInfo = doc.isActionable(dance_id, (err, actionable, statsObj) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                    return { 'stats': statsObj, 'prefsheet': doc, 'actionable': actionable };
+                })
+                // emit to specific dance room
+                const room = 'room_' + req.params.dance_id;
+                const io = req.app.get('socketio');
+                if (req.body.status === 'accepted') {
+                    // TODO accept needs to be green on all relevant cards
+                    io.in(room).emit('accepted card', newDocInfo);
+                    return res.status(200).send(doc);
+                } else if (req.body.status === 'rejected') {
+                    io.in(room).emit('remove card', newDocInfo);
+                    // handle case where this card can be returned if marked
+
+                    // handle case where it goes to the next window
+                    newDances = newDocInfo.stats.actionableDances
+                                .filter(danceId => !req.body.actionableDances.includes(danceId.toString()));
+                    console.log(newDances);
+                    // newDances should usually contain only one new dance unless the database was modified
+                    // during the execution of this call to allow more dances.
+                    newDances.forEach(danceId => {
+                        io.in('room_' + danceId).emit('new pending card', newDocInfo);
+                    })
+                    // io.in(nextRoom).emit('new pending card', newDocInfo);
+                    return res.status(200).send(newDocInfo);
+                }
+            })
     }
 );
+
+// TODO REMOVE LATER FOR TESTING ONLY TO RESET ALL PREFSHEETS IN ACTIVE SHOW
+app.get('/reset',
+    // connect.ensureLoggedIn(),
+    async (req, res) => {
+        var showResponse = await util.getActiveShow();
+        var show_id = showResponse._id;
+
+        const response = await Prefsheet.updateMany({ show: show_id }, {
+            '$set': {
+                'rankedDances.$[].status': 'pending'
+            }
+        })
+        return res.status(200).send({ message: 'prefsheets reset' });
+    });
 
 module.exports = app;

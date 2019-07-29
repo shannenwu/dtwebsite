@@ -7,6 +7,10 @@
   min-width: var(--dancer-card-width);
 }
 
+.dancer-card.inactionable {
+  opacity: 0.5;
+}
+
 .dancer-card .dancer-image {
   text-align: center !important;
 }

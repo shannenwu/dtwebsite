@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
-  List
+  List,
 } from 'semantic-ui-react';
 import '../modules.css';
 
@@ -10,13 +10,13 @@ class ItemStatus extends Component {
     super(props);
 
     this.state = {
-      loading: true
+      loading: true,
     };
   }
 
   static propTypes = {
     rank: PropTypes.number,
-    pref: PropTypes.object
+    pref: PropTypes.object,
   }
 
   static defaultProps = {
@@ -29,12 +29,12 @@ class ItemStatus extends Component {
 
   render() {
     const {
-      loading
+      loading,
     } = this.state;
 
     const {
       rank,
-      pref
+      pref,
     } = this.props;
 
     // if (loading) {
@@ -47,7 +47,12 @@ class ItemStatus extends Component {
     return (
       <List.Item>
         <List.Content className="dance-name">
-          <span className={pref.status}>{rank}. {pref.dance.name}</span>
+          <span className={pref.status}>
+            {rank}
+.
+            {' '}
+            {pref.dance.name}
+          </span>
         </List.Content>
       </List.Item>
 

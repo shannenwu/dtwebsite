@@ -50,7 +50,7 @@ app.post('/:user_id',
                 return true;
             }
         }),
-        check('year').optional().isNumeric().withMessage('Please select a valid graduation year.'),
+        check('year').isNumeric().withMessage('Please select a valid graduation year.'),
         check('livingGroup').optional().isLength({ min: 0, max: 100 }).withMessage('Living group has max character count of 100.'),
         check('experience').optional().isLength({ min: 0, max: 1000 }).withMessage('Experience field has max character count of 1000.'),
     ],

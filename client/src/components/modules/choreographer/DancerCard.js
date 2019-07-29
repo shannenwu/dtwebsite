@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import {
-  Header, Card, Grid, Image, Button, Icon, Dimmer, Loader
+  Header, Card, Grid, Image, Button, Icon, Dimmer, Loader,
 } from 'semantic-ui-react';
 import PrefList from './PrefList';
 import '../modules.css';
@@ -12,17 +12,20 @@ class DancerCard extends Component {
     super(props);
 
     this.state = {
-      loading: true // need? idk
+      loading: true, // need? idk
     };
   }
 
   static propTypes = {
+    isActionable: PropTypes.bool,
     isAccepted: PropTypes.bool,
     isReturn: PropTypes.bool,
-    data: PropTypes.object
+    prefsheet: PropTypes.object.isRequired,
+    stats: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
+    isActionable: true,
     isAccepted: false,
     isReturn: false,
   }
@@ -39,10 +42,12 @@ class DancerCard extends Component {
     } = this.state;
 
     const {
+      isActionable,
       isAccepted,
       isReturn,
       handleStatusUpdate,
-      data
+      prefsheet,
+      stats
     } = this.props;
 
     // if (loading) {
@@ -53,50 +58,58 @@ class DancerCard extends Component {
     //   );
     // }
     return (
-      <Card className="dancer-card">
+      <Card className={`dancer-card ${isActionable ? '' : 'inactionable'}`}>
         <Card.Content>
-          <Header floated="right">{data.auditionNumber}</Header>
-          <Card.Header>{data.user.firstName + " " + data.user.lastName}</Card.Header>
-          <Card.Meta>{data.user.year}</Card.Meta>
-          <Grid stackable centered columns='equal' style={{ minWidth: '100%' }}>
+          <Header floated="right">{prefsheet.auditionNumber}</Header>
+          <Card.Header>{`${prefsheet.user.firstName} ${prefsheet.user.lastName}`}</Card.Header>
+          <Card.Meta>{prefsheet.user.year}</Card.Meta>
+          <Grid stackable centered columns="equal" style={{ minWidth: '100%' }}>
             <Grid.Column className="dancer-image">
-              <Image 
-                size='small' 
-                src={`/profile_images/${data.user._id.toString()}.jpeg`}
+              <Image
+                size="small"
+                src={`/profile_images/${prefsheet.user._id.toString()}.jpeg`}
                 onError={this.addDefaultImage}
               />
             </Grid.Column>
-            <Grid.Column style={{ height: '145px', overflow: 'auto', paddingLeft: '0', marginRight: '14px' }}>
-              <PrefList rankedDances={data.rankedDances} />
+            <Grid.Column style={{
+              height: '145px', overflow: 'auto', paddingLeft: '0', marginRight: '14px',
+            }}
+            >
+              <PrefList rankedDances={prefsheet.rankedDances} />
             </Grid.Column>
           </Grid>
         </Card.Content>
         <Card.Content extra>
-          Max: {data.maxDances}
+          Max:
+          {' '}
+          {prefsheet.maxDances}
           <Button.Group floated="right">
             <Button
-              disabled={isAccepted}
-              icon='check'
-              size='tiny'
-              color='green' 
-              onClick={() => handleStatusUpdate(data._id, 'accepted')}
-            >
-            </Button>
+              disabled={isAccepted || !isActionable}
+              icon="check"
+              size="tiny"
+              color="green"
+              onClick={() => handleStatusUpdate(prefsheet._id, 'accepted', stats.actionableDances)}
+            />
             <Button
-              disabled={isReturn}
-              icon='undo'
-              size='tiny'
-              color='yellow'
-              onClick={() => handleStatusUpdate(data._id, 'return')}
-            >
-            </Button>
+              disabled={
+                isReturn || 
+                !isActionable || 
+                (stats.numAccepted > 0 && stats.status !== 'accepted') ||
+                (stats.numAccepted - 1 > 0 && stats.status === 'accepted')
+              }
+              icon="undo"
+              size="tiny"
+              color="yellow"
+              onClick={() => handleStatusUpdate(prefsheet._id, 'return', stats.actionableDances)}
+            />
             <Button
-              icon='cancel'
-              size='tiny'
-              color='red'
-              onClick={() => handleStatusUpdate(data._id, 'rejected')}
-            >
-            </Button>
+              disabled={!isActionable}
+              icon="cancel"
+              size="tiny"
+              color="red"
+              onClick={() => handleStatusUpdate(prefsheet._id, 'rejected', stats.actionableDances)}
+            />
           </Button.Group>
         </Card.Content>
       </Card>

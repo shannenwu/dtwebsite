@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Grid, Message, Form, Button, Input, List
+  Grid, Message, Form, Button, Input, List,
 } from 'semantic-ui-react';
 import axios from 'axios';
 import './user.css';
@@ -49,7 +49,7 @@ class ConflictsInfo extends React.Component {
     return (
       <div>
         Conflicts!
-        <div ref={el => { this.el = el; }} />
+        <div ref={(el) => { this.el = el; }} />
       </div>
     );
   }
