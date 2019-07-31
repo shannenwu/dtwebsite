@@ -12,11 +12,12 @@ class DancerCard extends Component {
     super(props);
 
     this.state = {
-      loading: true, // need? idk
+      loading: false
     };
   }
 
   static propTypes = {
+    danceObj: PropTypes.object.isRequired,
     isActionable: PropTypes.bool,
     isAccepted: PropTypes.bool,
     isReturn: PropTypes.bool,
@@ -33,19 +34,41 @@ class DancerCard extends Component {
   componentDidMount() {
   }
 
+  componentDidUpdate(prevProps) {
+    if (JSON.stringify(prevProps.prefsheet) !== JSON.stringify(this.props.prefsheet)) {
+      console.log('hello');
+    }
+  }
+
   addDefaultImage = (e) => {
     e.target.src = 'https://react.semantic-ui.com/images/avatar/large/matthew.png';
   }
 
+  handleStatusUpdate = async (prefsheetId, update) => {
+    const { danceObj } = this.props;
+    this.setState({
+      loading: true
+    })
+    const response =
+      await axios.post(`/api/prefsheets/auditions/${danceObj._id}/${prefsheetId}`, {
+        status: update
+      });
+
+    this.setState({
+      loading: false
+    })
+    return response.data; // TODO ERROR HANDLING quick popup
+  }
+
   render() {
     const {
+      loading
     } = this.state;
 
     const {
       isActionable,
       isAccepted,
       isReturn,
-      handleStatusUpdate,
       prefsheet,
       stats
     } = this.props;
@@ -59,6 +82,9 @@ class DancerCard extends Component {
     // }
     return (
       <Card className={`dancer-card ${isActionable ? '' : 'inactionable'}`}>
+        <Dimmer active={loading} inverted>
+          <Loader content='Updating' />
+        </Dimmer>
         <Card.Content>
           <Header floated="right">{prefsheet.auditionNumber}</Header>
           <Card.Header>{`${prefsheet.user.firstName} ${prefsheet.user.lastName}`}</Card.Header>
@@ -67,7 +93,7 @@ class DancerCard extends Component {
             <Grid.Column className="dancer-image">
               <Image
                 size="small"
-                src={`/profile_images/${prefsheet.user._id.toString()}.jpeg`}
+                src={prefsheet.user.imageUrl}
                 onError={this.addDefaultImage}
               />
             </Grid.Column>
@@ -89,26 +115,26 @@ class DancerCard extends Component {
               icon="check"
               size="tiny"
               color="green"
-              onClick={() => handleStatusUpdate(prefsheet._id, 'accepted', stats.actionableDances)}
+              onClick={() => this.handleStatusUpdate(prefsheet._id, 'accepted')}
             />
             <Button
               disabled={
-                isReturn || 
-                !isActionable || 
+                isReturn ||
+                !isActionable ||
                 (stats.numAccepted > 0 && stats.status !== 'accepted') ||
                 (stats.numAccepted - 1 > 0 && stats.status === 'accepted')
               }
               icon="undo"
               size="tiny"
               color="yellow"
-              onClick={() => handleStatusUpdate(prefsheet._id, 'return', stats.actionableDances)}
+              onClick={() => this.handleStatusUpdate(prefsheet._id, 'return')}
             />
             <Button
               disabled={!isActionable}
               icon="cancel"
               size="tiny"
               color="red"
-              onClick={() => handleStatusUpdate(prefsheet._id, 'rejected', stats.actionableDances)}
+              onClick={() => this.handleStatusUpdate(prefsheet._id, 'rejected')}
             />
           </Button.Group>
         </Card.Content>

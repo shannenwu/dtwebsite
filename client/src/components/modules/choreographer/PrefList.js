@@ -16,7 +16,7 @@ class PrefList extends Component {
   }
 
   static propTypes = {
-    rankedDances: PropTypes.array,
+    rankedDances: PropTypes.array.isRequired,
   }
 
   static defaultProps = {

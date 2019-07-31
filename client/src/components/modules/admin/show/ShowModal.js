@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Form, Button, Modal, Input,
+  Form, Button, Modal, Input, Message, List
 } from 'semantic-ui-react';
 import axios from 'axios';
 
@@ -15,6 +15,7 @@ class ShowModal extends React.Component {
       year: '',
       semester: '',
       prefsOpen: false,
+      errorMsg: []
     };
   }
 
@@ -54,23 +55,23 @@ class ShowModal extends React.Component {
       prefsOpen,
     })
       .then((response) => {
-        // this.setState({
-        //   messageFromServer: response.data.message,
-        //   showError: false,
-        //   errorMsg: [],
-        // });
+        this.setState({
+          name: '',
+          description: '',
+          year: '',
+          semester: '',
+          errorMsg: [],
+        });
         handleClose();
       })
       .catch((error) => {
-        console.log(error);
-        // const msgList = [];
-        // error.response.data.errors.forEach((element) => {
-        //   msgList.push(element.msg);
-        // });
-        // this.setState({
-        //   showError: true,
-        //   errorMsg: msgList,
-        // });
+        const msgList = [];
+        error.response.data.errors.forEach((element) => {
+          msgList.push(element.msg);
+        });
+        this.setState({
+          errorMsg: msgList,
+        });
       });
   };
 
@@ -80,6 +81,7 @@ class ShowModal extends React.Component {
       description,
       year,
       semester,
+      errorMsg
     } = this.state;
 
     const {
@@ -138,10 +140,20 @@ class ShowModal extends React.Component {
                   value={description}
                 />
               </Form.Field>
-              <Modal.Actions>
-                <Button color="green" floated="right" onClick={this.handleSubmit}>Save</Button>
-                <Button floated="right" onClick={handleClose}>Cancel</Button>
-              </Modal.Actions>
+              {errorMsg.length !== 0 ? (
+                <Message
+                  className="response"
+                  negative
+                >
+                  <Message.Header content="Please fix the following and try again." />
+                  <List items={errorMsg} />
+                </Message>
+              ) : (
+                  <Modal.Actions>
+                    <Button color="green" floated="right" onClick={this.handleSubmit}>Save</Button>
+                    <Button floated="right" onClick={handleClose}>Cancel</Button>
+                  </Modal.Actions>
+                )}
             </Form>
           </Modal.Content>
         </Modal>

@@ -24,6 +24,10 @@ var userSchema = new mongoose.Schema({
         type: String,
         required: 'password is required'
     },
+    imageUrl: {
+        type: String,
+        default: '/site_images/default-profile.jpeg'
+    },
     gender: {
         type: String,
         trim: true,

@@ -5,7 +5,7 @@ import {
 } from 'semantic-ui-react';
 import axios from 'axios';
 import ShowModal from './ShowModal';
-import './admin.css';
+import './show.css';
 
 class ShowList extends React.Component {
   constructor(props) {

@@ -26,6 +26,10 @@ var danceSchema = new Schema({
     },
     acceptedDancers: {
         type: [{ type: Schema.Types.ObjectId, ref: 'User' }]
+    },
+    selectionComplete: {
+        type: Boolean,
+        default: false
     }
 });
 

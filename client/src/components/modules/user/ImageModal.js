@@ -98,7 +98,7 @@ class ImageModal extends React.Component {
           </Grid.Row>
           <Grid.Row>
             <div>
-              <Button color="green" floafted="right" onClick={this.cropImage}>Crop</Button>
+              <Button color="green" floated="right" onClick={this.cropImage}>Crop</Button>
               <Button floated="right" onClick={this.handleClose}>Cancel</Button>
             </div>
           </Grid.Row>

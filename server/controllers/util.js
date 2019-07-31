@@ -1,12 +1,8 @@
 const Show = require("../models/Show.js");
 
 function getActiveShow() {
-  return Show.find({}).then(shows => {
-    for (let show of shows) {
-      if (show.isActive) {
-        return show;
-      }
-    }
+  return Show.findOne({isActive: true}).then(show => {
+    return show;
   });
 }
 

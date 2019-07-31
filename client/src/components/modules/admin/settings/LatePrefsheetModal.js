@@ -4,7 +4,7 @@ import {
   Modal,
 } from 'semantic-ui-react';
 import axios from 'axios';
-import PrefsheetInfo from '../user/PrefsheetInfo';
+import PrefsheetInfo from '../../user/PrefsheetInfo';
 
 class LatePrefsheetModal extends React.Component {
   constructor(props) {

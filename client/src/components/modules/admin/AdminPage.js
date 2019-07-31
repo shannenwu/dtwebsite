@@ -5,9 +5,9 @@ import {
 } from 'semantic-ui-react';
 import axios from 'axios';
 import io from 'socket.io-client';
-import ShowList from './ShowList';
-import DanceList from './DanceList';
-import ShowSettings from './ShowSettings';
+import ShowList from './show/ShowList';
+import DanceList from './dance/DanceList';
+import ShowSettings from './settings/ShowSettings';
 
 class AdminPage extends React.Component {
   _isMounted = false;

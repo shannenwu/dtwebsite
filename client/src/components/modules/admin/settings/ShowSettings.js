@@ -5,7 +5,6 @@ import {
 } from 'semantic-ui-react';
 import axios from 'axios';
 import LatePrefsheetModal from './LatePrefsheetModal';
-import './admin.css';
 
 class ShowSettings extends React.Component {
   constructor(props) {

@@ -73,10 +73,12 @@ app.post('/:user_id',
                 res.status(403).send('Unauthorized request.');
             } else {
                 var fileName = user._id.toString() + ".jpeg";
-                var imageUrl = publicPath + "/profile_images/" + fileName;
+                var databaseUrl = user.imageUrl;
 
                 // This processes images from the cropper.
                 if (req.body.image.includes('data:image\/png;base64,')) {
+                    imageUrl = publicPath + "/profile_images/" + fileName;
+                    databaseUrl = "/profile_images/" + fileName;
                     var base64Data = req.body.image.replace(/^data:image\/png;base64,/, "");
                     Jimp.read(Buffer.from(base64Data, 'base64'), (err, image) => {
                         if (err) throw err;
@@ -86,6 +88,7 @@ app.post('/:user_id',
                             .write(imageUrl);
                     });
                 }
+                user.imageUrl = databaseUrl;
 
                 user.save((err, newUser) => {
                     res.status(200).send({ message: 'User information updated!' });

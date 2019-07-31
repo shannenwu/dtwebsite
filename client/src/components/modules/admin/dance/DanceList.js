@@ -6,7 +6,6 @@ import {
 import axios from 'axios';
 import io from 'socket.io-client';
 import DanceModal from './DanceModal';
-import './admin.css';
 
 class DanceList extends React.Component {
   _isMounted = false;

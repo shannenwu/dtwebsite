@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import io from 'socket.io-client';
 import {
-  Header, Grid, Button, Card, Icon, Dimmer, Loader,
+  Header, Confirm, Grid, Button, Card, Icon, Dimmer, Loader,
 } from 'semantic-ui-react';
 import DancerCard from './DancerCard';
 
@@ -16,11 +16,11 @@ class DancerSelection extends Component {
     this.socket = io('http://localhost:3000');
 
     this.state = {
+      open: false,
       loading: true,
       danceObj: null,
       acceptedCards: [],
       pendingCards: [],
-      returnCards: [],
       endpoint: 'http://localhost:3000/',
     };
   }
@@ -39,43 +39,8 @@ class DancerSelection extends Component {
     document.title = 'Dancer Selection';
     this.getPrefsheetsAndDance();
 
-    // did not decompose state in order to get most recent one. consider using prevState.
-    this.socket.on('accepted card', (prefObj) => {
-      const newPendingCards = this.state.pendingCards.filter(card => card.prefsheet._id !== prefObj.prefsheet._id);
-      const newAcceptedCards = [prefObj].concat(this.state.acceptedCards);
-      if (this._isMounted) {
-        this.setState({
-          acceptedCards: newAcceptedCards,
-          pendingCards: newPendingCards,
-        });
-      }
-    });
-
-    this.socket.on('remove card', (prefObj) => {
-      const newPendingCards = this.state.pendingCards.filter(card => card.prefsheet._id !== prefObj.prefsheet._id);
-      if (this._isMounted) {
-        this.setState({
-          pendingCards: newPendingCards,
-        });
-      }
-    });
-
-    this.socket.on('new pending card', (prefObj) => {
-      // TODO change colors, not just actionable
-      var newPendingCards = [...this.state.pendingCards];
-      const index = this.state.pendingCards.findIndex(card => card.prefsheet._id === prefObj.prefsheet._id);
-      newPendingCards[index].actionable = true;
-
-      console.log(newPendingCards);
-      if (this._isMounted) {
-        this.setState({
-          pendingCards: newPendingCards,
-        });
-      }
-    });
-    // TODO REMOVE LATER FOR DEBUGGING ONLY
-    this.socket.on('connected to room', (res) => {
-      console.log(res);
+    this.socket.on('updated card', (prefsheet_id) => {
+      this.getUpdatedPrefsheet(prefsheet_id);
     });
   }
 
@@ -88,6 +53,50 @@ class DancerSelection extends Component {
 
   componentWillUnmount() {
     this._isMounted = false;
+  }
+
+  // TODO check if you can optimize
+  getUpdatedPrefsheet = async (prefsheetId) => {
+    const { acceptedCards, pendingCards } = this.state;
+
+    const response = await axios.get(`/api/prefsheets/auditions/${this.props.match.params.danceId}/${prefsheetId}`);
+    const prefObj = response.data;
+
+    // Only update state if it's even possible for this card to be on the page
+    if (prefObj.stats.dancePreffed) {
+      const acceptedIndex = acceptedCards.findIndex(card => card.prefsheet._id === prefObj.prefsheet._id);
+      const pendingIndex = pendingCards.findIndex(card => card.prefsheet._id === prefObj.prefsheet._id);
+
+      var newAcceptedCards = [...acceptedCards];
+      var newPendingCards = [...pendingCards];
+
+      // Update initially performed on pending column
+      if (pendingIndex !== -1) {
+        // Simply update the card in the pending column.
+        if (prefObj.stats.status === 'pending' || prefObj.stats.status === 'return') {
+          newPendingCards.splice(pendingIndex, 1, prefObj);
+        } else if (prefObj.stats.status === 'accepted') {
+          // Remove from pending column and move to accepted column
+          newAcceptedCards = [prefObj].concat(newAcceptedCards);
+          newPendingCards.splice(pendingIndex, 1);
+        } else if (prefObj.stats.status === 'rejected') {
+          newPendingCards.splice(pendingIndex, 1);
+        }
+      } else if (acceptedIndex !== -1) {
+        // Update initially performed on accepted column (return or reject)  
+        // Remove from accepted column
+        newAcceptedCards.splice(acceptedIndex, 1);
+        if (prefObj.stats.status === 'return') {
+          newPendingCards = [prefObj].concat(newPendingCards);
+        }
+      }
+      if (this._isMounted) {
+        this.setState({
+          acceptedCards: newAcceptedCards,
+          pendingCards: newPendingCards,
+        });
+      }
+    }
   }
 
   getPrefsheetsAndDance = async () => {
@@ -103,26 +112,27 @@ class DancerSelection extends Component {
       danceObj: dance,
       acceptedCards: prefsheets.accepted,
       pendingCards: prefsheets.pending,
-      returnCards: prefsheets.return,
       loading: false,
     });
   }
 
-  handleStatusUpdate = async (prefsheetId, update, actionableDances) => {
-    const response =
-      await axios.post(`/api/prefsheets/auditions/${this.props.match.params.danceId}/${prefsheetId}`, {
-        status: update,
-        actionableDances
-      });
-    return response.data; // TODO ERROR HANDLING quick popup
+  show = () => this.setState({ open: true })
+
+  handleConfirm = async () => { 
+    const response = 
+      await axios.get(`/api/prefsheets/auditions/${this.props.match.params.danceId}/reject-remaining`);
+    console.log(response.data);
+    this.setState({ open: false })
   }
+
+  handleCancel = () => this.setState({ open: false })
 
   render() {
     const {
+      open,
       danceObj,
       acceptedCards,
       pendingCards,
-      returnCards,
       loading,
     } = this.state;
 
@@ -137,31 +147,29 @@ class DancerSelection extends Component {
       <div id="dancer-selection">
         <Header as="h1">
           {danceObj.name}
+          <Button floated='right' onClick={this.show}>I'M DONE PICKING</Button>
+          <Confirm 
+            open={open} 
+            onCancel={this.handleCancel} 
+            onConfirm={this.handleConfirm} 
+            content={'This will reject all remaining ' + pendingCards.length + ' dancers. Continue?'}
+          />
         </Header>
         <Grid stackable divided padded columns={2} style={{ height: '100%' }}>
           <Grid.Column className="pending-cards" width={10}>
             <Header as="h3">
               Pending
+              <Header.Subheader>{pendingCards.length + ' dancers pending'}</Header.Subheader>
             </Header>
             <Card.Group>
               {pendingCards.map((card) => (
                 <DancerCard
                   key={card.prefsheet._id}
+                  danceObj={danceObj}
                   isActionable={card.actionable}
+                  isReturn={card.stats.status === 'return'}
                   stats={card.stats}
                   prefsheet={card.prefsheet}
-                  handleStatusUpdate={this.handleStatusUpdate}
-                  loading={loading}
-                />
-              ))}
-              {returnCards.map((card) => (
-                <DancerCard
-                  key={card.prefsheet._id}
-                  isActionable={card.actionable}
-                  stats={card.stats}
-                  isReturn
-                  prefsheet={card.prefsheet}
-                  handleStatusUpdate={this.handleStatusUpdate}
                   loading={loading}
                 />
               ))}
@@ -170,16 +178,17 @@ class DancerSelection extends Component {
           <Grid.Column className="accepted-cards" width={6}>
             <Header as="h3">
               Accepted
+              <Header.Subheader>{acceptedCards.length + ' dancers accepted'}</Header.Subheader>
             </Header>
             <Card.Group>
               {acceptedCards.map((card) => (
                 <DancerCard
                   key={card.prefsheet._id}
+                  danceObj={danceObj}
                   isActionable={card.actionable}
                   stats={card.stats}
                   isAccepted
                   prefsheet={card.prefsheet}
-                  handleStatusUpdate={this.handleStatusUpdate}
                   loading={loading}
                 />
               ))}

@@ -124,6 +124,7 @@ prefsheetSchema.methods.isActionable = function (dance, cb) {
     statsObj.numAccepted = numAccepted;
     statsObj.numPending = numPending;
     statsObj.actionableDances = actionableDances;
+    statsObj.dancePreffed = foundRank;
     return cb(null, actionable, statsObj); 
 };
 

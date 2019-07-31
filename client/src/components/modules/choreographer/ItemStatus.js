@@ -15,8 +15,8 @@ class ItemStatus extends Component {
   }
 
   static propTypes = {
-    rank: PropTypes.number,
-    pref: PropTypes.object,
+    rank: PropTypes.number.isRequired,
+    pref: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
@@ -24,8 +24,6 @@ class ItemStatus extends Component {
 
   componentDidMount() {
   }
-
-  // consider using shouldComponentUpdate(nextProps, nextState)
 
   render() {
     const {
@@ -49,7 +47,7 @@ class ItemStatus extends Component {
         <List.Content className="dance-name">
           <span className={pref.status}>
             {rank}
-.
+            .
             {' '}
             {pref.dance.name}
           </span>
