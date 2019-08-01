@@ -37,7 +37,7 @@ app.post('/',
         check('name').isLength({ min: 1, max: 100 }).withMessage('Name field is required and has max character count of 100.'),
         check('description').optional().isLength({ min: 0, max: 1000 }).withMessage('Description field has max character count of 1000.'),
     ],
-    async (req, res) => {
+    (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(422).send({ errors: errors.array() });

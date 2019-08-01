@@ -98,7 +98,7 @@ prefsheetSchema.methods.isActionable = function (dance, cb) {
             } else if (r.status === 'pending') {
                 if (window > 0) {
                     actionableDances.push(r.dance._id);
-                } 
+                }
                 numPending += 1;
                 window -= 1;
             } else if (r.status === 'return') {
@@ -125,7 +125,53 @@ prefsheetSchema.methods.isActionable = function (dance, cb) {
     statsObj.numPending = numPending;
     statsObj.actionableDances = actionableDances;
     statsObj.dancePreffed = foundRank;
-    return cb(null, actionable, statsObj); 
+    return cb(null, actionable, statsObj);
+};
+
+// This methods returns a comprehensive object of this prefsheet's stats and actionable dances.
+prefsheetSchema.methods.getInfo = function (cb) {
+    var window = this.maxDances;
+
+    var numAccepted = 0;
+    var numPending = 0;
+
+    var statsObj = {};
+    var danceRankStatusObj = {};
+    var actionableDances = [];
+    var markedReturnDances = [];
+    for (var i = 0; i < this.rankedDances.length; i++) {
+        r = this.rankedDances[i];
+        danceRankStatusObj[r.dance._id] = { rank: i, status: r.status };
+        if (r.status === 'accepted') {
+            numAccepted += 1;
+            window -= 1;
+            actionableDances.push(r.dance._id);
+        } else if (r.status === 'pending') {
+            if (window > 0) {
+                actionableDances.push(r.dance._id);
+            }
+            numPending += 1;
+            window -= 1;
+        } else if (r.status === 'return') {
+            markedReturnDances.push(r.dance._id);
+        }
+    }
+    // If any dances marked return for this prefsheet.
+    if (markedReturnDances.length) {
+        // A prefsheet will only return if not placed in any other dance.
+        if (numAccepted <= 0 && numPending <= 0) {
+            // Add the returned dances in order.
+            for (var j = 0; j < Math.min(window, markedReturnDances.length); j++) {
+                dance_id = markedReturnDances[j];
+                actionableDances.push(dance_id);
+            }
+        }
+    }
+    // Assign stats to stats obj
+    statsObj.numAccepted = numAccepted;
+    statsObj.numPending = numPending;
+    statsObj.actionableDances = actionableDances;
+    return cb(null, statsObj, danceRankStatusObj);
 };
 
 var Prefsheet = mongoose.model('Prefsheet', prefsheetSchema)
