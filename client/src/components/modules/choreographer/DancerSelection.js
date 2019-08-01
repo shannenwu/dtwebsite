@@ -22,7 +22,8 @@ class DancerSelection extends Component {
       danceObj: null,
       acceptedCards: [],
       pendingCards: [],
-      lastPendingCard: null,
+      lastPendingCardId: '',
+      hasMore: true,
       endpoint: 'http://localhost:3000/',
     };
   }
@@ -38,14 +39,17 @@ class DancerSelection extends Component {
   async componentDidMount() {
     this._isMounted = true;
     document.title = 'Dancer Selection';
-    
-    const prefsheets = await this.getPrefsheets();
+
+    const prefsheets = await this.getInitialPrefsheets();
     const danceObj = await this.getDance();
 
     this.setState({
       danceObj,
       acceptedCards: prefsheets.accepted,
       pendingCards: prefsheets.pending,
+      // TODO CHECK IF THERE IS ANY PENDING
+      lastPendingCardId: prefsheets.pending[prefsheets.pending.length - 1].prefsheet._id,
+      // hasMore: prefsheets.hasMore,
       loading: false,
     });
 
@@ -54,10 +58,13 @@ class DancerSelection extends Component {
     });
   }
 
+  // TODO test
   componentDidUpdate(prevProps, prevState) {
-    const { danceObj } = this.state;
-    if (danceObj !== prevState.danceObj) {
-      this.socket.emit('room', `room_${danceObj._id}`);
+    const { pendingCards } = this.state;
+    if (pendingCards.length !== prevState.pendingCards.length) {
+      this.setState({
+        lastPendingCardId: pendingCards[pendingCards.length - 1].prefsheet._id
+      })
     }
   }
 
@@ -112,7 +119,25 @@ class DancerSelection extends Component {
     }
   }
 
-  getPrefsheets = async () => {
+  loadMorePrefsheets = async () => {
+    const { pendingCards, lastPendingCardId } = this.state;
+    const prefsheetsResponse = await
+      axios.get(`/api/prefsheets/auditions/${this.props.match.params.danceId}?last_id=${lastPendingCardId}`);
+    const prefsheets = prefsheetsResponse.data;
+    console.log(prefsheets);
+
+    var newPendingCards = [...pendingCards];
+    prefsheets.pending.map(card => {
+      newPendingCards.push(card);
+    });
+
+    this.setState({
+      pendingCards: newPendingCards,
+      hasMore: prefsheets.hasMore
+    })
+  }
+
+  getInitialPrefsheets = async () => {
     const prefsheetsResponse = await
       axios.get(`/api/prefsheets/auditions/${this.props.match.params.danceId}`);
     return prefsheetsResponse.data;
@@ -123,6 +148,7 @@ class DancerSelection extends Component {
     return danceResponse.data;
   }
 
+  // TODO must be rewritten after infinite scroll 
   countActionableCards = () => {
     const { danceObj, pendingCards } = this.state;
 
@@ -153,7 +179,24 @@ class DancerSelection extends Component {
       acceptedCards,
       pendingCards,
       loading,
+      lastPendingCardId,
+      hasMore
     } = this.state;
+
+    var items = [];
+    pendingCards.map((card) => {
+      items.push(
+        <DancerCard
+          key={card.prefsheet._id}
+          danceObj={danceObj}
+          isActionable={card.stats.actionableDances.includes(danceObj._id)}
+          isReturn={card.danceStatuses[danceObj._id].status === 'return'}
+          stats={card.stats}
+          prefsheet={card.prefsheet}
+          loading={loading}
+        />
+      );
+    });
 
     if (loading) {
       return (
@@ -183,17 +226,23 @@ class DancerSelection extends Component {
               </Header.Subheader>
             </Header>
             <Card.Group>
-              {pendingCards.map((card) => (
-                <DancerCard
-                  key={card.prefsheet._id}
-                  danceObj={danceObj}
-                  isActionable={card.stats.actionableDances.includes(danceObj._id)}
-                  isReturn={card.danceStatuses[danceObj._id].status === 'return'}
-                  stats={card.stats}
-                  prefsheet={card.prefsheet}
-                  loading={loading}
-                />
-              ))}
+              <InfiniteScroll
+                loadMore={this.loadMorePrefsheets}
+                hasMore={hasMore}
+                loader={<div className="loader" key={0}>Loading ...</div>}
+              >
+                {pendingCards.map((card) => (
+                  <DancerCard
+                    key={card.prefsheet._id}
+                    danceObj={danceObj}
+                    isActionable={card.stats.actionableDances.includes(danceObj._id)}
+                    isReturn={card.danceStatuses[danceObj._id].status === 'return'}
+                    stats={card.stats}
+                    prefsheet={card.prefsheet}
+                    loading={loading}
+                  />)
+                )}
+              </InfiniteScroll>
             </Card.Group>
           </Grid.Column>
           <Grid.Column className="accepted-cards" width={6}>

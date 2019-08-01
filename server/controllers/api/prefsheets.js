@@ -162,6 +162,7 @@ app.post('/user/:user_id',
     }
 );
 
+// TODO fix.
 // Rejects all pending dancer cards from this dance. Needs to send a socket message.
 app.post('/auditions/reject-remaining/:dance_id',
     connect.ensureLoggedIn(),
@@ -206,7 +207,7 @@ app.post('/auditions/reject-remaining/:dance_id',
     }
 );
 
-
+// Takes in query of last prefsheet_id fetched for scroll purposes.
 // Returns all prefsheets who preffed this dance and have not been rejected.
 app.get('/auditions/:dance_id',
     connect.ensureLoggedIn(),
@@ -259,9 +260,24 @@ app.get('/auditions/:dance_id',
                     return rankA - rankB || a.prefsheet.auditionNumber - b.prefsheet.auditionNumber;
                 }
 
+                accepted_docs.sort(custom);
+                pending_docs.sort(custom);
+
+                if (req.query.last_id) {
+                    var last_id = new ObjectId(req.query.last_id);
+                    var lastFetchedIndex = pending_docs.findIndex(
+                        docInfo => docInfo.prefsheet._id.equals(last_id));
+                    var endIndex = Math.min(lastFetchedIndex + 26, pending_docs.length - 1);
+                    var hasMore = endIndex < pending_docs.length - 1;
+                    pending_docs = pending_docs.slice(lastFetchedIndex + 1, endIndex);
+                } else { // first load 25 elements
+                    pending_docs = pending_docs.slice(0, 25);
+                }
+
                 res.status(200).send({
-                    'accepted': accepted_docs.sort(custom),
-                    'pending': pending_docs.sort(custom),
+                    'accepted': accepted_docs,
+                    'pending': pending_docs,
+                    'hasMore': hasMore
                 });
             });
     }
