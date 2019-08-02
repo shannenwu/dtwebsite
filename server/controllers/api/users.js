@@ -84,7 +84,7 @@ app.post('/:user_id',
                         if (err) throw err;
                         image
                             .resize(512, 512) // resize
-                            .quality(60) // set JPEG quality
+                            .quality(30) // set JPEG quality
                             .write(imageUrl);
                     });
                 }

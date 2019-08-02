@@ -16,8 +16,6 @@
 }
 
 .dance-name {
-  overflow: hidden;
-  text-overflow: ellipsis;
   position: relative;
   height: 24px;
 }
@@ -27,8 +25,9 @@
   border-radius: 10px;
   position: absolute;
   white-space: nowrap;
-  transform: translateX(0);
-  transition: 2s;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 100%;
 }
 
 /* .dance-name span.pending {
@@ -45,8 +44,4 @@
 
 .dance-name span.return {
   background-color: #ffff77;
-}
-
-.dance-name:hover span {
-  transform: translateX(calc(112px - 100%));
 }

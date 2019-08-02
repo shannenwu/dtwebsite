@@ -92,8 +92,7 @@ prefsheetSchema.methods.getInfo = function (cb) {
     // Assign stats to stats obj
     statsObj.numAccepted = numAccepted;
     statsObj.numPending = numPending;
-    statsObj.actionableDances = actionableDances;
-    return cb(null, statsObj, danceRankStatusObj);
+    return cb(null, statsObj, danceRankStatusObj, actionableDances);
 };
 
 var Prefsheet = mongoose.model('Prefsheet', prefsheetSchema)

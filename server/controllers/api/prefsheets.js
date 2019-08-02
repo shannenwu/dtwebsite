@@ -35,7 +35,7 @@ app.post('/generate-audition-numbers',
         Prefsheet.find(query)
             .then(prefsheets => {
                 const max_num = prefsheets.length;
-                var numbers = Array.from({ length: max_num }, (v, k) => k + 1);
+                var numbers = Array.from({ length: max_num }, (_v, k) => k + 1);
                 numbers.sort(() => Math.random() - 0.5);
                 Prefsheet.bulkWrite(
                     prefsheets.map((pref, index) =>
@@ -153,7 +153,7 @@ app.post('/user/:user_id',
         };
 
         Prefsheet.findOneAndUpdate(query, { ...updatedPrefSheetData, ...lateData }, options)
-            .then(prefsheet => {
+            .then(_prefsheet => {
                 res.status(200).send({ message: 'Preference sheet updated!' });
             })
             .catch(err => {
@@ -162,7 +162,6 @@ app.post('/user/:user_id',
     }
 );
 
-// TODO fix.
 // Rejects all pending dancer cards from this dance. Needs to send a socket message.
 app.post('/auditions/reject-remaining/:dance_id',
     connect.ensureLoggedIn(),
@@ -188,22 +187,72 @@ app.post('/auditions/reject-remaining/:dance_id',
                     console.log(err);
                     return res.status(400).send('Error finding updated prefsheets!')
                 }
+                const updatedDocs = {};
                 docs.forEach(doc => {
-                    doc.getInfo((err, statsObj, danceRankStatusObj) => {
+                    doc.getInfo((err, statsObj, danceRankStatusObj, actionableDances) => {
                         if (err) {
                             console.log(err);
                         }
                         docInfo = {
-                            'stats': statsObj,
                             'prefsheet': doc,
-                            'danceStatuses': danceRankStatusObj
+                            'stats': statsObj,
+                            'danceStatuses': danceRankStatusObj,
+                            'actionableDances': actionableDances
                         };
-                        const io = req.app.get('socketio');
-                        io.emit('updated card', docInfo);
+                        updatedDocs[doc._id] = docInfo;
                     })
                 })
+                const io = req.app.get('socketio');
+                io.emit('bulk update cards', updatedDocs);
                 return res.status(200).send(docs);
             })
+    }
+);
+
+// Returns count of actionable and pending.
+app.get('/auditions/get-count/:dance_id',
+    connect.ensureLoggedIn(),
+    async (req, res) => {
+        if (!req.user.isAdmin || !req.user.isChoreographer) {
+            return res.status(403).send('Unauthorized request.')
+        }
+
+        var showResponse = await util.getActiveShow();
+        var show_id = showResponse._id;
+        var dance_id = new ObjectId(req.params.dance_id);
+
+        var query = {
+            'show': show_id,
+            'rankedDances': { '$elemMatch': { 'dance': req.params.dance_id, 'status': { '$in': ['pending', 'return'] } } }
+        }
+        // Return prefsheets in the active show who have preffed this dance.
+        Prefsheet
+            .find(query, (err, docs) => {
+                if (err) {
+                    console.log(err);
+                }
+
+                var pendingCount = 0;
+                var actionableCount = 0;
+                docs.forEach(doc => {
+                    doc.getInfo((err, _statsObj, _danceRankStatusObj, actionableDances) => {
+                        if (err) {
+                            console.log(err);
+                        }
+                        pendingCount += 1;
+                        
+                        var actionable = actionableDances.some((id) => {
+                            return id.equals(dance_id);
+                        });
+                        actionableCount += actionable ? 1 : 0;
+                    })
+                });
+
+                res.status(200).send({
+                    'pendingCount': pendingCount,
+                    'actionableCount': actionableCount
+                });
+            });
     }
 );
 
@@ -234,15 +283,16 @@ app.get('/auditions/:dance_id',
                 accepted_docs = [];
                 pending_docs = [];
                 docs.forEach(doc => {
-                    doc.getInfo((err, statsObj, danceRankStatusObj) => {
+                    doc.getInfo((err, statsObj, danceRankStatusObj, actionableDances) => {
                         if (err) {
                             console.log(err);
                         }
 
                         docInfo = {
-                            'stats': statsObj,
                             'prefsheet': doc,
-                            'danceStatuses': danceRankStatusObj
+                            'stats': statsObj,
+                            'danceStatuses': danceRankStatusObj,
+                            'actionableDances': actionableDances
                         };
 
                         if (danceRankStatusObj[req.params.dance_id].status === 'accepted') {
@@ -309,14 +359,15 @@ app.post('/auditions/:dance_id/:prefsheet_id',
                 if (err) {
                     return res.status(400).send('Error updating prefsheet!')
                 }
-                doc.getInfo((err, statsObj, danceRankStatusObj) => {
+                doc.getInfo((err, statsObj, danceRankStatusObj, actionableDances) => {
                     if (err) {
                         console.log(err);
                     }
                     docInfo = {
-                        'stats': statsObj,
                         'prefsheet': doc,
-                        'danceStatuses': danceRankStatusObj
+                        'stats': statsObj,
+                        'danceStatuses': danceRankStatusObj,
+                        'actionableDances': actionableDances
                     };
                 })
 
