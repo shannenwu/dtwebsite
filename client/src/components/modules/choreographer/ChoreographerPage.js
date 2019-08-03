@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import {
   Link,
 } from 'react-router-dom';
-import axios from 'axios';
 import {
-  Header, List, Image, Button, Icon, Dimmer, Loader,
+  Header, List, Button, Icon, Dimmer, Loader,
 } from 'semantic-ui-react';
 
 class ChoreographerPage extends Component {
@@ -66,10 +65,11 @@ class ChoreographerPage extends Component {
         <List divided relaxed verticalAlign="middle" size="big">
           {dances.map((dance, index) => {
             const selectionLink = `/choreographer/${dance._id}`;
+            const timeLink = `/time/${dance._id}`;
             return (
               <List.Item key={index}>
                 <Link to="/about" style={{ float: 'right' }}><Icon link name="address book" /></Link>
-                <Link to="/about" style={{ float: 'right' }}><Icon link name="calendar alternate outline" /></Link>
+                <Link to={timeLink} style={{ float: 'right' }}><Icon link name="calendar alternate outline" /></Link>
                 <Link to={selectionLink} style={{ float: 'right' }}><Icon link name="edit outline" /></Link>
                 <List.Content>
                   {dance.name}

@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  List, Popup
-} from 'semantic-ui-react';
-import '../modules.css';
-
+import { List, Popup } from 'semantic-ui-react';
+import './card.css';
 class ItemStatus extends Component {
   constructor(props) {
     super(props);

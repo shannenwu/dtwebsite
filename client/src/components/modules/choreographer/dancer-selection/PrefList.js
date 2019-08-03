@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  List,
-} from 'semantic-ui-react';
+import { List } from 'semantic-ui-react';
 import ItemStatus from './ItemStatus';
-import '../modules.css';
+import './card.css';
 
 class PrefList extends Component {
   constructor(props) {

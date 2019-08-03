@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
   Header, Grid, Card, Button, Placeholder,
 } from 'semantic-ui-react';
-import '../modules.css';
+import './card.css';
 
 class DancerCardPlaceHolder extends Component {
   render() {

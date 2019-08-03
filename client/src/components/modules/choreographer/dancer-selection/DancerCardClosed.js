@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Header, Card, Button, Dimmer, Loader,
+  Header, Card, Dimmer, Loader,
 } from 'semantic-ui-react';
-import '../modules.css';
+import './card.css';
 
 class DancerCardClosed extends Component {
   _isMounted = false;

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import DancerCardOpen from './DancerCardOpen';
 import DancerCardClosed from './DancerCardClosed';
-import '../modules.css';
+import './card.css';
 
 class DancerCard extends Component {
   _isMounted = false;

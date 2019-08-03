@@ -1,0 +1,47 @@
+.pending-cards {
+  min-width: var(--dancer-card-width);
+}
+
+.dancer-card .ui.card,
+.ui.cards > .card {
+  min-width: var(--dancer-card-width);
+}
+
+.dancer-card.inactionable {
+  opacity: 0.5;
+}
+
+.dancer-card .dancer-image {
+  text-align: center !important;
+}
+
+.dance-name {
+  position: relative;
+  height: 24px;
+}
+
+.dance-name span {
+  padding: 5px;
+  border-radius: 10px;
+  position: absolute;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 100%;
+}
+
+/* .dance-name span.pending {
+    background-color: lightskyblue;
+  } */
+
+.dance-name span.accepted {
+  background-color: palegreen;
+}
+
+.dance-name span.rejected {
+  background-color: lightpink;
+}
+
+.dance-name span.return {
+  background-color: #ffff77;
+}

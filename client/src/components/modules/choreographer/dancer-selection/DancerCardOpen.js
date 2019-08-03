@@ -5,7 +5,7 @@ import {
   Header, Card, Grid, Image, Button, Dimmer, Loader,
 } from 'semantic-ui-react';
 import PrefList from './PrefList';
-import '../modules.css';
+import './card.css';
 
 class DancerCardOpen extends Component {
   _isMounted = false;

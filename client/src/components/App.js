@@ -15,7 +15,8 @@ import ChoreographerPage from './modules/choreographer/ChoreographerPage';
 import ForgotPassword from './pages/auth/ForgotPassword';
 import ResetPassword from './pages/auth/ResetPassword';
 import NavBar from './modules/Navbar';
-import DancerSelection from './modules/choreographer/DancerSelection';
+import DancerSelection from './modules/choreographer/dancer-selection/DancerSelection';
+import TimeSelection from './modules/choreographer/time/TimeSelection';
 import '../css/app.css';
 
 const PrivateRoute = ({
@@ -176,6 +177,14 @@ class App extends React.Component {
                 loading={loading}
                 userInfo={userInfo}
                 component={DancerSelection}
+              />
+              <PrivateRoute
+                exact
+                path="/time/:danceId"
+                authed={userInfo && userInfo.isChoreographer}
+                loading={loading}
+                userInfo={userInfo}
+                component={TimeSelection}
               />
               <PrivateRoute
                 exact
