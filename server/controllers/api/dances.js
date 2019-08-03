@@ -6,14 +6,26 @@ const path = require('path');
 // Router added at "/api"
 const app = express.Router();
 
-// Import Dance, User Schema
+// Import Dance Schema
 const Dance = require('../../models/Dance.js');
 
 const { check, validationResult } = require('express-validator/check');
 
-// This file handles paths to modify dances. These routes are prefixed by /api/dances/{ENDPOINT}
+// This file handles paths to get/modify dances. These routes are prefixed by /api/dances/{ENDPOINT}
 
-// TODO VALIDATION LATER
+// TODO VALIDATION LATER VERY IMPORTANT FOLLOW PREFSHEET STRUCTURE
+// Returns accepted dancers in this dance.
+app.get('/accepted-dancers/:dance_id', (req, res) => {
+    Dance
+        .findById(req.params.dance_id)
+        .populate('acceptedDancers', 'firstName lastName year email')
+        .exec((err, doc) => {
+            if (err) {
+                console.log(err);
+            }
+            res.send(doc);
+        });
+});
 
 app.get('/:dance_id', (req, res) => {
     Dance.findById(req.params.dance_id, (err, doc) => {

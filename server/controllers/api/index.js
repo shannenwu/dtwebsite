@@ -24,6 +24,7 @@ app.get('/whoami', (req, res) => {
 app.use('/users', require('./users'));
 app.use('/shows', require('./shows'));
 app.use('/dances', require('./dances'));
+app.use('/auditions', require('./auditions'));
 app.use('/prefsheets', require('./prefsheets'));
 app.use('/permissions', require('./permissions'));
 

@@ -212,14 +212,12 @@ class AdminPage extends React.Component {
   }
 
   generateAuditionNumbers = () => {
-    axios.post('/api/prefsheets/generate-audition-numbers/')
+    axios.post('/api/auditions/generate-audition-numbers/')
       .then(
-        response =>
-        // this.setState({
-        //   // TODO: some success message.
-        // });
-          response
-        ,
+        response => {
+          // TODO success message
+          console.log(response);
+        }
       );
   }
 
@@ -266,12 +264,7 @@ class AdminPage extends React.Component {
             />
           </Grid.Column>
           <Grid.Column stretched>
-            <Grid.Row style={{ height: '50%' }}>
-              <Header as="h3">
-                Dancers
-              </Header>
-            </Grid.Row>
-            <Grid.Row style={{ height: '50%' }}>
+            <Grid.Row>
               <ShowSettings
                 activeShow={activeShow}
                 setActiveShow={this.setActiveShow}

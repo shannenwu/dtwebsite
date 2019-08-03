@@ -17,6 +17,7 @@ import ResetPassword from './pages/auth/ResetPassword';
 import NavBar from './modules/Navbar';
 import DancerSelection from './modules/choreographer/dancer-selection/DancerSelection';
 import TimeSelection from './modules/choreographer/time/TimeSelection';
+import DancerList from './modules/choreographer/dancer-list/DancerList';
 import '../css/app.css';
 
 const PrivateRoute = ({
@@ -108,6 +109,15 @@ class App extends React.Component {
     }
   }
 
+  getSingleDance = async (danceId) => {
+    try {
+      const danceResponse = await axios.get(`/api/dances/${danceId}`);
+      return danceResponse;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   getDanceOptions = (dances) => {
     const danceOptions = dances.map((dance, index) => {
       const levelStyle = `${dance.level} ${dance.style}`;
@@ -172,10 +182,11 @@ class App extends React.Component {
               />
               <PrivateRoute
                 exact
-                path="/choreographer/:danceId"
+                path="/selection/:danceId"
                 authed={userInfo && userInfo.isChoreographer}
                 loading={loading}
                 userInfo={userInfo}
+                getSingleDance={this.getSingleDance}
                 component={DancerSelection}
               />
               <PrivateRoute
@@ -184,7 +195,16 @@ class App extends React.Component {
                 authed={userInfo && userInfo.isChoreographer}
                 loading={loading}
                 userInfo={userInfo}
+                getSingleDance={this.getSingleDance}
                 component={TimeSelection}
+              />
+              <PrivateRoute
+                exact
+                path="/list/:danceId"
+                authed={userInfo && userInfo.isChoreographer}
+                loading={loading}
+                userInfo={userInfo}
+                component={DancerList}
               />
               <PrivateRoute
                 exact

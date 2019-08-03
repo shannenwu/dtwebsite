@@ -118,6 +118,9 @@ class ShowSettings extends React.Component {
             onConfirm={this.handleConfirmChoreographers}
           />
         </Grid.Row>
+        <Grid.Row>
+          <Button onClick={() => setActiveShow(selectedShow._id)}>View All Prefsheets</Button>
+        </Grid.Row>
       </div>
     );
   }

@@ -4,7 +4,7 @@ import {
   Link,
 } from 'react-router-dom';
 import {
-  Header, List, Button, Icon, Dimmer, Loader,
+  Header, List, Button, Dimmer, Loader,
 } from 'semantic-ui-react';
 
 class ChoreographerPage extends Component {
@@ -62,18 +62,50 @@ class ChoreographerPage extends Component {
         <Header as="h1">
           Choreographer
         </Header>
-        <List divided relaxed verticalAlign="middle" size="big">
+        <List selection divided relaxed verticalAlign="middle" size="big">
           {dances.map((dance, index) => {
-            const selectionLink = `/choreographer/${dance._id}`;
+            const selectionLink = `/selection/${dance._id}`;
             const timeLink = `/time/${dance._id}`;
+            const listLink = `/list/${dance._id}`;
+            var buttons = (
+              <Button
+                basic
+                color='teal'
+                floated='right'
+                content='Selection'
+                as={Link}
+                to={selectionLink}
+              />
+            );
+            if (dance.selectionComplete) {
+              buttons = (
+                <React.Fragment>
+                  <Button
+                    basic
+                    color='teal'
+                    floated='right'
+                    content='Dancer List'
+                    as={Link}
+                    to={listLink}
+                  />
+                  <Button
+                    basic
+                    color='teal'
+                    floated='right'
+                    content='Availabilities'
+                    as={Link}
+                    to={timeLink}
+                  />
+                </React.Fragment>);
+            }
             return (
               <List.Item key={index}>
-                <Link to="/about" style={{ float: 'right' }}><Icon link name="address book" /></Link>
-                <Link to={timeLink} style={{ float: 'right' }}><Icon link name="calendar alternate outline" /></Link>
-                <Link to={selectionLink} style={{ float: 'right' }}><Icon link name="edit outline" /></Link>
-                <List.Content>
-                  {dance.name}
-                </List.Content>
+                {buttons}
+                <List.Header>
+                  <List.Content verticalAlign='middle'>
+                    {dance.name}
+                  </List.Content>
+                </List.Header>
               </List.Item>
             );
           })}

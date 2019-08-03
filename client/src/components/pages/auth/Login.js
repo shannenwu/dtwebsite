@@ -88,14 +88,16 @@ class Login extends React.Component {
       return <Redirect to="/profile" />;
     }
     return (
-      <Grid padded centered columns={2}>
+      <Grid padded centered>
         <Dimmer active={loading} inverted>
           <Loader />
         </Dimmer>
-        <Grid.Column>
-          <Header as="h1">
-            Welcome Back!
-          </Header>
+        <Grid.Column width={8}>
+          <Header 
+            as="h1" 
+            content='Welcome Back!'
+            style={{textAlign: 'center'}}
+          />
           <Segment>
             <Form>
               <Form.Field>

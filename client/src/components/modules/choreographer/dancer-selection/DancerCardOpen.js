@@ -54,7 +54,7 @@ class DancerCardOpen extends Component {
       })
     }
     const response =
-      await axios.post(`/api/prefsheets/auditions/${danceObj._id}/${prefsheetId}`, {
+      await axios.post(`/api/auditions/${danceObj._id}/${prefsheetId}`, {
         status: update
       });
     

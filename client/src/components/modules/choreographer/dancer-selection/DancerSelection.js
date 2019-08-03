@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import io from 'socket.io-client';
 import {
@@ -28,12 +29,14 @@ class DancerSelection extends Component {
       hideInactionable: false,
       totalActionableCount: 0,
       totalPendingCount: 0,
+      redirect: false,
       endpoint: 'http://localhost:3000/',
     };
   }
 
   static propTypes = {
     userInfo: PropTypes.object,
+    getSingleDance: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -44,15 +47,17 @@ class DancerSelection extends Component {
     this._isMounted = true;
     document.title = 'Dancer Selection';
 
+    const { getSingleDance } = this.props;
+
     const prefsheets = await this.getInitialPrefsheets();
-    const danceObj = await this.getDance();
     const countObj = await this.getCount();
+    const danceResponse = await getSingleDance(this.props.match.params.danceId);
 
     const lastId =
       prefsheets.pending.length ? prefsheets.pending[prefsheets.pending.length - 1].prefsheet._id : ''
 
     this.setState({
-      danceObj,
+      danceObj: danceResponse.data,
       acceptedCards: prefsheets.accepted,
       pendingCards: prefsheets.pending,
       lastPendingCardId: lastId,
@@ -71,7 +76,6 @@ class DancerSelection extends Component {
     });
 
     this.socket.on('bulk update cards', (docsObj) => {
-      console.log("no")
       this.bulkUpdatePrefsheets(docsObj);
     })
   }
@@ -165,7 +169,7 @@ class DancerSelection extends Component {
   loadMorePrefsheets = async () => {
     const { pendingCards, lastPendingCardId } = this.state;
     const prefsheetsResponse = await
-      axios.get(`/api/prefsheets/auditions/${this.props.match.params.danceId}?last_id=${lastPendingCardId}`);
+      axios.get(`/api/auditions/${this.props.match.params.danceId}?last_id=${lastPendingCardId}`);
     const prefsheets = prefsheetsResponse.data;
 
     var newPendingCards = [...pendingCards];
@@ -181,18 +185,13 @@ class DancerSelection extends Component {
 
   getInitialPrefsheets = async () => {
     const prefsheetsResponse = await
-      axios.get(`/api/prefsheets/auditions/${this.props.match.params.danceId}`);
+      axios.get(`/api/auditions/${this.props.match.params.danceId}`);
     return prefsheetsResponse.data;
-  }
-
-  getDance = async () => {
-    const danceResponse = await axios.get(`/api/dances/${this.props.match.params.danceId}`);
-    return danceResponse.data;
   }
 
   getCount = async () => {
     const countResponse =
-      await axios.get(`/api/prefsheets/auditions/get-count/${this.props.match.params.danceId}`);
+      await axios.get(`/api/auditions/get-count/${this.props.match.params.danceId}`);
     return countResponse.data;
   }
 
@@ -201,8 +200,12 @@ class DancerSelection extends Component {
   handleConfirm = async () => {
     try {
       const response =
-        await axios.post(`/api/prefsheets/auditions/reject-remaining/${this.props.match.params.danceId}`);
-      this.setState({ open: false })
+        await axios.post(`/api/auditions/finish-selection/${this.props.match.params.danceId}`);
+      console.log(response.data);
+      this.setState({ 
+        open: false,
+        redirect: true
+      })
     } catch (error) {
       console.log(error);
     }
@@ -222,7 +225,8 @@ class DancerSelection extends Component {
       hasMore,
       hideInactionable,
       totalPendingCount,
-      totalActionableCount
+      totalActionableCount,
+      redirect
     } = this.state;
 
     var items = [];
@@ -247,6 +251,10 @@ class DancerSelection extends Component {
         </Dimmer>
       );
     }
+    if (redirect) {
+      const listLink = `/list/${danceObj._id}`;
+      return <Redirect to={listLink} />;
+    }
     return (
       <div id="dancer-selection">
         <Header as="h1">
@@ -270,9 +278,9 @@ class DancerSelection extends Component {
                 style={{ float: 'right' }}
               />
               Pending
-              <Header.Subheader>
-                {totalActionableCount + ' / ' + totalPendingCount + ' dancers pending'}
-              </Header.Subheader>
+              <Header.Subheader
+                content={totalActionableCount + ' / ' + totalPendingCount + ' dancers pending'}
+              />
             </Header>
             <InfiniteScroll
               className={'ui cards'}
@@ -312,7 +320,9 @@ class DancerSelection extends Component {
           <Grid.Column className="accepted-cards" width={6}>
             <Header as="h3">
               Accepted
-              <Header.Subheader>{acceptedCards.length + ' dancers accepted'}</Header.Subheader>
+              <Header.Subheader 
+                content={acceptedCards.length + ' dancers accepted'}
+              />
             </Header>
             <Card.Group>
               {acceptedCards.map((card) => (
