@@ -21,6 +21,9 @@ var showSchema = new Schema({
     prefsOpen: {
         type: Boolean
     },
+    prodConflictsOpen: {
+        type: Boolean
+    },
     date: {
         type: Date,
         required: 'date required to sort shows by time'

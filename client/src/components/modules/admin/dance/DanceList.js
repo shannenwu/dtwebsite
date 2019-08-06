@@ -57,8 +57,8 @@ class DanceList extends React.Component {
       <div>
         <Header as="h3">
           Dances
+          <Icon link name="add" onClick={this.handleOpen}/>
         </Header>
-        <div onClick={this.handleOpen}><Icon link name="add" /></div>
         <DanceModal userOptions={userOptions} open={modalOpen} handleClose={this.handleClose} show={selectedShow} />
         {dances.map(danceObj => (
           <Card

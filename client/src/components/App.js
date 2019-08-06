@@ -10,6 +10,7 @@ import About from './pages/static/About';
 import SignUp from './pages/auth/SignUp';
 import Login from './pages/auth/Login';
 import AdminPage from './modules/admin/AdminPage';
+import AllPrefsheets from './modules/admin/settings/AllPrefsheets';
 import ProfilePage from './modules/user/ProfilePage';
 import ChoreographerPage from './modules/choreographer/ChoreographerPage';
 import ForgotPassword from './pages/auth/ForgotPassword';
@@ -173,7 +174,7 @@ class App extends React.Component {
               <PrivateRoute
                 exact
                 path="/choreographer"
-                authed={userInfo && userInfo.isChoreographer}
+                authed={userInfo && (userInfo.isChoreographer || userInfo.isAdmin)}
                 loading={loading}
                 userInfo={userInfo}
                 getActiveShow={this.getActiveShow}
@@ -183,7 +184,7 @@ class App extends React.Component {
               <PrivateRoute
                 exact
                 path="/selection/:danceId"
-                authed={userInfo && userInfo.isChoreographer}
+                authed={userInfo && (userInfo.isChoreographer || userInfo.isAdmin)}
                 loading={loading}
                 userInfo={userInfo}
                 getSingleDance={this.getSingleDance}
@@ -192,7 +193,7 @@ class App extends React.Component {
               <PrivateRoute
                 exact
                 path="/time/:danceId"
-                authed={userInfo && userInfo.isChoreographer}
+                authed={userInfo && (userInfo.isChoreographer || userInfo.isAdmin)}
                 loading={loading}
                 userInfo={userInfo}
                 getSingleDance={this.getSingleDance}
@@ -201,7 +202,7 @@ class App extends React.Component {
               <PrivateRoute
                 exact
                 path="/list/:danceId"
-                authed={userInfo && userInfo.isChoreographer}
+                authed={userInfo && (userInfo.isChoreographer || userInfo.isAdmin)}
                 loading={loading}
                 userInfo={userInfo}
                 component={DancerList}
@@ -216,6 +217,14 @@ class App extends React.Component {
                 getDances={this.getDances}
                 getDanceOptions={this.getDanceOptions}
                 component={AdminPage}
+              />
+              <PrivateRoute
+                exact
+                path="/all-prefsheets"
+                authed={userInfo && userInfo.isAdmin}
+                loading={loading}
+                userInfo={userInfo}
+                component={AllPrefsheets}
               />
             </Switch>
           </div>

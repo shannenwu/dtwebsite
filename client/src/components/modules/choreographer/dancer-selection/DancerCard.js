@@ -21,13 +21,17 @@ class DancerCard extends Component {
     isAccepted: PropTypes.bool,
     isReturn: PropTypes.bool,
     prefsheet: PropTypes.object.isRequired,
-    stats: PropTypes.object.isRequired,
+    stats: PropTypes.object,
+    viewOnly: PropTypes.bool
   }
 
   static defaultProps = {
+    danceObj: {_id: ''},
     isActionable: true,
     isAccepted: false,
     isReturn: false,
+    stats: { numAccepted: 0 },
+    viewOnly: false
   }
 
   componentDidMount() {
@@ -61,7 +65,8 @@ class DancerCard extends Component {
       isAccepted,
       isReturn,
       prefsheet,
-      stats
+      stats,
+      viewOnly
     } = this.props;
 
     if (!cardOpen) {
@@ -82,6 +87,7 @@ class DancerCard extends Component {
         prefsheet={prefsheet}
         stats={stats}
         toggleCard={this.toggleCard}
+        viewOnly={viewOnly}
       />
     )
   }

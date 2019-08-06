@@ -6,11 +6,11 @@ const path = require('path');
 const app = express.Router();
 
 // Import User Schema
-const User = require('../models/User.js');
+const User = require('../../models/User.js');
 
 const { check, validationResult } = require('express-validator/check');
 
-const publicPath = path.resolve(__dirname, '..', '..', 'client', 'dist');
+const publicPath = path.resolve(__dirname, '../../../', 'client', 'dist');
 
 app.get('/reset/:resetPasswordToken', (req, res) => {
     var resetPasswordToken = req.params.resetPasswordToken;

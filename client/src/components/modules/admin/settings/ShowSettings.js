@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import {
   Grid, Header, Button, Loader, Checkbox, Icon, Confirm,
 } from 'semantic-ui-react';
@@ -83,14 +84,14 @@ class ShowSettings extends React.Component {
     return (
       <div>
         <Header as="h3">
-            Show Settings
+          Show Settings
         </Header>
         <Grid.Row>
-            Preference Sheets
+          Preference Sheets
           <Checkbox onClick={() => togglePrefs()} checked={prefsOpen} toggle />
         </Grid.Row>
         <Grid.Row>
-            Audition Numbers
+          Audition Numbers
           <Button onClick={this.showAuditionNumConfirmation}>Generate</Button>
           <Confirm
             open={confirmAuditionNumOpen}
@@ -104,8 +105,8 @@ class ShowSettings extends React.Component {
           <Button onClick={() => setActiveShow(selectedShow._id)}>Set selected as active show</Button>
         </Grid.Row>
         <Grid.Row>
-            Late Preference Sheets
-          <div onClick={this.handleOpen}><Icon link name="add" /></div>
+          Late Preference Sheets
+          <Icon onClick={this.handleOpen} link name="add" />
           <LatePrefsheetModal userOptions={userOptions} danceOptions={danceOptions} open={latePrefOpen} handleClose={this.handleClose} activeShow={activeShow} />
         </Grid.Row>
         <Grid.Row>
@@ -119,7 +120,31 @@ class ShowSettings extends React.Component {
           />
         </Grid.Row>
         <Grid.Row>
-          <Button onClick={() => setActiveShow(selectedShow._id)}>View All Prefsheets</Button>
+          <Button
+            content='View All Prefsheets'
+            as={Link}
+            to={'/all-prefsheets'}
+          />
+        </Grid.Row>
+        <Grid.Row>
+          <Button icon size='small' download href={`/reports/master-dances`}>
+            <Icon name='download' /> Download dance descriptions
+          </Button>
+        </Grid.Row>
+        <Grid.Row>
+          <Button icon size='small' download href={`/reports/master-assignments`}>
+            <Icon name='download' /> Download audition assignments
+          </Button>
+        </Grid.Row>
+        <Grid.Row>
+          <Button icon size='small' download href={`/reports/dance-audition-sheets`}>
+            <Icon name='download' /> Download dance audition sheets
+          </Button>
+        </Grid.Row>
+        <Grid.Row>
+          <Button icon size='small' download href={`/reports/master-final`}>
+            <Icon name='download' /> Download master dancer list
+          </Button>
         </Grid.Row>
       </div>
     );

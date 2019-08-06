@@ -299,7 +299,6 @@ class DancerSelection extends Component {
                       isReturn={card.danceStatuses[danceObj._id].status === 'return'}
                       stats={card.stats}
                       prefsheet={card.prefsheet}
-                      loading={loading}
                     />)
                   )
               ) : (
@@ -311,7 +310,6 @@ class DancerSelection extends Component {
                       isReturn={card.danceStatuses[danceObj._id].status === 'return'}
                       stats={card.stats}
                       prefsheet={card.prefsheet}
-                      loading={loading}
                     />)
                   )
                 )}
@@ -333,7 +331,6 @@ class DancerSelection extends Component {
                   stats={card.stats}
                   isAccepted
                   prefsheet={card.prefsheet}
-                  loading={loading}
                 />
               ))}
             </Card.Group>

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {
   Grid, Message, Form, Button, Input, List,
 } from 'semantic-ui-react';
+import ScheduleSelector from 'react-schedule-selector';
 import axios from 'axios';
 import './user.css';
 
@@ -12,6 +13,7 @@ class ConflictsInfo extends React.Component {
     super(props);
 
     this.state = {
+      schedule: [],
       messageFromServer: '',
       showError: false,
       errorMsg: [],
@@ -36,6 +38,12 @@ class ConflictsInfo extends React.Component {
     this.scrollToBottom();
   }
 
+  handleChange = (newSchedule) => {
+    this.setState({
+      schedule: newSchedule
+    });
+  }
+
   scrollToBottom() {
     this.el.scrollIntoView({ behavior: 'smooth' });
   }
@@ -45,10 +53,25 @@ class ConflictsInfo extends React.Component {
       errorMsg,
       messageFromServer,
     } = this.state;
+    const dummyDate = new Date(2019, 8, 1);
 
     return (
       <div>
-        Conflicts!
+        <Message info>
+          Please select all the times you are NOT available on a weekly basis.
+          For times you are not available, please describe your conflict in the following format:
+          TODO LATER
+        </Message>
+        <ScheduleSelector
+          selection={this.state.schedule}
+          startDate={dummyDate}
+          minTime={13}
+          maxTime={23}
+          dateFormat={'ddd'}
+          hoveredColor={'#f9c8c8'}
+          selectedColor={'#ff7f7f'}
+          onChange={this.handleChange}
+        />
         <div ref={(el) => { this.el = el; }} />
       </div>
     );

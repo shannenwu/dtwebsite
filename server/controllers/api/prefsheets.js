@@ -33,7 +33,9 @@ app.get('/user/:user_id?',
         } else {
             Prefsheet
                 .find({ show: show_id })
-                .populate('show')
+                .populate('user', 'firstName lastName year imageUrl')
+                .populate('rankedDances.dance', 'name')
+                .sort('auditionNumber')
                 .exec((err, docs) => {
                     if (err) {
                         console.log(err);
@@ -111,8 +113,8 @@ app.post('/user/:user_id',
         };
 
         Prefsheet.findOneAndUpdate(query, { ...updatedPrefSheetData, ...lateData }, options)
-            .then(_prefsheet => {
-                res.status(200).send({ message: 'Preference sheet updated!' });
+            .then(prefsheet => {
+                res.status(200).send({ message: 'Preference sheet updated!', prefsheet });
             })
             .catch(err => {
                 console.log(err)

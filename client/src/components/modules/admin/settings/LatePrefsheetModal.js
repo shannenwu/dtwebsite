@@ -15,6 +15,7 @@ class LatePrefsheetModal extends React.Component {
       maxDances: -1,
       rankedDances: new Array(10).fill({ dance: '' }),
       messageFromServer: '',
+      lateAuditionNum: -1,
       errorMsg: [],
     };
   }
@@ -53,10 +54,6 @@ class LatePrefsheetModal extends React.Component {
       rankedDances,
     } = this.state;
 
-    const {
-      handleClose,
-    } = this.props;
-
     // nothing will happen if the userId is null.
     axios.post(`/api/prefsheets/user/${userId}?late=true`, {
       maxDances,
@@ -68,9 +65,9 @@ class LatePrefsheetModal extends React.Component {
           maxDances: -1,
           rankedDances: new Array(10).fill({ dance: '' }),
           messageFromServer: response.data.message,
+          lateAuditionNum: response.data.prefsheet.auditionNumber,
           errorMsg: [],
         });
-        handleClose();
       })
       .catch((error) => {
         if (error.response.data.errors !== undefined) {
@@ -91,18 +88,27 @@ class LatePrefsheetModal extends React.Component {
       });
   };
 
+  closeAndClearNumber = () => {
+    const { handleClose } = this.props;
+    this.setState({
+      messageFromServer: '',
+      lateAuditionNum: -1
+    })
+    handleClose();
+  }
+
   render() {
     const {
       userId,
       maxDances,
       rankedDances,
       messageFromServer,
+      lateAuditionNum,
       errorMsg,
     } = this.state;
 
     const {
       open,
-      handleClose,
       activeShow,
       userOptions,
       danceOptions,
@@ -112,7 +118,7 @@ class LatePrefsheetModal extends React.Component {
       <div>
         <Modal
           open={open}
-          onClose={handleClose}
+          onClose={this.closeAndClearNumber}
         >
           <Modal.Header>Create Late Prefsheet</Modal.Header>
           <Modal.Content scrolling>
@@ -127,6 +133,7 @@ class LatePrefsheetModal extends React.Component {
               messageFromServer={messageFromServer}
               errorMsg={errorMsg}
               userOptions={userOptions}
+              lateAuditionNum={lateAuditionNum}
               isLate
             />
           </Modal.Content>

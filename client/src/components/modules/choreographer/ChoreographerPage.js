@@ -70,7 +70,7 @@ class ChoreographerPage extends Component {
             var buttons = (
               <Button
                 basic
-                color='teal'
+                color='red'
                 floated='right'
                 content='Selection'
                 as={Link}

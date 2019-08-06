@@ -29,6 +29,7 @@ class PrefsheetInfo extends React.Component {
     messageFromServer: PropTypes.string,
     errorMsg: PropTypes.array,
     userOptions: PropTypes.array,
+    lateAuditionNum: PropTypes.number,
     isLate: PropTypes.bool,
   }
 
@@ -37,6 +38,7 @@ class PrefsheetInfo extends React.Component {
     messageFromServer: '',
     errorMsg: [],
     userOptions: [],
+    lateAuditionNum: -1,
     isLate: false,
   }
 
@@ -64,6 +66,7 @@ class PrefsheetInfo extends React.Component {
       messageFromServer,
       errorMsg,
       userOptions,
+      lateAuditionNum,
       isLate,
     } = this.props;
 
@@ -162,7 +165,11 @@ class PrefsheetInfo extends React.Component {
                 <Message
                   className="response"
                   onDismiss={handleDismiss}
-                  header={messageFromServer}
+                  header={
+                  isLate ? (
+                    messageFromServer + ' Late audition number: ' + lateAuditionNum
+                  ) : messageFromServer
+                  }
                   positive
                 />
               </Grid.Column>

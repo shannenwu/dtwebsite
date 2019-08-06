@@ -55,8 +55,8 @@ class ShowList extends React.Component {
       <div>
         <Header as="h3">
           Shows
+          <Icon onClick={this.handleOpen} link name="add" />
         </Header>
-        <div onClick={this.handleOpen}><Icon link name="add" /></div>
         <ShowModal open={modalOpen} handleClose={this.handleClose} />
         {shows.map((showObj) => {
           const pre = showObj.semester === 'fall' ? 'F' : 'S';

@@ -19,19 +19,23 @@ class DancerCardOpen extends Component {
   }
 
   static propTypes = {
-    danceObj: PropTypes.object.isRequired,
+    danceObj: PropTypes.object,
     isActionable: PropTypes.bool,
     isAccepted: PropTypes.bool,
     isReturn: PropTypes.bool,
     prefsheet: PropTypes.object.isRequired,
-    stats: PropTypes.object.isRequired,
-    toggleCard: PropTypes.func.isRequired
+    stats: PropTypes.object,
+    toggleCard: PropTypes.func.isRequired,
+    viewOnly: PropTypes.bool
   }
 
   static defaultProps = {
+    danceObj: {_id: ''},
     isActionable: true,
     isAccepted: false,
     isReturn: false,
+    stats: { numAccepted: 0 },
+    viewOnly: false
   }
 
   componentDidMount() {
@@ -77,7 +81,8 @@ class DancerCardOpen extends Component {
       isReturn,
       prefsheet,
       stats,
-      toggleCard
+      toggleCard,
+      viewOnly
     } = this.props;
 
     return (
@@ -109,6 +114,7 @@ class DancerCardOpen extends Component {
           Max:
           {' '}
           {prefsheet.maxDances}
+          {!viewOnly && 
           <Button.Group floated="right">
             <Button
               disabled={isAccepted || !isActionable}
@@ -136,7 +142,7 @@ class DancerCardOpen extends Component {
               color="red"
               onClick={() => this.handleStatusUpdate(prefsheet._id, 'rejected')}
             />
-          </Button.Group>
+          </Button.Group>}
         </Card.Content>
       </Card>
     );

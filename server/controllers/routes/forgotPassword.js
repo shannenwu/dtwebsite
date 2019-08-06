@@ -1,17 +1,14 @@
 // require Express
 const express = require('express');
-const path = require('path');
 
 // Intitialize App
 const app = express.Router();
 
 // Import User Schema
-const User = require('../models/User.js');
+const User = require('../../models/User.js');
 const crypto = require('crypto');
 
 const { check, validationResult } = require('express-validator/check');
-
-const publicPath = path.resolve(__dirname, '..', '..', 'client', 'dist');
 
 const nodemailer = require('nodemailer');
 

@@ -8,11 +8,13 @@ const path = require('path');
 // local dependencies
 const passport = require('passport');
 const db = require('../db');
-require('../passport.js'); // rename mayb
+
+// passport file
+require('../passport.js'); 
 
 // initialize express app
 const app = express();
-const publicPath = path.resolve(__dirname, '..', '..', 'client', 'dist');
+const publicPath = path.resolve(__dirname, '../../', 'client', 'dist');
 
 // set POST request body parser
 app.use(bodyParser.urlencoded({limit: "50mb", extended: false, parameterLimit:50000}));
@@ -34,10 +36,11 @@ app.use(passport.session());
 app.use(express.static('public'));
 
 // routes
-app.use(require('./signup'));
-app.use(require('./login'));
-app.use(require('./forgotPassword'));
-app.use(require('./resetPassword'));
+app.use(require('./routes/signup'));
+app.use(require('./routes/login'));
+app.use(require('./routes/forgotPassword'));
+app.use(require('./routes/resetPassword'));
+app.use('/reports', require('./routes/reports'));
 app.use('/api', require('./api'));
 
 // logout
