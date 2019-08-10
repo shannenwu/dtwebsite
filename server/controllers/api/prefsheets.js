@@ -11,7 +11,7 @@ const util = require("../util.js");
 
 const { check, validationResult } = require('express-validator/check');
 
-// This file handles paths to modify prefsheets. These routes are prefixed by /api/prefsheets/{ENDPOINT}
+// This file handles paths regarding prefsheets. These routes are prefixed by /api/prefsheets/{ENDPOINT}
 
 // This endpoint fetches a prefsheet in the active show for the user_id if specified.
 app.get('/user/:user_id?',
@@ -46,6 +46,65 @@ app.get('/user/:user_id?',
     }
 );
 
+// This function updates the conflicts and description of the prefsheet of the user_id.
+app.post('/user/conflicts/:user_id', [
+        check('conflictsDescription').optional().isLength({ min: 0, max: 1000 }).withMessage('Conflicts has max character count of 1000.'),
+    ],
+    connect.ensureLoggedIn(),
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(422).send({ errors: errors.array() });
+        }
+
+        var showResponse = await util.getActiveShow();
+        var show_id = showResponse._id;
+        var conflictsData = {}
+
+        if (!showResponse.prefsOpen) {
+            // Non-admins cannot submit late prefsheets. 
+            // Admin must include late flag to submit a late prefsheet.
+            if (!req.user.isAdmin) {
+                return res.status(400).send('Prefs are not open for this show.')
+            } else if (req.user.isAdmin && req.query.late) {
+                var lastAuditionNumber = await Prefsheet.countDocuments({ show: show_id });
+                lateData = { isLate: true, auditionNumber: lastAuditionNumber + 1 };
+            }
+        }
+
+        if (!showResponse.prefsOpen) {
+            return res.status(400).send('Prefs are not open for this show.')
+        }
+
+        if (showResponse.prodConflictsOpen) {
+            conflictsData = { 
+                prodConflicts: req.body.conflicts, 
+                prodDescription: req.body.conflictsDescription 
+            }
+        } else {
+            conflictsData = { 
+                weeklyConflicts: req.body.conflicts, 
+                weeklyDescription: req.body.conflictsDescription 
+            }
+        }
+
+        var query = { user: req.params.user_id, show: show_id }
+        var options = { upsert: true, new: true, setDefaultsOnInsert: true };
+
+        var updatedPrefSheetData = {
+            user: req.params.user_id,
+            show: show_id
+        };
+
+        Prefsheet.findOneAndUpdate(query, { ...updatedPrefSheetData, ...conflictsData }, options)
+            .then(prefsheet => {
+                res.status(200).send({ message: 'Conflicts updated!', prefsheet });
+            })
+            .catch(err => {
+                console.log(err)
+            });
+    }
+);
 
 // This function updates the prefsheet of the user_id in the active show.
 app.post('/user/:user_id',

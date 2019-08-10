@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import {
-  Header, Menu, Dimmer, Loader, Label, Popup,
+  Header, Menu, Dimmer, Loader, Label, Popup, Icon
 } from 'semantic-ui-react';
 import UserInfo from './UserInfo';
 import PrefsheetInfo from './PrefsheetInfo';
@@ -19,6 +19,8 @@ class ProfilePage extends Component {
         rankedDances: [],
         danceOptions: [],
       },
+      conflicts: [],
+      conflictsDescription: '',
       activeShow: null,
       messageFromServer: '',
       errorMsg: [],
@@ -76,13 +78,34 @@ class ProfilePage extends Component {
           danceOptions,
         };
       }
-      this.setState({ activeShow, prefData, loading: false });
+
+      if (prefsheet) {
+        var conflicts = prefsheet.weeklyConflicts;
+        var conflictsDescription = prefsheet.weeklyDescription;
+
+        // Reset depending on prod or weekly conflicts.
+        if (activeShow.prodConflictsOpen) {
+          conflicts = prefsheet.prodConflicts;
+          conflictsDescription = prefsheet.prodDescription;
+        }
+      } else {
+        conflicts = [];
+        conflictsDescription = ''
+      }
+
+      this.setState({
+        activeShow,
+        prefData,
+        conflicts,
+        conflictsDescription,
+        loading: false
+      });
     } catch (e) {
       console.log(e); // TODO ERROR HANDLE
     }
   }
 
-  handleInputChange = (e, { name, value }) => {
+  handleInputPrefChange = (e, { name, value }) => {
     this.setState({
       prefData: {
         ...this.state.prefData,
@@ -103,6 +126,18 @@ class ProfilePage extends Component {
     });
   }
 
+  handleInputConflictsChange = (e, { name, value }) => {
+    this.setState({
+      [name]: value,
+    });
+  }
+
+  handleScheduleChange = (newSchedule) => {
+    this.setState({
+      conflicts: newSchedule
+    });
+  }
+
   handleItemClick = (event, { name }) => this.setState({ activeItem: name })
 
   handleDismiss = () => {
@@ -111,6 +146,45 @@ class ProfilePage extends Component {
       errorMsg: [],
     });
   }
+
+  handleSubmitConflicts = (event) => {
+    const {
+      conflicts,
+      conflictsDescription
+    } = this.state;
+    const {
+      userInfo,
+    } = this.props;
+    event.preventDefault();
+
+    axios.post(`/api/prefsheets/user/conflicts/${userInfo._id}`, {
+      conflicts,
+      conflictsDescription
+    })
+      .then((response) => {
+        this.setState({
+          messageFromServer: response.data.message,
+          errorMsg: [],
+        });
+      })
+      .catch((error) => {
+        if (error.response.data.errors !== undefined) {
+          // form validation errors
+          const msgList = [];
+          error.response.data.errors.forEach((element) => {
+            msgList.push(element.msg);
+          });
+          this.setState({
+            errorMsg: msgList,
+          });
+        } else {
+          // other bad errors
+          this.setState({
+            errorMsg: [error.response.data],
+          });
+        }
+      });
+  };
 
   handleSubmit = (event) => {
     const {
@@ -155,6 +229,8 @@ class ProfilePage extends Component {
       activeItem,
       prefData,
       activeShow,
+      conflicts,
+      conflictsDescription,
       messageFromServer,
       errorMsg,
       loading,
@@ -169,7 +245,7 @@ class ProfilePage extends Component {
         <PrefsheetInfo
           prefData={prefData}
           activeShow={activeShow}
-          handleInputChange={this.handleInputChange}
+          handleInputChange={this.handleInputPrefChange}
           handleListChange={this.handleListChange}
           handleSubmit={this.handleSubmit}
           handleDismiss={this.handleDismiss}
@@ -178,7 +254,19 @@ class ProfilePage extends Component {
         />
       );
     } else if (activeItem === 'conflicts') {
-      tab = <ConflictsInfo />;
+      tab = (
+        <ConflictsInfo
+          isProd={activeShow.prodConflictsOpen}
+          conflicts={conflicts}
+          conflictsDescription={conflictsDescription}
+          handleScheduleChange={this.handleScheduleChange}
+          handleInputChange={this.handleInputConflictsChange}
+          handleSubmitConflicts={this.handleSubmitConflicts}
+          handleDismiss={this.handleDismiss}
+          messageFromServer={messageFromServer}
+          errorMsg={errorMsg}
+        />
+      );
     }
 
     if (loading) {
@@ -199,7 +287,8 @@ class ProfilePage extends Component {
             active={activeItem === 'personal'}
             onClick={this.handleItemClick}
           >
-            Personal Information
+            <Icon name="user circle" />
+            Dancer Info
           </Menu.Item>
           {activeShow.prefsOpen && (
             <React.Fragment>
@@ -208,6 +297,7 @@ class ProfilePage extends Component {
                 active={activeItem === 'prefs'}
                 onClick={this.handleItemClick}
               >
+                <Icon name="list ol" />
                 Dance Preferences
               </Menu.Item>
               <Menu.Item
@@ -215,14 +305,30 @@ class ProfilePage extends Component {
                 active={activeItem === 'conflicts'}
                 onClick={this.handleItemClick}
               >
-                Practice Availabilities
-                <Popup
-                  content="Please fill out your weekly availabilities for rehearsal times!"
-                  trigger={<Label circular color="red" size="mini" floating content="!" />}
-                />
+                <Icon name="calendar alternate outline" />
+                Practice Conflicts
+                {!conflicts.length && prefData.rankedDances.length &&
+                  <Popup
+                    content="Please fill out your weekly availabilities for rehearsal times!"
+                    trigger={<Label circular color="red" size="mini" floating content="!" />}
+                  />}
               </Menu.Item>
             </React.Fragment>
           )}
+          {activeShow.prodConflictsOpen &&
+            <Menu.Item
+              name="conflicts"
+              active={activeItem === 'conflicts'}
+              onClick={this.handleItemClick}
+            >
+              <Icon name="calendar alternate outline" />
+              Prod Week Conflicts
+                {!conflicts.length &&
+                <Popup
+                  content="Please fill out your prod week availabilities!"
+                  trigger={<Label circular color="red" size="mini" floating content="!" />}
+                />}
+            </Menu.Item>}
         </Menu>
         {tab}
       </div>

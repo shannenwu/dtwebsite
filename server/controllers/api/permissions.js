@@ -61,8 +61,4 @@ app.get('/:user_id?', (req, res) => {
 });
 
 // TODO add/remove admin
-
-
-
-
 module.exports = app;

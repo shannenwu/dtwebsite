@@ -63,20 +63,18 @@ class DancerList extends Component {
     }
     return (
       <div>
-        <Header as='h1' content={danceObj.name} />
+        <Button disabled floated='right' icon labelPosition='left' primary size='small'>
+          <Icon name='user' /> Add Dancer
+        </Button>
+        <Button icon floated='right' size='small' download href={`/reports/dance-final/${danceObj._id}`}>
+          <Icon name='download' />
+        </Button>
+        <Header as='h1'>
+          {danceObj.name}
+        </Header>
         <Header.Subheader>{danceObj.level + ' ' + danceObj.style}</Header.Subheader>
         <Table basic selectable striped>
           <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell colSpan='5'>
-                <Button disabled floated='right' icon labelPosition='left' primary size='small'>
-                  <Icon name='user' /> Add Dancer
-                </Button>
-                <Button icon floated='right' size='small' download href={`/reports/dance-final/${danceObj._id}`}>
-                  <Icon name='download' />
-                </Button>
-              </Table.HeaderCell>
-            </Table.Row>
             <Table.Row>
               <Table.HeaderCell>First Name</Table.HeaderCell>
               <Table.HeaderCell>Last Name</Table.HeaderCell>

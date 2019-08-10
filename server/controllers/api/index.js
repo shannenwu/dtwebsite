@@ -26,6 +26,7 @@ app.use('/shows', require('./shows'));
 app.use('/dances', require('./dances'));
 app.use('/auditions', require('./auditions'));
 app.use('/prefsheets', require('./prefsheets'));
+app.use('/schedule', require('./schedule'));
 app.use('/permissions', require('./permissions'));
 
 // 401 Unauthorized

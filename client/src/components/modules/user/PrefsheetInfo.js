@@ -104,6 +104,7 @@ class PrefsheetInfo extends React.Component {
             <Grid.Column width={3} verticalAlign="middle">
               <label className="userInfoLabels">Max number of dances</label>
             </Grid.Column>
+
             <Dropdown
               as={Grid.Column}
               name="maxDances"
@@ -117,7 +118,7 @@ class PrefsheetInfo extends React.Component {
           </Grid.Row>
           {prefData.rankedDances.map((rankedDance, index) => (
             <Grid.Row key={index}>
-              <Grid.Column width={3} verticalAlign="middle" textAlign="right">
+              <Grid.Column width={2} verticalAlign="middle" textAlign="right">
                 <label className="userInfoLabels">
                   {index + 1}
                   .
@@ -125,7 +126,7 @@ class PrefsheetInfo extends React.Component {
               </Grid.Column>
               <Dropdown
                 as={Grid.Column}
-                width={13}
+                width={14}
                 name={index}
                 selection
                 clearable
@@ -152,7 +153,7 @@ class PrefsheetInfo extends React.Component {
                   negative
                 >
                   <Message.Header
-                    content="Please fix the following and try again."
+                    content="Error!"
                   />
                   <List items={errorMsg} />
                 </Message>

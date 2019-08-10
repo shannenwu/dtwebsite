@@ -22,6 +22,7 @@ class AdminPage extends React.Component {
       dances: [],
       activeShow: null,
       prefsOpen: false,
+      prodConflictsOpen: false,
       selectedShow: null,
       userOptions: [],
       danceOptions: [],
@@ -39,7 +40,6 @@ class AdminPage extends React.Component {
 
   componentDidMount() {
     this._isMounted = true;
-    const { shows, endpoint } = this.state;
 
     document.title = 'Admin Page';
     // make get request to load shows, dances
@@ -126,6 +126,7 @@ class AdminPage extends React.Component {
         danceOptions,
         loading: false,
         prefsOpen: activeShow.prefsOpen,
+        prodConflictsOpen: activeShow.prodConflictsOpen
       });
     } catch (e) {
       console.log(e); // TODO ERROR HANDLE
@@ -211,6 +212,22 @@ class AdminPage extends React.Component {
       );
   }
 
+  toggleProdConflicts = () => {
+    const {
+      activeShow,
+      prodConflictsOpen,
+    } = this.state;
+    axios.post(`/api/shows/${activeShow._id}/prod-conflicts?open=${!prodConflictsOpen}`)
+      .then(
+        (response) => {
+          const activeShow = response.data;
+          this.setState({
+            prodConflictsOpen: !prodConflictsOpen,
+          });
+        },
+      );
+  }
+
   generateAuditionNumbers = () => {
     axios.post('/api/auditions/generate-audition-numbers/')
       .then(
@@ -230,6 +247,7 @@ class AdminPage extends React.Component {
       userOptions,
       danceOptions,
       prefsOpen,
+      prodConflictsOpen,
       loading,
     } = this.state;
 
@@ -264,18 +282,18 @@ class AdminPage extends React.Component {
             />
           </Grid.Column>
           <Grid.Column stretched>
-            <Grid.Row>
-              <ShowSettings
-                activeShow={activeShow}
-                setActiveShow={this.setActiveShow}
-                selectedShow={selectedShow}
-                prefsOpen={prefsOpen}
-                togglePrefs={this.togglePrefs}
-                generateAuditionNumbers={this.generateAuditionNumbers}
-                userOptions={userOptions}
-                danceOptions={danceOptions}
-              />
-            </Grid.Row>
+            <ShowSettings
+              activeShow={activeShow}
+              setActiveShow={this.setActiveShow}
+              selectedShow={selectedShow}
+              prefsOpen={prefsOpen}
+              togglePrefs={this.togglePrefs}
+              prodConflictsOpen={prodConflictsOpen}
+              toggleProdConflicts={this.toggleProdConflicts}
+              generateAuditionNumbers={this.generateAuditionNumbers}
+              userOptions={userOptions}
+              danceOptions={danceOptions}
+            />
           </Grid.Column>
         </Grid>
       </React.Fragment>

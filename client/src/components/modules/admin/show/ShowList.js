@@ -53,9 +53,9 @@ class ShowList extends React.Component {
 
     return (
       <div>
+        <Icon onClick={this.handleOpen} link name="plus" style={{float: 'right'}}/>
         <Header as="h3">
           Shows
-          <Icon onClick={this.handleOpen} link name="add" />
         </Header>
         <ShowModal open={modalOpen} handleClose={this.handleClose} />
         {shows.map((showObj) => {
@@ -72,8 +72,8 @@ class ShowList extends React.Component {
                 {`${pre + yr} | ${showObj.name}`}
                 {showObj.isActive
                   ? (
-                    <Label color="green">
-                    ACTIVE
+                    <Label color="green" style={{ float: 'right' }}>
+                      ACTIVE
                     </Label>
                   ) : <div />}
                 {/* this delete icon needs a confirmation before we delete everything  lol */}

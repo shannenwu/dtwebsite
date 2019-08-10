@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import {
-  Header, Dimmer, Loader, Grid, Card
+  Header, Dimmer, Loader, Grid, Card, Message
 } from 'semantic-ui-react';
 import DancerCard from '../../choreographer/dancer-selection/DancerCard';
 
@@ -59,6 +59,7 @@ class AllPrefsheets extends Component {
             content={cards.length + ' dancers auditioning'}
           />
         </Header>
+        <Message header='Warning' compact color='yellow' content='Dance status in prefsheets may not be accurate following completion of dancer selection. Refer to the final dancer list of each dance  in the choreographer page instead.' />
         <Grid stackable divided padded columns={1} style={{ height: '100%' }}>
           <Grid.Column>
             <Card.Group>

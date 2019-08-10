@@ -1,0 +1,105 @@
+#schedule-wrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  user-select: none;
+}
+
+#schedule-grid {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  width: 100%;
+}
+
+.schedule-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  flex-grow: 1;
+}
+
+.grid-cell {
+  margin: 3px;
+  touch-action: none;
+}
+
+.date-cell {
+  width: 100%;
+  height: 25px;
+  text-align: center;
+  color: #5c6d82;
+  background-color: #dbedff;
+}
+
+.date-cell.num-1 {
+  background-color: #ABEAD5;
+}
+
+.date-cell.num-2 {
+  background-color: #D2EEC2;
+}
+
+.date-cell.num-3 {
+  background-color: #E2E2B3;
+}
+
+.date-cell.num-4 {
+  background-color: #F1D6A4;
+}
+
+.date-cell.num-5 {
+  background-color: #DD8FA1;
+}
+
+.date-cell.num-6 {
+  background-color: #A66E7F;
+}
+
+.date-cell.num-7 {
+  background-color: #6F4C5E;
+}
+
+.date-cell.num-8 {
+  background-color: #382C3B;
+}
+
+.date-cell.num-max {
+    background-color: #000A18;
+  }
+
+.date-cell:hover {
+  background-color: rgba(162, 198, 248, 1);
+}
+
+.date-cell.selected-cell {
+  border: 2px solid black;
+}
+
+.date-label {
+  height: 30px;
+  font-size: 20px;
+  text-align: center;
+}
+
+.time-label-cell {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 25px;
+  margin: 3px 0;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.time-text {
+  margin: 0;
+  font-weight: 300;
+}
+
+#conflicts-description {
+  width: 400px;
+  align-self: stretch;
+}

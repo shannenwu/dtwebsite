@@ -28,13 +28,23 @@ var prefsheetSchema = new Schema({
     isLate: {
         type: Boolean,
         default: false
+    },
+    weeklyConflicts: {
+        type: [],
+        default: []
+    },
+    weeklyDescription: {
+        type: String,
+        default: ''
+    },
+    prodConflicts: {
+        type: [],
+        default: []
+    },
+    prodDescription: {
+        type: String,
+        default: ''
     }
-    // weeklyConflicts: {
-    //     type: TBD
-    // },
-    // prodConflicts: {
-    //     type: TBD
-    // }
 });
 
 // TODO test 

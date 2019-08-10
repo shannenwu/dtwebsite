@@ -29,6 +29,9 @@ app.get('/accepted-dancers/:dance_id', (req, res) => {
 
 app.get('/:dance_id', (req, res) => {
     Dance.findById(req.params.dance_id, (err, doc) => {
+        if (err) {
+            console.log(err);
+        }
         res.send(doc);
     });
 });
@@ -39,6 +42,9 @@ app.get('/:show_id/all', (req, res) => {
         .find({ show: req.params.show_id })
         .populate('choreographers')
         .exec((err, docs) => {
+            if (err) {
+                console.log(err);
+            }
             res.send(docs);
         });
 });

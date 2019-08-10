@@ -25,10 +25,16 @@ app.get("/active", (req, res) => {
 app.get('/:show_id?', (req, res) => {
     if (req.params.show_id) {
         Show.findById(req.params.show_id, (err, doc) => {
+            if (err) {
+                console.log(err);
+            }
             res.send(doc);
         });
     } else {
         Show.find({}).sort({ date: 'desc' }).exec((err, docs) => {
+            if (err) {
+                console.log(err);
+            }
             res.send(docs);
         });
     }
@@ -60,7 +66,7 @@ app.post('/',
         check('name').optional().isLength({ min: 0, max: 100 }).withMessage('Name field has max character count of 100.'),
         check('description').optional().isLength({ min: 0, max: 1000 }).withMessage('Description field has max character count of 1000.'),
     ],
-    (req, res, next) => {
+    (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(422).send({ errors: errors.array() });
@@ -94,10 +100,16 @@ app.post('/',
 
 // TODO have this function give permissions to choreographers 
 app.post("/:show_id/active-show", (req, res) => {
-    Show.updateMany({ isActive: true }, { isActive: false }, (err, docs) => {
+    Show.updateMany({ isActive: true }, { isActive: false }, (err, res) => {
+        if (err) {
+            console.log(err);
+        }
         Show.findByIdAndUpdate(req.params.show_id, {
             isActive: true
         }, { new: true }, (err, doc) => {
+            if (err) {
+                console.log(err);
+            }
             res.status(200).send(doc);
         });
     });
@@ -106,11 +118,28 @@ app.post("/:show_id/active-show", (req, res) => {
 // Sets the selected show's prefsheets to be visible/open.
 app.post("/:show_id/prefs", (req, res) => {
     if (req.query.open != undefined) {
-        Show.findByIdAndUpdate(req.params.show_id, {
-            prefsOpen: req.query.open
-        }, { new: true }, (err, doc) => {
-            res.status(200).send(doc);
-        });
+        Show.findById(req.params.show_id, async (err, doc) => {
+            if (doc.prodConflictsOpen) {
+                return res.status(400).send('Cannot open pref sheets while prod week availabilities are open.');
+            }
+            doc.prefsOpen = req.query.open;
+            await doc.save();
+            return res.status(200).send(doc);
+        })
+    }
+});
+
+// Sets the selected show's prefsheets to be visible/open.
+app.post("/:show_id/prod-conflicts", (req, res) => {
+    if (req.query.open != undefined) {
+        Show.findById(req.params.show_id, async (err, doc) => {
+            if (doc.prefsOpen) {
+                return res.status(400).send('Cannot open prod week availabilities when pref sheets are open.');
+            }
+            doc.prodConflictsOpen = req.query.open;
+            await doc.save();
+            return res.status(200).send(doc);
+        })
     }
 });
 

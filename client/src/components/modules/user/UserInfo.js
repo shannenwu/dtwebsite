@@ -66,7 +66,7 @@ class UserInfo extends React.Component {
     });
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(_prevProps, prevState) {
     if (this.state.messageFromServer !== prevState.messageFromServer
       || this.state.errorMsg !== prevState.errorMsg) {
       this.scrollToBottom();
@@ -226,7 +226,7 @@ class UserInfo extends React.Component {
           <Grid.Column width={13} textAlign="left" className="userInput">
             {image && (
               <Grid.Row>
-                <Image wrapped size="small" src={image} onError={(e) => { e.target.onerror = null; e.target.src = ''; }} />
+                <Image wrapped src={image} onError={(e) => { e.target.onerror = null; e.target.src = ''; }} style={{width: '164.1px'}}/>
               </Grid.Row>
             )}
             <Grid.Row>

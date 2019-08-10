@@ -27,6 +27,8 @@ class ShowSettings extends React.Component {
     selectedShow: PropTypes.object,
     prefsOpen: PropTypes.bool,
     togglePrefs: PropTypes.func,
+    prodConflictsOpen: PropTypes.bool,
+    toggleProdConflicts: PropTypes.func,
     generateAuditionNumbers: PropTypes.func,
     userOptions: PropTypes.array,
     danceOptions: PropTypes.array,
@@ -77,6 +79,8 @@ class ShowSettings extends React.Component {
       setActiveShow,
       selectedShow,
       togglePrefs,
+      prodConflictsOpen,
+      toggleProdConflicts,
       userOptions,
       danceOptions,
     } = this.props;
@@ -88,7 +92,11 @@ class ShowSettings extends React.Component {
         </Header>
         <Grid.Row>
           Preference Sheets
-          <Checkbox onClick={() => togglePrefs()} checked={prefsOpen} toggle />
+          <Checkbox onClick={() => togglePrefs()} checked={prefsOpen} toggle style={{float: 'right'}} />
+        </Grid.Row>
+        <Grid.Row>
+          Prod Week Conflicts
+          <Checkbox onClick={() => toggleProdConflicts()} checked={prodConflictsOpen} toggle style={{float: 'right'}} />
         </Grid.Row>
         <Grid.Row>
           Audition Numbers
@@ -106,7 +114,7 @@ class ShowSettings extends React.Component {
         </Grid.Row>
         <Grid.Row>
           Late Preference Sheets
-          <Icon onClick={this.handleOpen} link name="add" />
+          <Icon onClick={this.handleOpen} link name="add" style={{float: 'right'}}/>
           <LatePrefsheetModal userOptions={userOptions} danceOptions={danceOptions} open={latePrefOpen} handleClose={this.handleClose} activeShow={activeShow} />
         </Grid.Row>
         <Grid.Row>
