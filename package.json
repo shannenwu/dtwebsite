@@ -8,7 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack-dev-server --config ./webpack.config.js --mode development --port 5000",
     "start": "nodemon --ignore client/ server/app.js",
-    "lint": "eslint --fix client/src && eslint server"
+    "lint": "eslint --fix client/src && eslint server",
+    "build": "webpack --config ./webpack.config.js --mode production"
   },
   "author": "",
   "license": "ISC",
