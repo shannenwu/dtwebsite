@@ -112,7 +112,7 @@ class AdminPage extends React.Component {
 
       const [selectedDancesResponse, activeDancesResponse] = await Promise.all([
         getDances(selectedShow._id),
-        getDances(selectedShow._id),
+        getDances(activeShow._id),
       ]);
 
       const danceOptions = getDanceOptions(activeDancesResponse.data);
