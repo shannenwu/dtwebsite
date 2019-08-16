@@ -16,7 +16,7 @@ class DancerSelection extends Component {
   constructor(props) {
     super(props);
 
-    this.socket = io('http://localhost:3000');
+    this.socket = io(`http://${window.location.hostname}:3000`);
 
     this.state = {
       open: false,
@@ -30,7 +30,6 @@ class DancerSelection extends Component {
       totalActionableCount: 0,
       totalPendingCount: 0,
       redirect: false,
-      endpoint: 'http://localhost:3000/',
     };
   }
 

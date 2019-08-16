@@ -13,11 +13,10 @@ class DanceList extends React.Component {
   constructor(props) {
     super(props);
 
-    this.socket = io('http://localhost:3000');
+    this.socket = io(`http://${window.location.hostname}:3000`);
 
     this.state = {
       modalOpen: false,
-      endpoint: 'http://localhost:3000',
     };
   }
 
