@@ -129,10 +129,13 @@ app.post("/:show_id/prefs", (req, res) => {
     }
 });
 
-// Sets the selected show's prefsheets to be visible/open.
+// Sets the selected show's prod availabilities to be visible/open.
 app.post("/:show_id/prod-conflicts", (req, res) => {
     if (req.query.open != undefined) {
         Show.findById(req.params.show_id, async (err, doc) => {
+            if (err) {
+                console.log(err);
+            }
             if (doc.prefsOpen) {
                 return res.status(400).send('Cannot open prod week availabilities when pref sheets are open.');
             }

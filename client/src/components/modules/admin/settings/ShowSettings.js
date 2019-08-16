@@ -2,10 +2,34 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import {
-  Grid, Header, Button, Loader, Checkbox, Icon, Confirm,
+  Grid, Header, Button, Checkbox, Icon, Confirm, Dropdown
 } from 'semantic-ui-react';
 import axios from 'axios';
 import LatePrefsheetModal from './LatePrefsheetModal';
+import './settings.css';
+
+const downloadOptions = [
+  {
+    key: 'Dance Descriptions',
+    text: 'Dance Descriptions',
+    value: '/reports/master-dances',
+  },
+  {
+    key: 'Dance Audition Sheets',
+    text: 'Dance Audition Sheets',
+    value: '/reports/master-assignments',
+  },
+  {
+    key: 'Audition # Assignments',
+    text: 'Audition # Assignments',
+    value: '/reports/master-assignments',
+  },
+  {
+    key: 'Master Dancer/Email List',
+    text: 'Master Dancer/Email List',
+    value: '/reports/master-final',
+  },
+]
 
 class ShowSettings extends React.Component {
   constructor(props) {
@@ -15,6 +39,7 @@ class ShowSettings extends React.Component {
       confirmAuditionNumOpen: false,
       confirmPermissionsOpen: false,
       latePrefOpen: false,
+      downloadLink: '/reports/master-dances'
     };
   }
 
@@ -66,12 +91,18 @@ class ShowSettings extends React.Component {
 
   handleClose = () => this.setState({ latePrefOpen: false });
 
+  handleDownloadChange = (e, { name, value }) => {
+    this.setState({
+      [name]: value,
+    });
+  }
 
   render() {
     const {
       confirmAuditionNumOpen,
       confirmPermissionsOpen,
       latePrefOpen,
+      downloadLink
     } = this.state;
     const {
       activeShow,
@@ -86,21 +117,25 @@ class ShowSettings extends React.Component {
     } = this.props;
 
     return (
-      <div>
+      <div id="show-settings">
         <Header as="h3">
           Show Settings
         </Header>
         <Grid.Row>
+          Late Preference Sheets
+          <Icon onClick={this.handleOpen} link name="add" style={{ float: 'right' }} />
+          <LatePrefsheetModal userOptions={userOptions} danceOptions={danceOptions} open={latePrefOpen} handleClose={this.handleClose} activeShow={activeShow} />
+        </Grid.Row>
+        <Grid.Row>
           Preference Sheets
-          <Checkbox onClick={() => togglePrefs()} checked={prefsOpen} toggle style={{float: 'right'}} />
+          <Checkbox onClick={() => togglePrefs()} checked={prefsOpen} toggle style={{ float: 'right' }} />
         </Grid.Row>
         <Grid.Row>
           Prod Week Conflicts
-          <Checkbox onClick={() => toggleProdConflicts()} checked={prodConflictsOpen} toggle style={{float: 'right'}} />
+          <Checkbox onClick={() => toggleProdConflicts()} checked={prodConflictsOpen} toggle style={{ float: 'right' }} />
         </Grid.Row>
         <Grid.Row>
-          Audition Numbers
-          <Button onClick={this.showAuditionNumConfirmation}>Generate</Button>
+          <Button onClick={this.showAuditionNumConfirmation}>Generate Audition Numbers</Button>
           <Confirm
             open={confirmAuditionNumOpen}
             content="This will generate new audition numbers for all prefsheets in the active show. Proceed?"
@@ -111,11 +146,6 @@ class ShowSettings extends React.Component {
         </Grid.Row>
         <Grid.Row>
           <Button onClick={() => setActiveShow(selectedShow._id)}>Set selected as active show</Button>
-        </Grid.Row>
-        <Grid.Row>
-          Late Preference Sheets
-          <Icon onClick={this.handleOpen} link name="add" style={{float: 'right'}}/>
-          <LatePrefsheetModal userOptions={userOptions} danceOptions={danceOptions} open={latePrefOpen} handleClose={this.handleClose} activeShow={activeShow} />
         </Grid.Row>
         <Grid.Row>
           <Button onClick={this.showPermissionsConfirmation}>Update Choreographer Permissions</Button>
@@ -135,24 +165,19 @@ class ShowSettings extends React.Component {
           />
         </Grid.Row>
         <Grid.Row>
-          <Button icon size='small' download href={`/reports/master-dances`}>
-            <Icon name='download' /> Download dance descriptions
-          </Button>
-        </Grid.Row>
-        <Grid.Row>
-          <Button icon size='small' download href={`/reports/master-assignments`}>
-            <Icon name='download' /> Download audition assignments
-          </Button>
-        </Grid.Row>
-        <Grid.Row>
-          <Button icon size='small' download href={`/reports/dance-audition-sheets`}>
-            <Icon name='download' /> Download dance audition sheets
-          </Button>
-        </Grid.Row>
-        <Grid.Row>
-          <Button icon size='small' download href={`/reports/master-final`}>
-            <Icon name='download' /> Download master dancer list
-          </Button>
+          <span>
+            Download {' '}
+            <Dropdown
+              name="downloadLink"
+              inline
+              options={downloadOptions}
+              value={downloadLink}
+              onChange={this.handleDownloadChange}
+            />
+            <a href={downloadLink} download>
+              <Icon name='download' />
+            </a>
+          </span>
         </Grid.Row>
       </div>
     );

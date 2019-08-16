@@ -61,21 +61,6 @@ app.post('/user/conflicts/:user_id', [
         var show_id = showResponse._id;
         var conflictsData = {}
 
-        if (!showResponse.prefsOpen) {
-            // Non-admins cannot submit late prefsheets. 
-            // Admin must include late flag to submit a late prefsheet.
-            if (!req.user.isAdmin) {
-                return res.status(400).send('Prefs are not open for this show.')
-            } else if (req.user.isAdmin && req.query.late) {
-                var lastAuditionNumber = await Prefsheet.countDocuments({ show: show_id });
-                lateData = { isLate: true, auditionNumber: lastAuditionNumber + 1 };
-            }
-        }
-
-        if (!showResponse.prefsOpen) {
-            return res.status(400).send('Prefs are not open for this show.')
-        }
-
         if (showResponse.prodConflictsOpen) {
             conflictsData = { 
                 prodConflicts: req.body.conflicts, 

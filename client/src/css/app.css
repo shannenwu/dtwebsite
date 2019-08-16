@@ -28,8 +28,8 @@ body {
 }
 
 :root {
-  --navbar-width: 250px;
-  --dancer-card-width: 310px;
+  --navbar-width: 220px;
+  --dancer-card-width: 290px;
 }
 
 .navbar {
@@ -77,6 +77,6 @@ body {
 }
 
 .container {
-    padding: 40px;
+    padding: 30px;
     height: 100vh;
 }

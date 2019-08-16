@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Message, Form, Button, TextArea
+  Message, Form, Button, TextArea, List
 } from 'semantic-ui-react';
 import ScheduleSelector from '@shannenwu/react-schedule-selector';
 

@@ -53,15 +53,15 @@ class ShowList extends React.Component {
 
     return (
       <div>
-        <Icon onClick={this.handleOpen} link name="plus" style={{float: 'right'}}/>
         <Header as="h3">
           Shows
+          <Icon onClick={this.handleOpen} link name="plus" style={{float: 'right', fontSize: '1em'}}/>
         </Header>
         <ShowModal open={modalOpen} handleClose={this.handleClose} />
         {shows.map((showObj) => {
           const pre = showObj.semester === 'fall' ? 'F' : 'S';
           const yr = showObj.year.toString().substring(2);
-          const className = showObj === selectedShow ? 'selected' : '';
+          const className = showObj === selectedShow ? 'show-selected' : '';
           return (
             <Card
               key={showObj._id}
@@ -76,8 +76,6 @@ class ShowList extends React.Component {
                       ACTIVE
                     </Label>
                   ) : <div />}
-                {/* this delete icon needs a confirmation before we delete everything  lol */}
-                {/* <Icon name='cancel' link onClick={() => handleDeleteShow(showObj._id)} /> */}
               </Card.Content>
             </Card>
           );

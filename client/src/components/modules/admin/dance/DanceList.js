@@ -55,9 +55,9 @@ class DanceList extends React.Component {
 
     return (
       <div>
-        <Icon link name="plus" onClick={this.handleOpen} style={{float: 'right'}}/>
         <Header as="h3">
           Dances
+          <Icon onClick={this.handleOpen} link name="plus" style={{float: 'right', fontSize: '1em'}}/>
         </Header>
         <DanceModal userOptions={userOptions} open={modalOpen} handleClose={this.handleClose} show={selectedShow} />
         {dances.map(danceObj => (
@@ -66,7 +66,6 @@ class DanceList extends React.Component {
           >
             <Card.Content>
               {danceObj.name}
-              {/* <Icon name='cancel' link onClick={() => handleDeleteDance(danceObj._id)} /> */}
             </Card.Content>
           </Card>
         ))

@@ -21,6 +21,9 @@ var danceSchema = new Schema({
         type: String,
         trim: true
     },
+    videoUrl: {
+        type: String
+    },
     show: {
         type: Schema.Types.ObjectId, ref: 'Show'
     },
