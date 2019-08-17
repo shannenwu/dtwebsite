@@ -59,7 +59,7 @@ app.post('/user/conflicts/:user_id', [
 
         var showResponse = await util.getActiveShow();
         var show_id = showResponse._id;
-        var conflictsData = {}
+        var conflictsData = {};
 
         if (showResponse.prodConflictsOpen) {
             conflictsData = { 

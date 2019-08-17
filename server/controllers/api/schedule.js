@@ -14,7 +14,7 @@ const util = require("../util.js");
 
 // This endpoint fetches a prefsheet in the active show for the user_id if specified.
 app.get('/:dance_id',
-    // connect.ensureLoggedIn(),
+    connect.ensureLoggedIn(),
     async (req, res) => {
         const showResponse = await util.getActiveShow();
         const isProd = showResponse.prodConflictsOpen;
@@ -39,14 +39,18 @@ app.get('/:dance_id',
         prefsheets.forEach(prefsheet => {
             const userConflicts = isProd ? prefsheet.prodConflicts : prefsheet.weeklyConflicts;
             const description = isProd ? prefsheet.prodDescription: prefsheet.weeklyDescription;
+            // Check if the user is unavailable in the generated time to conflicts dictionary.
             userConflicts.forEach(time => {
-                var conflicts = timeToConflicts[time];
-                var newConflicts = conflicts.concat({ 
-                    firstName: prefsheet.user.firstName, 
-                    lastName: prefsheet.user.lastName, 
-                    description
-                });
-                timeToConflicts[time] = newConflicts;
+                // Check if this time is viewable in the current time to conflicts window.
+                if (timeToConflicts.hasOwnProperty(time)) {
+                    var conflicts = timeToConflicts[time];
+                    var newConflicts = conflicts.concat({ 
+                        firstName: prefsheet.user.firstName, 
+                        lastName: prefsheet.user.lastName, 
+                        description
+                    });
+                    timeToConflicts[time] = newConflicts;
+                }
             });
         });
         res.status(200).send({isProd, timeToConflicts, times, interval});
