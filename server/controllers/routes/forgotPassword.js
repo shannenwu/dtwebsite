@@ -28,15 +28,16 @@ app.post('/forgot', [
         resetPasswordExpires: Date.now() + 360000,
     }, (err, user) => {
         if (user === null) {
-            console.error('email not in database');
             res.status(403).send('Email not registered.');
         } else {
             const transporter = nodemailer.createTransport({
-                service: 'gmail',
+                host: "outgoing.mit.edu",
+                port: 587,
+                secure: false,
                 auth: {
-                    user: process.env.EMAIL_ADDRESS,
-                    pass: process.env.EMAIL_PASSWORD,
-                },
+                    user: process.env.KERBEROS,
+                    pass: process.env.KERBEROS_PASSWORD
+                  }
             });
 
             const mailOptions = {
@@ -50,13 +51,10 @@ app.post('/forgot', [
                     + 'If you did not request this, please ignore this email and your password will remain unchanged.\n',
             };
 
-            console.log('sending mail');
-
             transporter.sendMail(mailOptions, (err, response) => {
                 if (err) {
-                    console.error('there was an error: ', err);
+                    res.status(500).send({message: 'Failed to send recovery email. Please contact us with your issue.'})
                 } else {
-                    console.log('email res: ', response);
                     res.status(200).send({message: 'Recovery email sent!'});
                 }
             });

@@ -10,7 +10,6 @@ class ForgotPassword extends React.Component {
 
     this.state = {
       email: '',
-      showError: false,
       messageFromServer: '',
       errorMsg: [],
       loading: false,
@@ -49,7 +48,6 @@ class ForgotPassword extends React.Component {
       .then((response) => {
         this.setState({
           messageFromServer: response.data.message,
-          showError: false,
           errorMsg: [],
           loading: false,
         });
@@ -62,15 +60,13 @@ class ForgotPassword extends React.Component {
             msgList.push(element.msg);
           });
           this.setState({
-            showError: true,
             errorMsg: msgList,
             loading: false,
           });
         } else {
-          // unregistered email
+          // error sending mail
           this.setState({
-            showError: true,
-            errorMsg: [error.response.data],
+            errorMsg: [error.response.data.message],
             loading: false,
           });
         }
@@ -80,7 +76,6 @@ class ForgotPassword extends React.Component {
   render() {
     const {
       email,
-      showError,
       errorMsg,
       messageFromServer,
       loading,
@@ -95,8 +90,8 @@ class ForgotPassword extends React.Component {
             Sending...
           </Message.Header>
         </Message>;
-    } else if (showError) {
-      infoMessage = <Message error header="Please fix the following and try again." list={errorMsg} />;
+    } else if (errorMsg.length !== 0) {
+      infoMessage = <Message error header="There was an error." list={errorMsg} />;
     } else if (messageFromServer === 'Recovery email sent!') {
       infoMessage = 
       <Message icon success>

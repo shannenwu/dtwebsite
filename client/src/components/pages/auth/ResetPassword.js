@@ -118,7 +118,7 @@ class ResetPassword extends React.Component {
       return (
         <div>
           <Header as="h1">
-            Password changed!
+            Password reset!
           </Header>
           <Button as={Link} to="/login">Go login!</Button>
         </div>
