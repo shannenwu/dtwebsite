@@ -3,9 +3,6 @@ const Show = require("../models/Show.js");
 const addHours = require("date-fns/add_hours");
 const addDays = require("date-fns/add_days");
 const startOfDay = require("date-fns/start_of_day");
-// import addHours from 'date-fns/add_hours'
-// import addDays from 'date-fns/add_days'
-// import startOfDay from 'date-fns/start_of_day'
 
 // Default dates. The month and day are ignored for processing for weekly scheduling. 
 // Hardcoded to a random day that starts on Sunday.
