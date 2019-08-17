@@ -15,11 +15,6 @@ const downloadOptions = [
     value: '/reports/master-dances',
   },
   {
-    key: 'Dance Audition Sheets',
-    text: 'Dance Audition Sheets',
-    value: '/reports/dance-audition-sheets',
-  },
-  {
     key: 'Audition Emails',
     text: 'Audition Emails',
     value: '/reports/master-audition-emails',
@@ -28,6 +23,11 @@ const downloadOptions = [
     key: 'Audition # Assignments',
     text: 'Audition # Assignments',
     value: '/reports/master-assignments',
+  },
+  {
+    key: 'Dance Audition Sheets',
+    text: 'Dance Audition Sheets',
+    value: '/reports/dance-audition-sheets',
   },
   {
     key: 'Master Dancer/Email List',

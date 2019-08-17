@@ -19,7 +19,7 @@ app.get('/:dance_id',
         const showResponse = await util.getActiveShow();
         const isProd = showResponse.prodConflictsOpen;
 
-        const danceObj = await Dance.findById(req.params.dance_id, 'acceptedDancers')
+        const danceObj = await Dance.findById(req.params.dance_id, 'acceptedDancers');
 
         const prefsheets = await Prefsheet
             .find({ 'user': { $in: danceObj.acceptedDancers }, 'show': showResponse._id },
