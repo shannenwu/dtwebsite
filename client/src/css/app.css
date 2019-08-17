@@ -9,7 +9,7 @@ body {
 }
 
 *:not(i) {
-  font-family: 'Open Sans', sans-serif !important;
+  font-family: "Open Sans", sans-serif !important;
 }
 
 #root {
@@ -36,32 +36,29 @@ body {
   position: fixed;
   width: var(--navbar-width);
   height: 100%;
-  background-color: #0097A7;
+  background-color: #0097a7;
   overflow: auto;
 }
 
 .navbar .item {
-    width: 100%;
-    padding: 16px;
-    transition-duration: .1s;
-    transition: border-left,.5s,linear;
-    border-left: 0 solid transparent;
-    text-align: center;
-    font-size: 1.1em;
+  width: 100%;
+  padding: 16px;
+  transition-duration: 0.1s;
+  transition: border-left, 0.5s, linear;
+  border-left: 0 solid transparent;
+  text-align: center;
+  font-size: 1.1em;
+  color: white;
 }
 
 .navbar #logo {
-    padding: 40px;
+  padding: 40px;
 }
 
 .navbar .item:hover {
-    cursor: pointer;
-    background: rgba(255, 255, 255, 0.2);
-    opacity: 1;
-}
-
-.navbar .item a {
-    color: #ffffff;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.2);
+  opacity: 1;
 }
 
 .wrapper {
@@ -77,6 +74,6 @@ body {
 }
 
 .container {
-    padding: 30px;
-    height: 100vh;
+  padding: 30px;
+  height: 100vh;
 }

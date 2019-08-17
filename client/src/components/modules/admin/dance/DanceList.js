@@ -1,15 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Grid, Header, Form, Button, Icon, Card, Loader,
+  Header, Icon, Card,
 } from 'semantic-ui-react';
-import axios from 'axios';
 import io from 'socket.io-client';
 import DanceModal from './DanceModal';
 
 class DanceList extends React.Component {
-  _isMounted = false;
-
   constructor(props) {
     super(props);
 
@@ -21,8 +18,6 @@ class DanceList extends React.Component {
   }
 
   componentDidMount() {
-    // socket for adding dance is in admin page.
-    this._isMounted = true;
   }
 
   static propTypes = {
@@ -56,7 +51,7 @@ class DanceList extends React.Component {
       <div>
         <Header as="h3">
           Dances
-          <Icon onClick={this.handleOpen} link name="plus" style={{float: 'right', fontSize: '1em'}}/>
+          <Icon onClick={this.handleOpen} link name="plus" style={{ float: 'right', fontSize: '1em' }} />
         </Header>
         <DanceModal userOptions={userOptions} open={modalOpen} handleClose={this.handleClose} show={selectedShow} />
         {dances.map(danceObj => (
@@ -65,6 +60,9 @@ class DanceList extends React.Component {
           >
             <Card.Content>
               {danceObj.name}
+              <Card.Meta>
+                {danceObj.level + ' ' + danceObj.style}
+              </Card.Meta>
             </Card.Content>
           </Card>
         ))

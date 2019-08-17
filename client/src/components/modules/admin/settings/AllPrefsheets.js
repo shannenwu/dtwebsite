@@ -67,6 +67,7 @@ class AllPrefsheets extends Component {
                 <DancerCard
                   key={card._id}
                   prefsheet={card}
+                  viewOnly={true}
                 />)
               )}
             </Card.Group>

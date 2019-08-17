@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import '../../css/app.css';
 
 class NavBar extends Component {
@@ -38,53 +38,39 @@ class NavBar extends Component {
         <div id="logo">
           <img src="/site_images/dtlogo-white.png" alt="" />
         </div>
-        <div className="item">
-          <Link to="/">
-            Home
-          </Link>
+        <div className="item" onClick={() => this.handleItemClick('/')}>
+          Home
         </div>
-        <div className="item">
-          <Link to="/about">
-            About
-          </Link>
+        <div className="item" onClick={() => this.handleItemClick('/about')}>
+          About
         </div>
         {userInfo === null ? (
-          <div className="item">
-            <Link to="/login">
-              Login
-            </Link>
+          <div className="item" onClick={() => this.handleItemClick('/login')}>
+            Login
           </div>
         ) : (
-          <React.Fragment>
-            <div className="item">
-              <Link to="/profile">
-                  Profile
-              </Link>
+            <React.Fragment>
+              <div className="item" onClick={() => this.handleItemClick('/profile')}>
+                Profile
             </div>
-            {userInfo.isChoreographer ? (
-              <div className="item">
-                <Link to="/choreographer">
-                    Choreographer
-                </Link>
+              {userInfo.isChoreographer ? (
+                <div className="item" onClick={() => this.handleItemClick('/choreographer')}>
+                  Choreographer
               </div>
-            ) : <div />}
-            {userInfo.isAdmin ? (
-              <div className="item">
-                <Link to="/admin">
-                    Admin
-                </Link>
+              ) : <div />}
+              {userInfo.isAdmin ? (
+                <div className="item" onClick={() => this.handleItemClick('/admin')}>
+                  Admin
               </div>
-            ) : <div />}
-            <div className="item" onClick={logout}>
-              <Link to="/logout">
-                  Logout
-              </Link>
+              ) : <div />}
+              <div className="item" onClick={logout}>
+                Logout
             </div>
-          </React.Fragment>
-        )}
+            </React.Fragment>
+          )}
       </div>
     );
   }
 }
 
-export default NavBar;
+export default withRouter(NavBar);

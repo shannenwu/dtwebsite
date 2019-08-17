@@ -30,7 +30,7 @@ class DancerCardOpen extends Component {
   }
 
   static defaultProps = {
-    danceObj: {_id: ''},
+    danceObj: { _id: '' },
     isActionable: true,
     isAccepted: false,
     isReturn: false,
@@ -61,7 +61,7 @@ class DancerCardOpen extends Component {
       await axios.post(`/api/auditions/${danceObj._id}/${prefsheetId}`, {
         status: update
       });
-    
+
     if (this._isMounted) {
       this.setState({
         loading: false
@@ -86,7 +86,7 @@ class DancerCardOpen extends Component {
     } = this.props;
 
     return (
-      <Card className={`dancer-card ${isActionable ? '' : 'inactionable'}`} onDoubleClick={isAccepted ? () => toggleCard(): null}>
+      <Card className={`dancer-card ${isActionable ? '' : 'inactionable'}`} onDoubleClick={isAccepted ? () => toggleCard() : null}>
         <Dimmer active={loading} inverted>
           <Loader content='Updating' />
         </Dimmer>
@@ -111,38 +111,36 @@ class DancerCardOpen extends Component {
           </Grid>
         </Card.Content>
         <Card.Content extra>
-          Max:
-          {' '}
-          {prefsheet.maxDances}
-          {!viewOnly && 
-          <Button.Group floated="right">
-            <Button
-              disabled={isAccepted || !isActionable}
-              icon="check"
-              size="tiny"
-              color="green"
-              onClick={() => this.handleStatusUpdate(prefsheet._id, 'accepted')}
-            />
-            <Button
-              disabled={
-                isReturn ||
-                !isActionable ||
-                (stats.numAccepted > 0 && !isAccepted) ||
-                (stats.numAccepted > 1 && isAccepted)
-              }
-              icon="undo"
-              size="tiny"
-              color="yellow"
-              onClick={() => this.handleStatusUpdate(prefsheet._id, 'return')}
-            />
-            <Button
-              disabled={!isActionable}
-              icon="cancel"
-              size="tiny"
-              color="red"
-              onClick={() => this.handleStatusUpdate(prefsheet._id, 'rejected')}
-            />
-          </Button.Group>}
+          {'Max: ' + prefsheet.maxDances}
+          {!viewOnly &&
+            <Button.Group floated="right">
+              <Button
+                disabled={isAccepted || !isActionable}
+                icon="check"
+                size="tiny"
+                color="green"
+                onClick={() => this.handleStatusUpdate(prefsheet._id, 'accepted')}
+              />
+              <Button
+                disabled={
+                  isReturn ||
+                  !isActionable ||
+                  (stats.numAccepted > 0 && !isAccepted) ||
+                  (stats.numAccepted > 1 && isAccepted)
+                }
+                icon="undo"
+                size="tiny"
+                color="yellow"
+                onClick={() => this.handleStatusUpdate(prefsheet._id, 'return')}
+              />
+              <Button
+                disabled={!isActionable}
+                icon="cancel"
+                size="tiny"
+                color="red"
+                onClick={() => this.handleStatusUpdate(prefsheet._id, 'rejected')}
+              />
+            </Button.Group>}
         </Card.Content>
       </Card>
     );

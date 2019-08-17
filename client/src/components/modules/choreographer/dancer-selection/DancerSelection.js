@@ -263,7 +263,7 @@ class DancerSelection extends Component {
             open={open}
             onCancel={this.handleCancel}
             onConfirm={this.handleConfirm}
-            content={'This will reject all remaining ' + pendingCards.length + ' dancers. Continue?'}
+            content={'This will reject all remaining ' + totalPendingCount + ' dancers. Continue?'}
           />
         </Header>
         <Grid stackable divided padded columns={2} style={{ height: '100%' }}>
