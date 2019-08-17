@@ -1,5 +1,12 @@
 const Show = require("../models/Show.js");
 
+const addHours = require("date-fns/add_hours");
+const addDays = require("date-fns/add_days");
+const startOfDay = require("date-fns/start_of_day");
+// import addHours from 'date-fns/add_hours'
+// import addDays from 'date-fns/add_days'
+// import startOfDay from 'date-fns/start_of_day'
+
 // Default dates. The month and day are ignored for processing for weekly scheduling. 
 // Hardcoded to a random day that starts on Sunday.
 
@@ -21,15 +28,12 @@ function getActiveShow() {
 }
 
 function getWeekTimes() {
+  const startTime = startOfDay(weekStartDate);
   var times = [];
   for (var d = 0; d < weekDays; d++) {
     var currentDay = [];
     for (var h = weekStartHour; h <= weekEndHour; h += 0.5) {
-      var time = new Date(weekStartDate.getFullYear(), weekStartDate.getMonth(), weekStartDate.getDate() + d, Math.floor(h));
-      if (h % 1 === 0.5) { // half hour
-        time.setMinutes(30);
-      }
-      currentDay.push(time.toISOString()) ;
+      currentDay.push(addHours(addDays(startTime, d), h));
     }
     times.push(currentDay);
   }
@@ -37,19 +41,16 @@ function getWeekTimes() {
 }
 
 function getWeekStartEnd() {
-  return {startTime: weekStartHour, endTime: weekEndHour}
+  return { startTime: weekStartHour, endTime: weekEndHour }
 }
 
 function getProdTimes() {
+  const startTime = startOfDay(prodStartDate);
   var times = [];
   for (var d = 0; d < prodDays; d++) {
     var currentDay = [];
     for (var h = prodStartHour; h <= prodEndHour; h += 0.5) {
-      var time = new Date(prodStartDate.getFullYear(), prodStartDate.getMonth(), prodStartDate.getDate() + d, Math.floor(h));
-      if (h % 1 === 0.5) { // half hour
-        time.setMinutes(30);
-      } 
-      currentDay.push(time.toISOString());
+      currentDay.push(addHours(addDays(startTime, d), h));
     }
     times.push(currentDay);
   }
@@ -57,7 +58,7 @@ function getProdTimes() {
 }
 
 function getProdStartEnd() {
-  return {startTime: prodStartHour, endTime: prodEndHour}
+  return { startTime: prodStartHour, endTime: prodEndHour }
 }
 
 module.exports = {

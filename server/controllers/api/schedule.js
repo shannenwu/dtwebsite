@@ -28,9 +28,10 @@ app.get('/:dance_id',
 
         var timeToConflicts = {};
         const times = isProd ? util.getProdTimes() : util.getWeekTimes();
+
         times.forEach(timeOfDays => {
             timeOfDays.forEach(time => {
-                timeToConflicts[time] = [];
+                timeToConflicts[time.toISOString()] = [];
             })
         });
 
