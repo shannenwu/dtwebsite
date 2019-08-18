@@ -45,8 +45,7 @@ app.get('/master-dances',
 
     });
 
-// Returns csv of all dancers who submitted prefsheets for the active show, with email.
-// TODO redundant function because of populate below.
+// Returns csv of all emails of dancers who submitted prefsheets for the active show.
 app.get('/master-audition-emails',
     connect.ensureLoggedIn(),
     async (req, res) => {

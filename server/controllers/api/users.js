@@ -26,6 +26,9 @@ app.get('/:user_id?', (req, res) => {
         });
     } else {
         User.find({}).sort({ firstName: 'ascending' }).exec((err, docs) => {
+            if (err) {
+                console.log(err);
+            }
             res.send(docs);
         });
     }

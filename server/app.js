@@ -25,15 +25,7 @@ app.set('socketio', io);
 // handle incoming connections from clients
 io.on('connection', function (socket) {
   console.log('a client connected');
-  // once a client has connected, we expect to get a ping from them saying what room they want to join
-  socket.on('room', function (room) {
-    socket.join(room, () => {
-      // let rooms = Object.keys(socket.rooms);
-      // console.log(rooms); 
-    });
   
-    io.in(room).emit('connected to room', "you are in room with dance id " + room);
-  });
   socket.on('disconnect', function () {
     console.log('user disconnected');
   });

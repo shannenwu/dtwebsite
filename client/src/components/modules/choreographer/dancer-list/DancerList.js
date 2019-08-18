@@ -73,7 +73,7 @@ class DancerList extends Component {
           {danceObj.name}
         </Header>
         <Header.Subheader>{danceObj.level + ' ' + danceObj.style}</Header.Subheader>
-        <Table basic selectable striped>
+        <Table basic selectable>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>First Name</Table.HeaderCell>
@@ -90,7 +90,7 @@ class DancerList extends Component {
                   <Table.Cell>{user.firstName}</Table.Cell>
                   <Table.Cell>{user.lastName}</Table.Cell>
                   <Table.Cell>{user.email}</Table.Cell>
-                  <Table.Cell collapsing>{user.year}</Table.Cell>
+                  <Table.Cell>{user.year}</Table.Cell>
                 </Table.Row>
               );
             })}

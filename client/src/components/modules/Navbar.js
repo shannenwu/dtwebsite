@@ -8,7 +8,6 @@ class NavBar extends Component {
     super(props);
 
     this.state = {
-      visible: true,
     };
   }
 
@@ -30,9 +29,6 @@ class NavBar extends Component {
       userInfo,
       logout,
     } = this.props;
-    const {
-      visible,
-    } = this.state;
     return (
       <div>
         <div id="logo">
