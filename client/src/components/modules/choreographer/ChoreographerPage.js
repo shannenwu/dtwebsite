@@ -97,11 +97,14 @@ class ChoreographerPage extends Component {
             return (
               <List.Item key={index}>
                 {buttons}
-                <List.Header>
-                  <List.Content verticalAlign='middle'>
+                <List.Content verticalAlign='middle'>
+                  <List.Header>
                     {dance.name}
-                  </List.Content>
-                </List.Header>
+                  </List.Header>
+                  <List.Description>
+                    {dance.level + ' ' + dance.style}
+                  </List.Description>
+                </List.Content>
               </List.Item>
             );
           })}
