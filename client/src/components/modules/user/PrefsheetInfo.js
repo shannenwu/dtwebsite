@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Grid, Message, Form, Button, Dropdown, List,
+  Button, Dropdown, Form, Grid, List, Message
 } from 'semantic-ui-react';
 import './user.css';
 
@@ -72,22 +72,23 @@ class PrefsheetInfo extends React.Component {
 
     return (
       <div>
-        <Message info>
-          View detailed dance descriptions HERE.
-          Please only pref the dances you want to be in.
-          Make sure you have also uploaded a profile photo—
-          choreographers can't accept you into their dance if they don't know who you are!
-          Prefsheets can be re-submitted until they close at 2AM DATE HERE.
-        </Message>
+        {!isLate &&
+          <Message info>
+            View detailed dance descriptions HERE.
+            Please only pref the dances you want to be in.
+            Make sure you have also uploaded a profile photo—
+            choreographers can't accept you into their dance if they don't know who you are!
+            Prefsheets can be re-submitted until they close at 2AM DATE HERE.
+          </Message>}
         <Form as={Grid} padded stackable>
           {isLate
             && (
               <Grid.Row>
-                <Grid.Column width={3} verticalAlign="middle">
-                  <label className="userInfoLabels">Dancer</label>
+                <Grid.Column width={3} verticalAlign='middle'>
+                  <label className='userInfoLabels'>Dancer</label>
                 </Grid.Column>
                 <Dropdown
-                  name="userId"
+                  name='userId'
                   width={13}
                   selection
                   search
@@ -101,13 +102,13 @@ class PrefsheetInfo extends React.Component {
             )
           }
           <Grid.Row>
-            <Grid.Column width={3} verticalAlign="middle">
-              <label className="userInfoLabels">Max number of dances</label>
+            <Grid.Column width={3} verticalAlign='middle'>
+              <label className='userInfoLabels'>Max number of dances</label>
             </Grid.Column>
 
             <Dropdown
               as={Grid.Column}
-              name="maxDances"
+              name='maxDances'
               selection
               search
               upward={false}
@@ -118,8 +119,8 @@ class PrefsheetInfo extends React.Component {
           </Grid.Row>
           {prefData.rankedDances.map((rankedDance, index) => (
             <Grid.Row key={index}>
-              <Grid.Column width={2} verticalAlign="middle" textAlign="right">
-                <label className="userInfoLabels">
+              <Grid.Column width={2} verticalAlign='middle' textAlign='right'>
+                <label className='userInfoLabels'>
                   {index + 1}
                   .
                 </label>
@@ -140,20 +141,20 @@ class PrefsheetInfo extends React.Component {
           ))}
 
           <Grid.Row>
-            <Grid.Column width={16} className="userInput">
-              <Button floated="right" color="blue" onClick={handleSubmit}>Submit</Button>
+            <Grid.Column width={16} className='userInput'>
+              <Button floated='right' color='blue' onClick={handleSubmit}>Submit</Button>
             </Grid.Column>
           </Grid.Row>
 
           {errorMsg.length !== 0 && (
             <Grid.Row>
-              <Grid.Column width={16} className="userInput">
+              <Grid.Column width={16} className='userInput'>
                 <Message
-                  className="response"
+                  className='response'
                   negative
                 >
                   <Message.Header
-                    content="Error!"
+                    content='Error!'
                   />
                   <List items={errorMsg} />
                 </Message>
@@ -162,14 +163,14 @@ class PrefsheetInfo extends React.Component {
           )}
           {messageFromServer === 'Preference sheet updated!' && (
             <Grid.Row>
-              <Grid.Column width={16} className="userInput">
+              <Grid.Column width={16} className='userInput'>
                 <Message
-                  className="response"
+                  className='response'
                   onDismiss={handleDismiss}
                   header={
-                  isLate ? (
-                    messageFromServer + ' Late audition number: ' + lateAuditionNum
-                  ) : messageFromServer
+                    isLate ? (
+                      messageFromServer + ' Late audition number: ' + lateAuditionNum
+                    ) : messageFromServer
                   }
                   positive
                 />

@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import io from 'socket.io-client';
 import {
-  Header, Confirm, Grid, Button, Card, Dimmer, Loader, Checkbox
+  Button, Card, Checkbox, Confirm, Dimmer, Header, Grid, Loader
 } from 'semantic-ui-react';
 import InfiniteScroll from 'react-infinite-scroller';
 import DancerCard from './DancerCard';
@@ -255,8 +255,8 @@ class DancerSelection extends Component {
       return <Redirect to={listLink} />;
     }
     return (
-      <div id="dancer-selection">
-        <Header as="h1">
+      <div id='dancer-selection'>
+        <Header as='h1'>
           {danceObj.name}
           <Button floated='right' onClick={this.show}>I'M DONE PICKING</Button>
           <Confirm
@@ -267,8 +267,8 @@ class DancerSelection extends Component {
           />
         </Header>
         <Grid stackable divided padded columns={2} style={{ height: '100%' }}>
-          <Grid.Column className="pending-cards" width={10}>
-            <Header as="h3">
+          <Grid.Column className='pending-cards' width={10}>
+            <Header as='h3'>
               <Checkbox
                 label='Hide inactionable dancers'
                 toggle
@@ -314,8 +314,8 @@ class DancerSelection extends Component {
                 )}
             </InfiniteScroll>
           </Grid.Column>
-          <Grid.Column className="accepted-cards" width={6}>
-            <Header as="h3">
+          <Grid.Column className='accepted-cards' width={6}>
+            <Header as='h3'>
               Accepted
               <Header.Subheader 
                 content={acceptedCards.length + ' dancers accepted'}

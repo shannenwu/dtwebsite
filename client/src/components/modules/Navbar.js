@@ -31,35 +31,35 @@ class NavBar extends Component {
     } = this.props;
     return (
       <div>
-        <div id="logo">
-          <img src="/site_images/dtlogo-white.png" alt="" />
+        <div id='logo'>
+          <img src='/site_images/dtlogo-white.png' alt='' />
         </div>
-        <div className="item" onClick={() => this.handleItemClick('/')}>
+        <div className='item' onClick={() => this.handleItemClick('/')}>
           Home
         </div>
-        <div className="item" onClick={() => this.handleItemClick('/about')}>
+        <div className='item' onClick={() => this.handleItemClick('/about')}>
           About
         </div>
         {userInfo === null ? (
-          <div className="item" onClick={() => this.handleItemClick('/login')}>
+          <div className='item' onClick={() => this.handleItemClick('/login')}>
             Login
           </div>
         ) : (
             <React.Fragment>
-              <div className="item" onClick={() => this.handleItemClick('/profile')}>
+              <div className='item' onClick={() => this.handleItemClick('/profile')}>
                 Profile
             </div>
               {userInfo.isChoreographer ? (
-                <div className="item" onClick={() => this.handleItemClick('/choreographer')}>
+                <div className='item' onClick={() => this.handleItemClick('/choreographer')}>
                   Choreographer
               </div>
               ) : <div />}
               {userInfo.isAdmin ? (
-                <div className="item" onClick={() => this.handleItemClick('/admin')}>
+                <div className='item' onClick={() => this.handleItemClick('/admin')}>
                   Admin
               </div>
               ) : <div />}
-              <div className="item" onClick={logout}>
+              <div className='item' onClick={logout}>
                 Logout
             </div>
             </React.Fragment>

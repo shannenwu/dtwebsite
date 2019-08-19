@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import {
-  Grid, Header, Button, Checkbox, Icon, Confirm, Dropdown
-} from 'semantic-ui-react';
+import { Button, Checkbox, Confirm, Dropdown, Grid, Header, Icon } from 'semantic-ui-react';
 import axios from 'axios';
 import LatePrefsheetModal from './LatePrefsheetModal';
 import './settings.css';
@@ -122,13 +120,13 @@ class ShowSettings extends React.Component {
     } = this.props;
 
     return (
-      <div id="show-settings">
-        <Header as="h3">
+      <div id='show-settings'>
+        <Header as='h3'>
           Show Settings
         </Header>
         <Grid.Row>
           Late Preference Sheets
-          <Icon onClick={this.handleOpen} link name="add" style={{ float: 'right' }} />
+          <Icon onClick={this.handleOpen} link name='add' style={{ float: 'right' }} />
           <LatePrefsheetModal userOptions={userOptions} danceOptions={danceOptions} open={latePrefOpen} handleClose={this.handleClose} activeShow={activeShow} />
         </Grid.Row>
         <Grid.Row>
@@ -143,8 +141,8 @@ class ShowSettings extends React.Component {
           <Button onClick={this.showAuditionNumConfirmation}>Generate Audition Numbers</Button>
           <Confirm
             open={confirmAuditionNumOpen}
-            content="This will generate new audition numbers for all prefsheets in the active show. Proceed?"
-            confirmButton="Yes"
+            content='This will generate new audition numbers for all prefsheets in the active show. Proceed?'
+            confirmButton='Yes'
             onCancel={this.handleCancel}
             onConfirm={this.handleConfirmAuditionNumbers}
           />
@@ -156,8 +154,8 @@ class ShowSettings extends React.Component {
           <Button onClick={this.showPermissionsConfirmation}>Update Choreographer Permissions</Button>
           <Confirm
             open={confirmPermissionsOpen}
-            content="This will give/revoke choreographer permissions for dances in the active show. Proceed?"
-            confirmButton="Yes"
+            content='This will give/revoke choreographer permissions to reflect the current dances in the active show. Proceed?'
+            confirmButton='Yes'
             onCancel={this.handleCancel}
             onConfirm={this.handleConfirmChoreographers}
           />
@@ -173,7 +171,7 @@ class ShowSettings extends React.Component {
           <span>
             Download {' '}
             <Dropdown
-              name="downloadLink"
+              name='downloadLink'
               inline
               options={downloadOptions}
               value={downloadLink}

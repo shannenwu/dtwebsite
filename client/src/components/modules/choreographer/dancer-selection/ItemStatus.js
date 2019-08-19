@@ -32,7 +32,7 @@ class ItemStatus extends Component {
         inverted
         trigger={
           <List.Item>
-            <List.Content className="dance-name">
+            <List.Content className='dance-name'>
               <span className={pref.status}>
                 {rank}
                 .

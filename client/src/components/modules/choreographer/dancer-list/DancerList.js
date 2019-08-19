@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { Header, Dimmer, Loader, Table, Button, Icon } from 'semantic-ui-react';
+import { Button, Dimmer, Header, Icon, Loader, Table } from 'semantic-ui-react';
 class DancerList extends Component {
   constructor(props) {
     super(props);

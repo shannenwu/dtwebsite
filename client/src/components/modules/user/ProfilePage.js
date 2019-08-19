@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import {
-  Header, Menu, Dimmer, Loader, Label, Popup, Icon
+  Dimmer, Header, Icon, Label, Loader, Menu, Popup
 } from 'semantic-ui-react';
 import UserInfo from './UserInfo';
 import PrefsheetInfo from './PrefsheetInfo';
@@ -277,56 +277,56 @@ class ProfilePage extends Component {
       );
     }
     return (
-      <div id="profile">
-        <Header as="h1">
+      <div id='profile'>
+        <Header as='h1'>
           {`${userInfo.firstName} ${userInfo.lastName}`}
         </Header>
         <Menu tabular pointing secondary stackable>
           <Menu.Item
-            name="personal"
+            name='personal'
             active={activeItem === 'personal'}
             onClick={this.handleItemClick}
           >
-            <Icon name="user circle" />
+            <Icon name='user circle' />
             Dancer Info
           </Menu.Item>
           {activeShow.prefsOpen && (
             <React.Fragment>
               <Menu.Item
-                name="prefs"
+                name='prefs'
                 active={activeItem === 'prefs'}
                 onClick={this.handleItemClick}
               >
-                <Icon name="list ol" />
+                <Icon name='list ol' />
                 Dance Preferences
               </Menu.Item>
               <Menu.Item
-                name="conflicts"
+                name='conflicts'
                 active={activeItem === 'conflicts'}
                 onClick={this.handleItemClick}
               >
-                <Icon name="calendar alternate outline" />
+                <Icon name='calendar alternate outline' />
                 Practice Conflicts
                 {!conflicts.length && prefData.rankedDances.length &&
                   <Popup
-                    content="Please fill out your weekly availabilities for rehearsal times!"
-                    trigger={<Label circular color="red" size="mini" floating content="!" />}
+                    content='Please fill out your weekly availabilities for rehearsal times!'
+                    trigger={<Label circular color='red' size='mini' floating content='!' />}
                   />}
               </Menu.Item>
             </React.Fragment>
           )}
           {activeShow.prodConflictsOpen &&
             <Menu.Item
-              name="conflicts"
+              name='conflicts'
               active={activeItem === 'conflicts'}
               onClick={this.handleItemClick}
             >
-              <Icon name="calendar alternate outline" />
+              <Icon name='calendar alternate outline' />
               Prod Week Conflicts
                 {!conflicts.length &&
                 <Popup
-                  content="Please fill out your prod week availabilities!"
-                  trigger={<Label circular color="red" size="mini" floating content="!" />}
+                  content='Please fill out your prod week availabilities!'
+                  trigger={<Label circular color='red' size='mini' floating content='!' />}
                 />}
             </Menu.Item>}
         </Menu>

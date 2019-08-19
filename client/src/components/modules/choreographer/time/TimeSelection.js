@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Loader, Dimmer, Header, Grid, Table } from 'semantic-ui-react';
+import { Dimmer, Header, Grid, Loader } from 'semantic-ui-react';
 import axios from 'axios';
 import './schedule.css';
 
@@ -88,8 +88,8 @@ class TimeSelection extends Component {
   renderDateCellWrapper = (time) => {
     return (
       <div
-        className="grid-cell"
-        role="presentation"
+        className='grid-cell'
+        role='presentation'
         key={time}
       >
         {this.renderDateCell(time)}

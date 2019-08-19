@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Button, Form, Container, Header, Message, Input,
+  Button, Container, Form, Header, Input, Message
 } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -69,15 +69,15 @@ class SignUp extends React.Component {
     if (messageFromServer === '') {
       return (
         <Container>
-          <Header as="h1">
+          <Header as='h1'>
             Create an Account
           </Header>
           <Form>
             <Form.Field required>
               <label>First Name</label>
               <Input
-                name="firstName"
-                placeholder="John"
+                name='firstName'
+                placeholder='John'
                 onChange={this.handleChange}
                 value={firstName}
               />
@@ -85,8 +85,8 @@ class SignUp extends React.Component {
             <Form.Field required>
               <label>Last Name</label>
               <Input
-                name="lastName"
-                placeholder="Smith"
+                name='lastName'
+                placeholder='Smith'
                 onChange={this.handleChange}
                 value={lastName}
               />
@@ -94,8 +94,8 @@ class SignUp extends React.Component {
             <Form.Field required>
               <label>Email</label>
               <Input
-                name="email"
-                placeholder="example@mit.edu"
+                name='email'
+                placeholder='example@mit.edu'
                 onChange={this.handleChange}
                 value={email}
               />
@@ -103,20 +103,20 @@ class SignUp extends React.Component {
             <Form.Field required>
               <label>Password</label>
               <Input
-                name="password"
-                placeholder="Password at least 6 characters long"
-                autoComplete="off"
-                type="password"
+                name='password'
+                placeholder='Password at least 6 characters long'
+                autoComplete='off'
+                type='password'
                 onChange={this.handleChange}
                 value={password}
               />
             </Form.Field>
-            <Button type="submit" onClick={this.handleSubmit}>Register</Button>
+            <Button type='submit' onClick={this.handleSubmit}>Register</Button>
           </Form>
           {errorMsg.length !== 0 && (
             <Message
               error
-              header="Please fix the following and try again."
+              header='Please fix the following and try again.'
               list={errorMsg}
             />
           )}
@@ -125,10 +125,10 @@ class SignUp extends React.Component {
     } if (messageFromServer === 'user created') {
       return (
         <div>
-          <Header as="h1">
+          <Header as='h1'>
             Successfully registered!
           </Header>
-          <Button as={Link} to="/login">Go login!</Button>
+          <Button as={Link} to='/login'>Go login!</Button>
         </div>
       );
     }

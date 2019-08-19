@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Grid, Button, Modal, Message,
+  Button, Grid, Message, Modal
 } from 'semantic-ui-react';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
@@ -83,7 +83,7 @@ class ImageModal extends React.Component {
         <Grid centered>
           <Grid.Row>
             <Cropper
-              ref="cropper"
+              ref='cropper'
               src={src}
               style={{ height: 300, width: 400 }}
               // Cropper.js options
@@ -98,8 +98,8 @@ class ImageModal extends React.Component {
           </Grid.Row>
           <Grid.Row>
             <div>
-              <Button color="green" floated="right" onClick={this.cropImage}>Crop</Button>
-              <Button floated="right" onClick={this.handleClose}>Cancel</Button>
+              <Button color='green' floated='right' onClick={this.cropImage}>Crop</Button>
+              <Button floated='right' onClick={this.handleClose}>Cancel</Button>
             </div>
           </Grid.Row>
         </Grid>
@@ -117,7 +117,7 @@ class ImageModal extends React.Component {
         <Modal.Header>Select Photo</Modal.Header>
         <Modal.Content image>
           <Modal.Description>
-            <input type="file" name="imageData" accept="image/*" onChange={this.onChange} style={{ paddingBottom: '1.5rem' }} />
+            <input type='file' name='imageData' accept='image/*' onChange={this.onChange} style={{ paddingBottom: '1.5rem' }} />
             {content}
             {validateErr === 'File size cannot be larger than 10 MB.' && (
               <Message

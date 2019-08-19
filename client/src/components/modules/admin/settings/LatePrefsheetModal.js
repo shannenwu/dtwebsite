@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Modal,
-} from 'semantic-ui-react';
+import { Modal } from 'semantic-ui-react';
 import axios from 'axios';
 import PrefsheetInfo from '../../user/PrefsheetInfo';
 

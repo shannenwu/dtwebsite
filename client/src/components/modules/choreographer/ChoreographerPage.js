@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Link,
-} from 'react-router-dom';
-import {
-  Header, List, Button, Dimmer, Loader,
-} from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
+import { Button, Dimmer, Header, List, Loader } from 'semantic-ui-react';
 
 class ChoreographerPage extends Component {
   constructor(props) {
@@ -58,11 +54,11 @@ class ChoreographerPage extends Component {
       );
     }
     return (
-      <div id="choreographer">
-        <Header as="h1">
+      <div id='choreographer'>
+        <Header as='h1'>
           Choreographer
         </Header>
-        <List selection divided relaxed verticalAlign="middle" size="big">
+        <List selection divided relaxed verticalAlign='middle' size='big'>
           {dances.map((dance, index) => {
             const selectionLink = `/selection/${dance._id}`;
             const timeLink = `/time/${dance._id}`;

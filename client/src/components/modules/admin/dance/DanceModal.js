@@ -29,6 +29,19 @@ class DanceModal extends React.Component {
   componentDidMount() {
   }
 
+  handleDanceModalClose = () => {
+    const { handleClose } = this.props;
+    this.setState({
+      name: '',
+      description: '',
+      choreographers: [],
+      style: '',
+      level: '',
+      errorMsg: [],
+    });
+    handleClose();
+  }
+
   handleChange = (e, { name, value }) => {
     this.setState({
       [name]: value,
@@ -46,7 +59,6 @@ class DanceModal extends React.Component {
     } = this.state;
 
     const {
-      handleClose,
       show,
     } = this.props;
 
@@ -59,15 +71,7 @@ class DanceModal extends React.Component {
       show,
     })
       .then((response) => {
-        this.setState({
-          name: '',
-          description: '',
-          choreographers: [],
-          style: '',
-          level: '',
-          errorMsg: [],
-        });
-        handleClose();
+        this.handleDanceModalClose();
       })
       .catch((error) => {
         const msgList = [];
@@ -92,7 +96,6 @@ class DanceModal extends React.Component {
 
     const {
       open,
-      handleClose,
       userOptions,
     } = this.props;
 
@@ -100,7 +103,7 @@ class DanceModal extends React.Component {
       <div>
         <Modal
           open={open}
-          onClose={handleClose}
+          onClose={this.handleDanceModalClose}
         >
           <Modal.Header>Add a Dance</Modal.Header>
           <Modal.Content scrolling>
@@ -108,7 +111,7 @@ class DanceModal extends React.Component {
               <Form.Field>
                 <label>Choreographers</label>
                 <Dropdown
-                  name="choreographers"
+                  name='choreographers'
                   selection
                   search
                   multiple
@@ -122,7 +125,7 @@ class DanceModal extends React.Component {
               <Form.Field>
                 <label>Name</label>
                 <Input
-                  name="name"
+                  name='name'
                   onChange={this.handleChange}
                   value={name}
                 />
@@ -130,7 +133,7 @@ class DanceModal extends React.Component {
               <Form.Field>
                 <label>Style</label>
                 <Dropdown
-                  name="style"
+                  name='style'
                   selection
                   search
                   scrolling
@@ -143,7 +146,7 @@ class DanceModal extends React.Component {
               <Form.Field>
                 <label>Level</label>
                 <Dropdown
-                  name="level"
+                  name='level'
                   selection
                   search
                   scrolling
@@ -156,23 +159,23 @@ class DanceModal extends React.Component {
               <Form.Field>
                 <label>Description</label>
                 <Input
-                  name="description"
+                  name='description'
                   onChange={this.handleChange}
                   value={description}
                 />
               </Form.Field>
               {errorMsg.length !== 0 ? (
                 <Message
-                  className="response"
+                  className='response'
                   negative
                 >
-                  <Message.Header content="Please fix the following and try again." />
+                  <Message.Header content='Please fix the following and try again.' />
                   <List items={errorMsg} />
                 </Message>
               ) : (
                   <Modal.Actions>
-                    <Button color="green" floated="right" onClick={this.handleSubmit}>Save</Button>
-                    <Button floated="right" onClick={handleClose}>Cancel</Button>
+                    <Button color='green' floated='right' onClick={this.handleSubmit}>Save</Button>
+                    <Button floated='right' onClick={this.handleDanceModalClose}>Cancel</Button>
                   </Modal.Actions>
                 )}
             </Form>

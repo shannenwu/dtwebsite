@@ -9,7 +9,6 @@ class PrefList extends Component {
     super(props);
 
     this.state = {
-      loading: true, // nuke?
     };
   }
 
@@ -25,22 +24,11 @@ class PrefList extends Component {
 
   render() {
     const {
-      loading,
-    } = this.state;
-
-    const {
       rankedDances,
     } = this.props;
 
-    // if (loading) {
-    //   return (
-    //     <Dimmer active inverted>
-    //       <Loader></Loader>
-    //     </Dimmer>
-    //   );
-    // }
     return (
-      <List verticalAlign="middle" size="small">
+      <List verticalAlign='middle' size='small'>
         {rankedDances.map((pref, index) => <ItemStatus key={index} rank={index + 1} pref={pref} />)}
       </List>
     );

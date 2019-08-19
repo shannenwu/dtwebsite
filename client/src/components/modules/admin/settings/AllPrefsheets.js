@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import {
-  Header, Dimmer, Loader, Grid, Card, Message
-} from 'semantic-ui-react';
+import { Card, Dimmer, Grid, Header, Loader, Message } from 'semantic-ui-react';
 import DancerCard from '../../choreographer/dancer-selection/DancerCard';
 
 class AllPrefsheets extends Component {
@@ -53,7 +51,7 @@ class AllPrefsheets extends Component {
     }
     return (
       <div>
-        <Header as="h1">
+        <Header as='h1'>
           All Prefsheets
           <Header.Subheader
             content={cards.length + ' dancers auditioning'}

@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Redirect, Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import {
-  Grid, Message, Header, Segment, Form, Button, Input, Dimmer, Loader,
+  Button, Dimmer, Grid, Form, Header, Input, Loader, Message, Segment
 } from 'semantic-ui-react';
 import axios from 'axios';
 
@@ -85,7 +85,7 @@ class Login extends React.Component {
       loading,
     } = this.state;
     if (redirect) {
-      return <Redirect to="/profile" />;
+      return <Redirect to='/profile' />;
     }
     return (
       <Grid padded centered>
@@ -93,17 +93,17 @@ class Login extends React.Component {
           <Loader />
         </Dimmer>
         <Grid.Column width={8}>
-          <Header 
-            as="h1" 
+          <Header
+            as='h1'
             content='Welcome Back!'
-            style={{textAlign: 'center'}}
+            style={{ textAlign: 'center' }}
           />
           <Segment>
             <Form>
               <Form.Field>
                 <label>Email</label>
                 <Input
-                  name="email"
+                  name='email'
                   onChange={this.handleChange}
                   value={email}
                 />
@@ -111,24 +111,24 @@ class Login extends React.Component {
               <Form.Field style={{ marginBottom: '0em' }}>
                 <label>Password</label>
                 <Input
-                  name="password"
-                  autoComplete="off"
-                  type="password"
+                  name='password'
+                  autoComplete='off'
+                  type='password'
                   onChange={this.handleChange}
                   value={password}
                 />
               </Form.Field>
               <div style={{ marginBottom: '1em' }}>
-                <Link to="/forgot">Forgot your password?</Link>
+                <Link to='/forgot'>Forgot your password?</Link>
               </div>
-              <Button type="submit" onClick={this.handleSubmit} fluid color="blue">
+              <Button type='submit' onClick={this.handleSubmit} fluid color='blue'>
                 Login
               </Button>
             </Form>
             {errorMsg.length !== 0 && (
               <Message
                 error
-                header="Please fix the following and try again."
+                header='Please fix the following and try again.'
                 list={errorMsg}
               />
             )}
@@ -138,7 +138,7 @@ class Login extends React.Component {
           >
             Need an account?
             {' '}
-            <Link to="/signup">Sign up!</Link>
+            <Link to='/signup'>Sign up!</Link>
           </Message>
         </Grid.Column>
       </Grid>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import {
-  Header, Card, Grid, Image, Button, Dimmer, Loader,
+  Button, Card, Dimmer, Grid, Header, Image, Loader
 } from 'semantic-ui-react';
 import PrefList from './PrefList';
 import './card.css';
@@ -91,13 +91,13 @@ class DancerCardOpen extends Component {
           <Loader content='Updating' />
         </Dimmer>
         <Card.Content>
-          <Header floated="right">{prefsheet.auditionNumber}</Header>
+          <Header floated='right'>{prefsheet.auditionNumber}</Header>
           <Card.Header>{`${prefsheet.user.firstName} ${prefsheet.user.lastName}`}</Card.Header>
           <Card.Meta>{prefsheet.user.year}</Card.Meta>
-          <Grid stackable centered columns="equal" style={{ minWidth: '100%' }}>
-            <Grid.Column className="dancer-image">
+          <Grid stackable centered columns='equal' style={{ minWidth: '100%' }}>
+            <Grid.Column className='dancer-image'>
               <Image
-                size="small"
+                size='small'
                 src={prefsheet.user.imageUrl}
                 onError={this.addDefaultImage}
               />
@@ -113,12 +113,12 @@ class DancerCardOpen extends Component {
         <Card.Content extra>
           {'Max: ' + prefsheet.maxDances}
           {!viewOnly &&
-            <Button.Group floated="right">
+            <Button.Group floated='right'>
               <Button
                 disabled={isAccepted || !isActionable}
-                icon="check"
-                size="tiny"
-                color="green"
+                icon='check'
+                size='tiny'
+                color='green'
                 onClick={() => this.handleStatusUpdate(prefsheet._id, 'accepted')}
               />
               <Button
@@ -128,16 +128,16 @@ class DancerCardOpen extends Component {
                   (stats.numAccepted > 0 && !isAccepted) ||
                   (stats.numAccepted > 1 && isAccepted)
                 }
-                icon="undo"
-                size="tiny"
-                color="yellow"
+                icon='undo'
+                size='tiny'
+                color='yellow'
                 onClick={() => this.handleStatusUpdate(prefsheet._id, 'return')}
               />
               <Button
                 disabled={!isActionable}
-                icon="cancel"
-                size="tiny"
-                color="red"
+                icon='cancel'
+                size='tiny'
+                color='red'
                 onClick={() => this.handleStatusUpdate(prefsheet._id, 'rejected')}
               />
             </Button.Group>}

@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Grid, Message, Header, Form, Button, Icon
+  Button, Form, Grid, Header, Icon, Message
 } from 'semantic-ui-react';
 import axios from 'axios';
 
@@ -91,7 +91,7 @@ class ForgotPassword extends React.Component {
           </Message.Header>
         </Message>;
     } else if (errorMsg.length !== 0) {
-      infoMessage = <Message error header="There was an error." list={errorMsg} />;
+      infoMessage = <Message error header='There was an error.' list={errorMsg} />;
     } else if (messageFromServer === 'Recovery email sent!') {
       infoMessage = 
       <Message icon success>
@@ -106,19 +106,19 @@ class ForgotPassword extends React.Component {
     return (
       <Grid padded columns={1}>
         <Grid.Column>
-          <Header as="h1">
+          <Header as='h1'>
             Forgot Your Password?
             </Header>
           <Form>
             <Form.Field>
               <label>Email</label>
               <input
-                name="email"
+                name='email'
                 onChange={this.handleInputChange}
                 value={email}
               />
             </Form.Field>
-            <Button type="submit" onClick={this.handleSubmit} color="blue">
+            <Button type='submit' onClick={this.handleSubmit} color='blue'>
               Send Password Reset Email
               </Button>
           </Form>

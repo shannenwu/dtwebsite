@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Grid, Message, Header, Form, Button,
+  Button, Form, Grid, Header, Message
 } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -76,38 +76,38 @@ class ResetPassword extends React.Component {
       return (
         <Grid padded columns={1}>
           <Grid.Column>
-            <Header as="h1">
+            <Header as='h1'>
               Reset Your Password
             </Header>
             <Form>
               <Form.Field>
                 <label>New Password</label>
                 <input
-                  name="password"
+                  name='password'
                   onChange={this.handleInputChange}
                   value={password}
-                  autoComplete="off"
-                  type="password"
+                  autoComplete='off'
+                  type='password'
                 />
               </Form.Field>
               <Form.Field>
                 <label>Confirm New Password</label>
                 <input
-                  name="confirmPassword"
+                  name='confirmPassword'
                   onChange={this.handleInputChange}
                   value={confirmPassword}
-                  autoComplete="off"
-                  type="password"
+                  autoComplete='off'
+                  type='password'
                 />
               </Form.Field>
-              <Button type="submit" onClick={this.handleSubmit} color="blue">
+              <Button type='submit' onClick={this.handleSubmit} color='blue'>
                 Reset Password
               </Button>
             </Form>
             {errorMsg.length !== 0 && (
               <Message
                 error
-                header="Please fix the following and try again."
+                header='Please fix the following and try again.'
                 list={errorMsg}
               />
             )}
@@ -117,10 +117,10 @@ class ResetPassword extends React.Component {
     } if (messageFromServer === 'Password changed successfully.') {
       return (
         <div>
-          <Header as="h1">
+          <Header as='h1'>
             Password reset!
           </Header>
-          <Button as={Link} to="/login">Go login!</Button>
+          <Button as={Link} to='/login'>Go login!</Button>
         </div>
       );
     }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Header, Grid, Card, Button, Placeholder,
+  Button, Card, Header, Grid, Placeholder
 } from 'semantic-ui-react';
 import './card.css';
 
@@ -9,7 +9,7 @@ class DancerCardPlaceHolder extends Component {
     return (
       <Card>
         <Card.Content>
-          <Header floated="right">
+          <Header floated='right'>
             <Placeholder>
               <Placeholder.Line length='very short' />
             </Placeholder>
@@ -24,8 +24,8 @@ class DancerCardPlaceHolder extends Component {
               <Placeholder.Line length='very short' />
             </Placeholder>
           </Card.Meta>
-          <Grid stackable centered columns="equal" style={{ minWidth: '100%' }}>
-            <Grid.Column className="dancer-image">
+          <Grid stackable centered columns='equal' style={{ minWidth: '100%' }}>
+            <Grid.Column className='dancer-image'>
               <Placeholder>
                 <Placeholder.Image square />
               </Placeholder>
@@ -44,12 +44,12 @@ class DancerCardPlaceHolder extends Component {
           </Grid>
         </Card.Content>
         <Card.Content extra>
-          <Button.Group floated="right">
-            <Button disabled icon="check" size="tiny" color="green"
+          <Button.Group floated='right'>
+            <Button disabled icon='check' size='tiny' color='green'
             />
-            <Button disabled icon="undo" size="tiny" color="yellow"
+            <Button disabled icon='undo' size='tiny' color='yellow'
             />
-            <Button disabled icon="cancel" size="tiny" color="red"
+            <Button disabled icon='cancel' size='tiny' color='red'
             />
           </Button.Group>
         </Card.Content>

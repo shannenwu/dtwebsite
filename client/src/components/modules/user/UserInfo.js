@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Grid, Message, Form, Button, Dropdown, Input, Image, List,
+  Button, Dropdown, Form, Grid, Image, Input, List, Message
 } from 'semantic-ui-react';
 import axios from 'axios';
 import ImageModal from './ImageModal';
 import './user.css';
 
-// TODO move out options to config file and error handling
+// TODO move out options to a config file, remove discrepancy between capital values
 
 const genderOptions = [
   { key: 'm', text: 'Male', value: 'male' },
@@ -149,13 +149,13 @@ class UserInfo extends React.Component {
     return (
       <Form as={Grid} padded stackable>
         <Grid.Row>
-          <Grid.Column width={3} verticalAlign="middle">
-            <label className="userInfoLabels">Gender</label>
+          <Grid.Column width={3} verticalAlign='middle'>
+            <label className='userInfoLabels'>Gender</label>
           </Grid.Column>
           <Dropdown
             as={Grid.Column}
             width={13}
-            name="gender"
+            name='gender'
             selection
             options={genderOptions}
             value={gender || ''}
@@ -163,13 +163,13 @@ class UserInfo extends React.Component {
           />
         </Grid.Row>
         <Grid.Row>
-          <Grid.Column width={3} verticalAlign="middle">
-            <label className="userInfoLabels">Graduation Year</label>
+          <Grid.Column width={3} verticalAlign='middle'>
+            <label className='userInfoLabels'>Graduation Year</label>
           </Grid.Column>
           <Dropdown
             as={Grid.Column}
             width={13}
-            name="year"
+            name='year'
             selection
             scrolling
             search
@@ -179,13 +179,13 @@ class UserInfo extends React.Component {
           />
         </Grid.Row>
         <Grid.Row>
-          <Grid.Column width={3} verticalAlign="middle">
-            <label className="userInfoLabels">Affiliation</label>
+          <Grid.Column width={3} verticalAlign='middle'>
+            <label className='userInfoLabels'>Affiliation</label>
           </Grid.Column>
           <Dropdown
             as={Grid.Column}
             width={13}
-            name="affiliation"
+            name='affiliation'
             selection
             search
             options={affilOptions}
@@ -194,36 +194,36 @@ class UserInfo extends React.Component {
           />
         </Grid.Row>
         <Grid.Row>
-          <Grid.Column width={3} verticalAlign="middle">
-            <label className="userInfoLabels">Living Group</label>
+          <Grid.Column width={3} verticalAlign='middle'>
+            <label className='userInfoLabels'>Living Group</label>
           </Grid.Column>
           <Input
             as={Grid.Column}
             width={13}
-            name="livingGroup"
+            name='livingGroup'
             onChange={this.handleChange}
             value={livingGroup || ''}
-            className="userInput"
+            className='userInput'
           />
         </Grid.Row>
         <Grid.Row>
-          <Grid.Column width={3} verticalAlign="middle">
-            <label className="userInfoLabels">Experience</label>
+          <Grid.Column width={3} verticalAlign='middle'>
+            <label className='userInfoLabels'>Experience</label>
           </Grid.Column>
           <Input
             as={Grid.Column}
             width={13}
-            name="experience"
+            name='experience'
             onChange={this.handleChange}
             value={experience || ''}
-            className="userInput"
+            className='userInput'
           />
         </Grid.Row>
         <Grid.Row>
-          <Grid.Column width={3} verticalAlign="middle">
-            <label className="userInfoLabels">Photo</label>
+          <Grid.Column width={3} verticalAlign='middle'>
+            <label className='userInfoLabels'>Photo</label>
           </Grid.Column>
-          <Grid.Column width={13} textAlign="left" className="userInput">
+          <Grid.Column width={13} textAlign='left' className='userInput'>
             {image && (
               <Grid.Row>
                 <Image wrapped src={image} onError={(e) => { e.target.onerror = null; e.target.src = ''; }} style={{width: '164.1px'}}/>
@@ -237,19 +237,19 @@ class UserInfo extends React.Component {
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>
-          <Grid.Column width={16} className="userInput">
-            <Button floated="right" color="blue" onClick={this.handleSubmit}>Save</Button>
+          <Grid.Column width={16} className='userInput'>
+            <Button floated='right' color='blue' onClick={this.handleSubmit}>Save</Button>
           </Grid.Column>
         </Grid.Row>
         {errorMsg.length !== 0 && (
           <Grid.Row>
-            <Grid.Column width={16} className="userInput">
+            <Grid.Column width={16} className='userInput'>
               <Message
-                className="response"
+                className='response'
                 negative
               >
                 <Message.Header
-                  content="Please fix the following and try again."
+                  content='Please fix the following and try again.'
                 />
                 <List items={errorMsg} />
               </Message>
@@ -258,9 +258,9 @@ class UserInfo extends React.Component {
         )}
         {messageFromServer === 'User information updated!' && (
           <Grid.Row>
-            <Grid.Column width={16} className="userInput">
+            <Grid.Column width={16} className='userInput'>
               <Message
-                className="response"
+                className='response'
                 onDismiss={this.handleDismiss}
                 header={messageFromServer}
                 positive

@@ -43,15 +43,14 @@ class DanceList extends React.Component {
     const {
       dances,
       selectedShow,
-      handleDeleteDance,
       userOptions,
     } = this.props;
 
     return (
       <div>
-        <Header as="h3">
+        <Header as='h3'>
           Dances
-          <Icon onClick={this.handleOpen} link name="plus" style={{ float: 'right', fontSize: '1em' }} />
+          <Icon onClick={this.handleOpen} link name='plus' style={{ float: 'right', fontSize: '1em' }} />
         </Header>
         <DanceModal userOptions={userOptions} open={modalOpen} handleClose={this.handleClose} show={selectedShow} />
         {dances.map(danceObj => (

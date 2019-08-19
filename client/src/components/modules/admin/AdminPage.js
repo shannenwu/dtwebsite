@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Grid, Header, Dimmer, Loader,
-} from 'semantic-ui-react';
+import { Dimmer, Grid, Header, Loader } from 'semantic-ui-react';
 import axios from 'axios';
 import io from 'socket.io-client';
 import ShowList from './show/ShowList';
@@ -259,7 +257,7 @@ class AdminPage extends React.Component {
     }
     return (
       <React.Fragment>
-        <Header as="h1">
+        <Header as='h1'>
           Administrative Options
         </Header>
         <Grid padded columns={3} style={{ height: '100%' }}>

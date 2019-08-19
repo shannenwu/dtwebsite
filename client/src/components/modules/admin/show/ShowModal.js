@@ -27,6 +27,18 @@ class ShowModal extends React.Component {
   componentDidMount() {
   }
 
+  handleShowModalClose = () => {
+    const { handleClose } = this.props;
+    this.setState({
+      name: '',
+      description: '',
+      year: '',
+      semester: '',
+      errorMsg: [],
+    });
+    handleClose();
+  }
+
   handleChange = (e, { name, value }) => {
     this.setState({
       [name]: value,
@@ -43,10 +55,6 @@ class ShowModal extends React.Component {
       prefsOpen,
     } = this.state;
 
-    const {
-      handleClose,
-    } = this.props;
-
     axios.post('/api/shows', {
       name,
       description,
@@ -55,14 +63,7 @@ class ShowModal extends React.Component {
       prefsOpen,
     })
       .then((response) => {
-        this.setState({
-          name: '',
-          description: '',
-          year: '',
-          semester: '',
-          errorMsg: [],
-        });
-        handleClose();
+        this.handleShowModalClose();
       })
       .catch((error) => {
         const msgList = [];
@@ -86,14 +87,13 @@ class ShowModal extends React.Component {
 
     const {
       open,
-      handleClose,
     } = this.props;
 
     return (
       <div>
         <Modal
           open={open}
-          onClose={handleClose}
+          onClose={this.handleShowModalClose}
         >
           <Modal.Header>Add a Show</Modal.Header>
           <Modal.Content scrolling>
@@ -101,16 +101,16 @@ class ShowModal extends React.Component {
               <Form.Group inline>
                 <label>Semester</label>
                 <Form.Radio
-                  name="semester"
-                  label="Fall"
-                  value="fall"
+                  name='semester'
+                  label='Fall'
+                  value='fall'
                   checked={semester === 'fall'}
                   onChange={this.handleChange}
                 />
                 <Form.Radio
-                  name="semester"
-                  label="Spring"
-                  value="spring"
+                  name='semester'
+                  label='Spring'
+                  value='spring'
                   checked={semester === 'spring'}
                   onChange={this.handleChange}
                 />
@@ -118,8 +118,8 @@ class ShowModal extends React.Component {
               <Form.Field>
                 <label>Year</label>
                 <Input
-                  name="year"
-                  placeholder="YYYY"
+                  name='year'
+                  placeholder='YYYY'
                   onChange={this.handleChange}
                   value={year}
                 />
@@ -127,7 +127,7 @@ class ShowModal extends React.Component {
               <Form.Field>
                 <label>Name</label>
                 <Input
-                  name="name"
+                  name='name'
                   onChange={this.handleChange}
                   value={name}
                 />
@@ -135,23 +135,23 @@ class ShowModal extends React.Component {
               <Form.Field>
                 <label>Description</label>
                 <Input
-                  name="description"
+                  name='description'
                   onChange={this.handleChange}
                   value={description}
                 />
               </Form.Field>
               {errorMsg.length !== 0 ? (
                 <Message
-                  className="response"
+                  className='response'
                   negative
                 >
-                  <Message.Header content="Please fix the following and try again." />
+                  <Message.Header content='Please fix the following and try again.' />
                   <List items={errorMsg} />
                 </Message>
               ) : (
                   <Modal.Actions>
-                    <Button color="green" floated="right" onClick={this.handleSubmit}>Save</Button>
-                    <Button floated="right" onClick={handleClose}>Cancel</Button>
+                    <Button color='green' floated='right' onClick={this.handleSubmit}>Save</Button>
+                    <Button floated='right' onClick={this.handleShowModalClose}>Cancel</Button>
                   </Modal.Actions>
                 )}
             </Form>

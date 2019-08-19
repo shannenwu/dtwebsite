@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Header, Card, Dimmer, Loader,
+  Card, Dimmer, Header, Loader
 } from 'semantic-ui-react';
 import './card.css';
 
@@ -51,7 +51,7 @@ class DancerCardClosed extends Component {
           <Loader content='Updating' />
         </Dimmer>
         <Card.Content onDoubleClick={() => toggleCard()}>
-          <Header floated="right">{prefsheet.auditionNumber}</Header>
+          <Header floated='right'>{prefsheet.auditionNumber}</Header>
           <Card.Header>{`${prefsheet.user.firstName} ${prefsheet.user.lastName}`}</Card.Header>
           <Card.Meta>{prefsheet.user.year}</Card.Meta>
         </Card.Content>

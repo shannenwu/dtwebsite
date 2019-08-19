@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Grid, Header, Form, Button, Icon, Card, Loader, Label,
+  Card, Header, Icon, Label
 } from 'semantic-ui-react';
-import axios from 'axios';
 import ShowModal from './ShowModal';
 import './show.css';
 
@@ -47,15 +46,14 @@ class ShowList extends React.Component {
     const {
       shows,
       selectedShow,
-      selectShow,
-      handleDeleteShow,
+      selectShow
     } = this.props;
 
     return (
       <div>
-        <Header as="h3">
+        <Header as='h3'>
           Shows
-          <Icon onClick={this.handleOpen} link name="plus" style={{float: 'right', fontSize: '1em'}}/>
+          <Icon onClick={this.handleOpen} link name='plus' style={{float: 'right', fontSize: '1em'}}/>
         </Header>
         <ShowModal open={modalOpen} handleClose={this.handleClose} />
         {shows.map((showObj) => {
@@ -72,7 +70,7 @@ class ShowList extends React.Component {
                 {`${pre + yr} | ${showObj.name}`}
                 {showObj.isActive
                   ? (
-                    <Label color="green" style={{ float: 'right' }}>
+                    <Label color='green' style={{ float: 'right' }}>
                       ACTIVE
                     </Label>
                   ) : <div />}
