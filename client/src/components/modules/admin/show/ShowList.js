@@ -46,6 +46,7 @@ class ShowList extends React.Component {
     const {
       shows,
       selectedShow,
+      activeShow,
       selectShow
     } = this.props;
 
@@ -68,7 +69,7 @@ class ShowList extends React.Component {
             >
               <Card.Content>
                 {`${pre + yr} | ${showObj.name}`}
-                {showObj.isActive
+                {showObj._id === activeShow._id
                   ? (
                     <Label color='green' style={{ float: 'right' }}>
                       ACTIVE
