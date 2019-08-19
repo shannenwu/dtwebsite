@@ -107,7 +107,7 @@ app.post('/',
 app.post('/:show_id/active-show',
   ensure.admin,
   (req, res) => {
-    Show.updateMany({ isActive: true }, { isActive: false }, (err, res) => {
+    Show.updateMany({ isActive: true }, { isActive: false }, (err) => {
       if (err) {
         console.log(err);
       }

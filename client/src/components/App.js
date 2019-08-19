@@ -1,8 +1,5 @@
-/* eslint-disable import/no-unresolved */
 import React from 'react';
-import {
-  Route, Switch, withRouter, Redirect,
-} from 'react-router-dom';
+import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 import { Loader } from 'semantic-ui-react';
 import axios from 'axios';
 import Home from './pages/static/Home';
@@ -92,12 +89,13 @@ class App extends React.Component {
       );
   }
 
+  // TODO error handle for the following functions.
   getActiveShow = async () => {
     try {
       const response = await axios.get('/api/shows/active');
       return response;
     } catch (e) {
-      console.log(e); // TODO FIX LATER
+      console.log(e);
     }
   }
 
@@ -106,7 +104,7 @@ class App extends React.Component {
       const response = await axios.get(`/api/dances/${showId}/all`);
       return response;
     } catch (e) {
-      console.log(e); // TODO FIX LATER
+      console.log(e);
     }
   }
 
@@ -139,30 +137,30 @@ class App extends React.Component {
     } = this.state;
     if (loading) {
       return (
-        <Loader size="massive">Loading</Loader>
+        <Loader size='massive'>Loading</Loader>
       );
     }
     return (
-      <div className="wrapper">
-        <div className="navbar">
+      <div className='wrapper'>
+        <div className='navbar'>
           <NavBar
             userInfo={userInfo}
             logout={this.logout}
           />
         </div>
-        <div className="main-content">
-          <div className="container">
+        <div className='main-content'>
+          <div className='container'>
             <Switch>
-              <Route exact path="/" component={Home} />
-              <Route exact path="/about" component={About} />
-              <Route exact path="/login" render={props => <Login {...props} loginUser={this.loginUser} />} />
-              <Route exact path="/signup" component={SignUp} />
-              <Route exact path="/forgot" component={ForgotPassword} />
-              <Route exact path="/reset/:resetPasswordToken" component={ResetPassword} />
-              <Redirect from="/logout" to="/" />
+              <Route exact path='/' component={Home} />
+              <Route exact path='/about' component={About} />
+              <Route exact path='/login' render={props => <Login {...props} loginUser={this.loginUser} />} />
+              <Route exact path='/signup' component={SignUp} />
+              <Route exact path='/forgot' component={ForgotPassword} />
+              <Route exact path='/reset/:resetPasswordToken' component={ResetPassword} />
+              <Redirect from='/logout' to='/' />
               <PrivateRoute
                 exact
-                path="/profile"
+                path='/profile'
                 authed={userInfo !== null}
                 loading={loading}
                 userInfo={userInfo}
@@ -173,7 +171,7 @@ class App extends React.Component {
               />
               <PrivateRoute
                 exact
-                path="/choreographer"
+                path='/choreographer'
                 authed={userInfo && (userInfo.isChoreographer || userInfo.isAdmin)}
                 loading={loading}
                 userInfo={userInfo}
@@ -183,7 +181,7 @@ class App extends React.Component {
               />
               <PrivateRoute
                 exact
-                path="/selection/:danceId"
+                path='/selection/:danceId'
                 authed={userInfo && (userInfo.isChoreographer || userInfo.isAdmin)}
                 loading={loading}
                 userInfo={userInfo}
@@ -192,7 +190,7 @@ class App extends React.Component {
               />
               <PrivateRoute
                 exact
-                path="/time/:danceId"
+                path='/time/:danceId'
                 authed={userInfo && (userInfo.isChoreographer || userInfo.isAdmin)}
                 loading={loading}
                 userInfo={userInfo}
@@ -201,7 +199,7 @@ class App extends React.Component {
               />
               <PrivateRoute
                 exact
-                path="/list/:danceId"
+                path='/list/:danceId'
                 authed={userInfo && (userInfo.isChoreographer || userInfo.isAdmin)}
                 loading={loading}
                 userInfo={userInfo}
@@ -209,7 +207,7 @@ class App extends React.Component {
               />
               <PrivateRoute
                 exact
-                path="/admin"
+                path='/admin'
                 authed={userInfo && userInfo.isAdmin}
                 loading={loading}
                 userInfo={userInfo}
@@ -220,7 +218,7 @@ class App extends React.Component {
               />
               <PrivateRoute
                 exact
-                path="/all-prefsheets"
+                path='/all-prefsheets'
                 authed={userInfo && userInfo.isAdmin}
                 loading={loading}
                 userInfo={userInfo}
