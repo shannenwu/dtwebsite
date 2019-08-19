@@ -1,4 +1,3 @@
-// dependencies
 const express = require('express');
 
 // Router added at "/api"

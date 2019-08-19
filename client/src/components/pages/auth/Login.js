@@ -138,7 +138,7 @@ class Login extends React.Component {
           >
             Need an account?
             {' '}
-            <a href="/signup">Sign up!</a>
+            <Link to="/signup">Sign up!</Link>
           </Message>
         </Grid.Column>
       </Grid>

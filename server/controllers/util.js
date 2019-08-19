@@ -1,18 +1,17 @@
-const Show = require("../models/Show.js");
-
 const addHours = require("date-fns/add_hours");
 const addDays = require("date-fns/add_days");
 const startOfDay = require("date-fns/start_of_day");
 
+const Show = require("../models/Show.js");
+
 // Default dates. The month and day are ignored for processing for weekly scheduling. 
 // Hardcoded to a random day that starts on Sunday.
-
 const weekStartDate = new Date(2019, 8, 1);
 const weekDays = 7; 
 const weekStartHour = 15; // 3pm
 const weekEndHour = 22.5; // 10:30 pm will be the last time slot rendered.
 
-// December 7, 2019
+// TODO change date from December 7, 2019 to accurate date.
 const prodStartDate = new Date(2019, 11, 7);
 const prodDays = 3;
 const prodStartHour = 10;

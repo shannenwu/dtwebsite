@@ -1,16 +1,12 @@
 // libraries
-const http = require('http');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const express = require('express');
 const path = require('path');
 
 // local dependencies
-const passport = require('passport');
+const passport = require('../passport');
 const db = require('../db');
-
-// passport file
-require('../passport.js'); 
 
 // initialize express app
 const app = express();
