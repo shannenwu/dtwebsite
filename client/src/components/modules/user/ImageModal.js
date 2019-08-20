@@ -110,7 +110,7 @@ class ImageModal extends React.Component {
 
     return (
       <Modal
-        trigger={<Button onClick={this.handleOpen}>Select New Photo</Button>}
+        trigger={<Button onClick={this.handleOpen}>Select Photo</Button>}
         open={modalOpen}
         onClose={this.handleClose}
       >

@@ -118,8 +118,6 @@ class ConflictsInfo extends React.Component {
               onChange={handleInputChange}
             />
           </Form.Field>
-
-          <Button floated='right' color='blue' onClick={handleSubmitConflicts} style={{ marginBottom: '1em' }}>Submit</Button>
           {errorMsg.length !== 0 && (
             <Message
               className='response'
@@ -139,6 +137,7 @@ class ConflictsInfo extends React.Component {
               positive
             />
           )}
+          <Button floated='right' color='blue' onClick={handleSubmitConflicts} style={{ marginBottom: '1em' }}>Submit</Button>
           <div ref={(el) => { this.el = el; }} />
         </Form>
       </div>

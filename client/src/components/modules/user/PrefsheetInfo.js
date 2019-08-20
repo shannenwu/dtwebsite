@@ -74,22 +74,18 @@ class PrefsheetInfo extends React.Component {
       <div>
         {!isLate &&
           <Message info>
-            View detailed dance descriptions HERE.
-            Please only pref the dances you want to be in.
-            Make sure you have also uploaded a profile photo—
+            Prefsheets can be re-submitted until 2AM DATE HERE.
+            View detailed dance descriptions HERE, and only pref the dances you want to be in!
+            Make sure you have uploaded a profile photo—
             choreographers can't accept you into their dance if they don't know who you are!
-            Prefsheets can be re-submitted until they close at 2AM DATE HERE.
           </Message>}
-        <Form as={Grid} padded stackable>
+        <Form style={{ padding: '1em' }}>
           {isLate
             && (
-              <Grid.Row>
-                <Grid.Column width={3} verticalAlign='middle'>
-                  <label className='userInfoLabels'>Dancer</label>
-                </Grid.Column>
+              <Form.Field>
+                <label className='userInfoLabels'>Dancer</label>
                 <Dropdown
                   name='userId'
-                  width={13}
                   selection
                   search
                   scrolling
@@ -98,16 +94,12 @@ class PrefsheetInfo extends React.Component {
                   value={prefData.userId || ''}
                   onChange={handleInputChange}
                 />
-              </Grid.Row>
+              </Form.Field>
             )
           }
-          <Grid.Row>
-            <Grid.Column width={3} verticalAlign='middle'>
-              <label className='userInfoLabels'>Max number of dances</label>
-            </Grid.Column>
-
+          <Form.Field required width={3}>
+            <label>Max number of dances</label>
             <Dropdown
-              as={Grid.Column}
               name='maxDances'
               selection
               search
@@ -116,18 +108,15 @@ class PrefsheetInfo extends React.Component {
               value={prefData.maxDances || -1}
               onChange={handleInputChange}
             />
-          </Grid.Row>
+          </Form.Field>
           {prefData.rankedDances.map((rankedDance, index) => (
-            <Grid.Row key={index}>
-              <Grid.Column width={2} verticalAlign='middle' textAlign='right'>
-                <label className='userInfoLabels'>
-                  {index + 1}
-                  .
+            <Form.Field key={index}>
+              <label className='userInfoLabels'>
+                {index + 1}
+                .
                 </label>
-              </Grid.Column>
               <Dropdown
-                as={Grid.Column}
-                width={14}
+                fluid
                 name={index}
                 selection
                 clearable
@@ -137,46 +126,32 @@ class PrefsheetInfo extends React.Component {
                 value={rankedDance.dance}
                 onChange={handleListChange}
               />
-            </Grid.Row>
+            </Form.Field>
           ))}
-
-          <Grid.Row>
-            <Grid.Column width={16} className='userInput'>
-              <Button floated='right' color='blue' onClick={handleSubmit}>Submit</Button>
-            </Grid.Column>
-          </Grid.Row>
-
           {errorMsg.length !== 0 && (
-            <Grid.Row>
-              <Grid.Column width={16} className='userInput'>
-                <Message
-                  className='response'
-                  negative
-                >
-                  <Message.Header
-                    content='Error!'
-                  />
-                  <List items={errorMsg} />
-                </Message>
-              </Grid.Column>
-            </Grid.Row>
+            <Message
+              className='message-response'
+              negative
+            >
+              <Message.Header
+                content='Error!'
+              />
+              <List items={errorMsg} />
+            </Message>
           )}
           {messageFromServer === 'Preference sheet updated!' && (
-            <Grid.Row>
-              <Grid.Column width={16} className='userInput'>
-                <Message
-                  className='response'
-                  onDismiss={handleDismiss}
-                  header={
-                    isLate ? (
-                      messageFromServer + ' Late audition number: ' + lateAuditionNum
-                    ) : messageFromServer
-                  }
-                  positive
-                />
-              </Grid.Column>
-            </Grid.Row>
+            <Message
+              className='message-response'
+              onDismiss={handleDismiss}
+              header={
+                isLate ? (
+                  messageFromServer + ' Late audition number: ' + lateAuditionNum
+                ) : messageFromServer
+              }
+              positive
+            />
           )}
+          <Button floated='right' color='blue' onClick={handleSubmit}>Submit</Button>
           <div ref={(el) => { this.el = el; }} />
         </Form>
       </div>

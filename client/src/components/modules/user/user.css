@@ -10,10 +10,6 @@ img {
     font-weight: bold;
 }
 
-.userInput {
-    padding: 0rem !important;
-}
-
-.response {
+.message-response {
     text-align: center;
 }
