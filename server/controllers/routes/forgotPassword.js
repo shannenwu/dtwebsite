@@ -26,7 +26,7 @@ app.post('/forgot', [
         res.status(403).send('Email not registered.');
       } else {
         const transporter = nodemailer.createTransport({
-          host: "outgoing.mit.edu",
+          host: 'outgoing.mit.edu',
           port: 587,
           secure: false,
           auth: {

@@ -49,7 +49,7 @@ class NavBar extends Component {
               <div className='item' onClick={() => this.handleItemClick('/profile')}>
                 Profile
             </div>
-              {userInfo.isChoreographer ? (
+              {userInfo.isAdmin || userInfo.isChoreographer ? (
                 <div className='item' onClick={() => this.handleItemClick('/choreographer')}>
                   Choreographer
               </div>

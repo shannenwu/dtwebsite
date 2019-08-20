@@ -45,7 +45,7 @@ class AllPrefsheets extends Component {
     if (loading) {
       return (
         <Dimmer active inverted>
-          <Loader />
+          <Loader content='Loading all prefsheets...' />
         </Dimmer>
       );
     }

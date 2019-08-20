@@ -57,7 +57,7 @@ class DancerList extends Component {
     if (loading) {
       return (
         <Dimmer active inverted>
-          <Loader />
+          <Loader content='Loading dancer list...' />
         </Dimmer>
       );
     }

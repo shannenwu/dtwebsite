@@ -90,7 +90,7 @@ class Login extends React.Component {
     return (
       <Grid padded centered>
         <Dimmer active={loading} inverted>
-          <Loader />
+          <Loader content='Logging you in...' />
         </Dimmer>
         <Grid.Column width={8}>
           <Header

@@ -7,7 +7,7 @@ const webpack = require('webpack');
 module.exports = {
   entry: ['@babel/polyfill', entryFile],
   output: {
-    publicPath: "/",
+    publicPath: '/',
     filename: 'bundle.js',
     path: outputDir
   },

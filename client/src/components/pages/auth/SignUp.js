@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Button, Container, Form, Header, Input, Message
+  Button, Container, Dimmer, Form, Header, Input, Loader, Message
 } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -16,6 +16,7 @@ class SignUp extends React.Component {
       password: '',
       messageFromServer: '',
       errorMsg: [],
+      loading: false
     };
   }
 
@@ -34,6 +35,10 @@ class SignUp extends React.Component {
       password,
     } = this.state;
 
+    this.setState({
+      loading: true
+    })
+
     axios.post('/signup', {
       firstName,
       lastName,
@@ -44,6 +49,7 @@ class SignUp extends React.Component {
         this.setState({
           messageFromServer: response.data.message,
           errorMsg: [],
+          loading: false
         });
       })
       .catch((error) => {
@@ -53,6 +59,7 @@ class SignUp extends React.Component {
         });
         this.setState({
           errorMsg: msgList,
+          loading: false
         });
       });
   };
@@ -65,10 +72,14 @@ class SignUp extends React.Component {
       password,
       messageFromServer,
       errorMsg,
+      loading
     } = this.state;
     if (messageFromServer === '') {
       return (
         <Container>
+          <Dimmer active={loading} inverted>
+            <Loader content='Loading' />
+          </Dimmer>
           <Header as='h1'>
             Create an Account
           </Header>

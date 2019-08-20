@@ -6,7 +6,7 @@ class ApplicationError extends Error {
   
       this.name = this.constructor.name;
   
-      this.message = message || "Something went wrong. Please try again.";
+      this.message = message || 'Something went wrong. Please try again.';
   
       this.status = status || 500;
     }

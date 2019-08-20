@@ -13,8 +13,8 @@ const app = express();
 const publicPath = path.resolve(__dirname, '../../', 'client', 'dist');
 
 // set POST request body parser
-app.use(bodyParser.urlencoded({limit: "50mb", extended: false, parameterLimit:50000}));
-app.use(bodyParser.json({limit: "50mb"}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: false, parameterLimit:50000}));
+app.use(bodyParser.json({limit: '50mb'}));
 
 // set up sessions
 app.use(session({

@@ -251,7 +251,7 @@ class AdminPage extends React.Component {
     if (loading) {
       return (
         <Dimmer active inverted>
-          <Loader />
+          <Loader content='Loading...' />
         </Dimmer>
       );
     }

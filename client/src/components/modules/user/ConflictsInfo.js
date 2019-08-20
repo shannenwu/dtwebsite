@@ -4,6 +4,16 @@ import {
   Button, Form, List, Message, TextArea,
 } from 'semantic-ui-react';
 import ScheduleSelector from '@shannenwu/react-schedule-selector';
+import {
+  weekStartDate,
+  weekDays, 
+  weekStartHour,
+  weekEndHour,
+  prodStartDate,
+  prodDays,
+  prodStartHour,
+  prodEndHour
+} from '../../../../../server/controllers/util';
 
 
 class ConflictsInfo extends React.Component {
@@ -60,17 +70,17 @@ class ConflictsInfo extends React.Component {
       messageFromServer
     } = this.props;
 
-    var date = new Date(2019, 8, 1);
-    var numDays = 7;
-    var startTime = 15; // 3pm
-    var endTime = 22.5; // 10:30 pm
+    var date = weekStartDate;
+    var numDays = weekDays;
+    var startTime = weekStartHour; // 3pm
+    var endTime = weekEndHour; // 10:30 pm
     var dateFormat = 'ddd';
 
     if (isProd) {
-      date = new Date(2019, 11, 7);
-      numDays = 3;
-      startTime = 10; // 10am
-      endTime = 23.5; // 11:30pm
+      date = prodStartDate;
+      numDays = prodDays;
+      startTime = prodStartHour; // 10am
+      endTime = prodEndHour; // 11:30pm
       dateFormat = 'M/D';
     }
 
@@ -109,21 +119,21 @@ class ConflictsInfo extends React.Component {
             />
           </Form.Field>
 
-          <Button floated="right" color="blue" onClick={handleSubmitConflicts} style={{ marginBottom: '1em' }}>Submit</Button>
+          <Button floated='right' color='blue' onClick={handleSubmitConflicts} style={{ marginBottom: '1em' }}>Submit</Button>
           {errorMsg.length !== 0 && (
             <Message
-              className="response"
+              className='response'
               negative
             >
               <Message.Header
-                content="Error!"
+                content='Error'
               />
               <List items={errorMsg} />
             </Message>
           )}
           {messageFromServer === 'Conflicts updated!' && (
             <Message
-              className="response"
+              className='response'
               onDismiss={handleDismiss}
               header={messageFromServer}
               positive

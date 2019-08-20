@@ -52,7 +52,7 @@ class TimeSelection extends Component {
 
   formatDate = (date) => {
     var dayOfWeek = new Date(date).getDay();
-    return isNaN(dayOfWeek) ? null : ['Sun', 'Mon', 'Tue', 'Wed', 'Thurs', 'Fri', 'Sat'][dayOfWeek];
+    return isNaN(dayOfWeek) ? null : ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][dayOfWeek];
   }
 
   formatHour = (hour) => {
@@ -119,7 +119,7 @@ class TimeSelection extends Component {
     if (loading) {
       return (
         <Dimmer active inverted>
-          <Loader />
+          <Loader content='Loading availabilities...' />
         </Dimmer>
       );
     }

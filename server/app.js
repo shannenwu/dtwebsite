@@ -1,12 +1,12 @@
-const express = require("express");
-const path = require("path");
+const express = require('express');
+const path = require('path');
 
 const app = express();
-const http = require("http").Server(app);
-const io = require("socket.io")(http);
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
 require('dotenv').config()
 
-const publicPath = path.resolve(__dirname, "..", "client", "dist");
+const publicPath = path.resolve(__dirname, '..', 'client', 'dist');
 
 
 app.use(express.static(publicPath));

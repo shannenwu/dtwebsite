@@ -1,5 +1,5 @@
-const connect = require("connect-ensure-login");
-const AccessError = require("../errors/AccessError");
+const connect = require('connect-ensure-login');
+const AccessError = require('../errors/AccessError');
 
 /** Auth Functions */
 
@@ -33,7 +33,7 @@ function noop(req, res, next) {
 }
 
 function _ensureWrap(fn) {
-  const baseEnsure = connect.ensureLoggedIn("/login");
+  const baseEnsure = connect.ensureLoggedIn('/login');
   return (req, res, next) => {
     baseEnsure(req, res, () => {
       // if user is logged in, proceed to further check

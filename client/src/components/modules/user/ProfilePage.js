@@ -272,7 +272,7 @@ class ProfilePage extends Component {
     if (loading) {
       return (
         <Dimmer active inverted>
-          <Loader />
+          <Loader content='Loading profile...' />
         </Dimmer>
       );
     }

@@ -43,8 +43,8 @@ app.post('/:user_id',
         return true;
       }
     }),
-    check('affiliation').optional().custom(value => {
-      var affilOptions = ['undergraduate', 'graduate', 'other', '']
+    check('affiliation').custom(value => {
+      var affilOptions = ['undergraduate', 'graduate', 'other']
       if (!affilOptions.includes(value)) {
         return Promise.reject('Please select an affiliation from the dropdown.');
       } else {
@@ -93,6 +93,8 @@ app.post('/:user_id',
         user.imageUrl = databaseUrl;
 
         user.save((err, newUser) => {
+          const io = req.app.get('socketio');
+          io.emit('updated user', newUser);
           res.status(200).send({ message: 'User information updated!' });
         });
       }

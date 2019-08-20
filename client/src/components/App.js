@@ -2,6 +2,7 @@ import React from 'react';
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 import { Loader } from 'semantic-ui-react';
 import axios from 'axios';
+import io from 'socket.io-client';
 import Home from './pages/static/Home';
 import About from './pages/static/About';
 import SignUp from './pages/auth/SignUp';
@@ -34,8 +35,12 @@ const PrivateRoute = ({
 );
 
 class App extends React.Component {
+  _isMounted = false;
+
   constructor(props) {
     super(props);
+
+    this.socket = io(`http://${window.location.hostname}:3000`);
 
     this.state = {
       userInfo: null,
@@ -44,7 +49,14 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    this._isMounted = true;
     this.getUser();
+
+    this.socket.on('updated user', (userObj) => {
+      this.setState({
+        userInfo: userObj
+      })
+    })
   }
 
   loginUser = (userObj) => {
@@ -137,7 +149,7 @@ class App extends React.Component {
     } = this.state;
     if (loading) {
       return (
-        <Loader size='massive'>Loading</Loader>
+        <Loader size='massive' content='Loading' />
       );
     }
     return (

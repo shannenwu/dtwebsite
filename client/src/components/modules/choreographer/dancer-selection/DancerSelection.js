@@ -246,7 +246,7 @@ class DancerSelection extends Component {
     if (loading) {
       return (
         <Dimmer active inverted>
-          <Loader />
+          <Loader content='Loading selection...' />
         </Dimmer>
       );
     }
