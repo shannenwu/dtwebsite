@@ -148,7 +148,7 @@ class ShowSettings extends React.Component {
           />
         </Grid.Row>
         <Grid.Row>
-          <Button onClick={() => setActiveShow(selectedShow._id)}>Set selected as active show</Button>
+          <Button onClick={() => setActiveShow(selectedShow._id)}>Set Selected as Active Show</Button>
         </Grid.Row>
         <Grid.Row>
           <Button onClick={this.showPermissionsConfirmation}>Update Choreographer Permissions</Button>

@@ -97,7 +97,7 @@ class PrefsheetInfo extends React.Component {
               </Form.Field>
             )
           }
-          <Form.Field required width={3}>
+          <Form.Field required width={4}>
             <label>Max number of dances</label>
             <Dropdown
               name='maxDances'
@@ -134,7 +134,7 @@ class PrefsheetInfo extends React.Component {
               negative
             >
               <Message.Header
-                content='Error!'
+                content='Error'
               />
               <List items={errorMsg} />
             </Message>

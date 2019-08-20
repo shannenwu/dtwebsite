@@ -73,7 +73,7 @@ class AdminPage extends React.Component {
         (response) => {
           const users = response.data;
           const userOptions = users.map(user => ({
-            key: `${user.firstName} ${user.lastName}`,
+            key: `${user._id}`,
             text: `${user.firstName} ${user.lastName}`,
             value: user._id,
           }));
