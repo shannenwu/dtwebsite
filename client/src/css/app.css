@@ -12,6 +12,12 @@ body {
   font-family: "Open Sans", sans-serif !important;
 }
 
+p {
+  color: #72777a;
+  letter-spacing: 0.15px;
+  line-height: 1.8 !important;
+}
+
 .ui.button {
   border-radius: 0 !important;
 }
@@ -34,35 +40,6 @@ body {
 :root {
   --navbar-width: 220px;
   --dancer-card-width: 290px;
-}
-
-.navbar {
-  position: fixed;
-  width: var(--navbar-width);
-  height: 100%;
-  background-color: #0097a7;
-  overflow: auto;
-}
-
-.navbar .item {
-  width: 100%;
-  padding: 16px;
-  transition-duration: 0.1s;
-  transition: border-left, 0.5s, linear;
-  border-left: 0 solid transparent;
-  text-align: center;
-  font-size: 1.1em;
-  color: white;
-}
-
-.navbar #logo {
-  padding: 40px;
-}
-
-.navbar .item:hover {
-  cursor: pointer;
-  background: rgba(255, 255, 255, 0.2);
-  opacity: 1;
 }
 
 .wrapper {

@@ -1,9 +1,8 @@
 import React from 'react';
-import { Header } from 'semantic-ui-react';
 
 const Home = () => (
   <div>
-    <Header as="h1">Home</Header>
+    <h1>HOME</h1>
   </div>
 );
 

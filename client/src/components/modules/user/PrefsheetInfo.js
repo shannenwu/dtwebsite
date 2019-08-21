@@ -1,7 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
-  Button, Dropdown, Form, Grid, List, Message
+  Button, Dropdown, Form, List, Message
 } from 'semantic-ui-react';
 import './user.css';
 
@@ -74,8 +75,8 @@ class PrefsheetInfo extends React.Component {
       <div>
         {!isLate &&
           <Message info>
-            Prefsheets can be re-submitted until 2AM DATE HERE.
-            View detailed dance descriptions HERE, and only pref the dances you want to be in!
+            Prefsheets can be re-submitted until INSERT DATE HERE.
+            Refer to the dance descriptions <Link to='/shows' id='show-link'>here</Link>, and only pref the dances you want to be in!
             Make sure you have uploaded a profile photo—
             choreographers can't accept you into their dance if they don't know who you are!
           </Message>}

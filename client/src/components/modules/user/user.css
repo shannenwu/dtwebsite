@@ -13,3 +13,7 @@ img {
 .message-response {
     text-align: center;
 }
+
+#show-link:hover {
+    text-decoration: underline;
+}
