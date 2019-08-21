@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Button, Dimmer, Header, List, Loader } from 'semantic-ui-react';
+import './choreographer.css';
 
 class ChoreographerPage extends Component {
   constructor(props) {
@@ -54,7 +55,7 @@ class ChoreographerPage extends Component {
       );
     }
     return (
-      <div id='choreographer'>
+      <div id='choreographer-page'>
         <Header as='h1'>
           Choreographer
         </Header>

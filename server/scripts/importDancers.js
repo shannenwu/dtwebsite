@@ -10,7 +10,7 @@ const Dance = require('../models/Dance.js');
 const axios = require('axios');
 
 // This will populate the database with 300 random users.
-axios.get('https://randomuser.me/api/?results=200')
+axios.get('https://randomuser.me/api/?results=300')
   .then(response => {
     for (var i = 0; i < 300; i++) {
       var user = response.data.results[i];

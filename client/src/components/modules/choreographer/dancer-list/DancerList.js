@@ -69,10 +69,12 @@ class DancerList extends Component {
         <Button icon floated='right' size='small' download href={`/reports/dance-final/${danceObj._id}`}>
           <Icon name='download' />
         </Button>
-        <Header as='h1'>
+        <Header as='h1' style={{textTransform: 'capitalize'}}>
           {danceObj.name}
         </Header>
-        <Header.Subheader>{danceObj.level + ' ' + danceObj.style}</Header.Subheader>
+        <Header.Subheader style={{textTransform: 'capitalize'}}>
+          {danceObj.level + ' ' + danceObj.style}
+        </Header.Subheader>
         <Table basic selectable>
           <Table.Header>
             <Table.Row>

@@ -256,7 +256,7 @@ class DancerSelection extends Component {
     }
     return (
       <div id='dancer-selection'>
-        <Header as='h1'>
+        <Header as='h1' style={{textTransform: 'capitalize'}}>
           {danceObj.name}
           <Button floated='right' onClick={this.show}>I'M DONE PICKING</Button>
           <Confirm

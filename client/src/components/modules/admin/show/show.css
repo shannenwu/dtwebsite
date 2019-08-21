@@ -1,4 +1,8 @@
 .show-selected {
-    background-color: #0097A7 !important;; 
-    color: white !important;
+  background-color: #0097a7 !important;
+  color: white !important;
+}
+
+#admin-show-list {
+  text-transform: capitalize;
 }

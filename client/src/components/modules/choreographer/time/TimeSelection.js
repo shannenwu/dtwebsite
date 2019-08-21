@@ -12,6 +12,7 @@ class TimeSelection extends Component {
       danceObj: null,
       scheduleObj: null,
       isProd: false,
+      choreographerTimes: null,
       schedule: null,
       interval: null,
       selectedTime: '',
@@ -38,6 +39,7 @@ class TimeSelection extends Component {
       danceObj: danceResponse.data,
       scheduleObj: scheduleResponse.data.timeToConflicts,
       isProd: scheduleResponse.data.isProd,
+      choreographerTimes: scheduleResponse.data.choreographerTimes,
       schedule: scheduleResponse.data.times,
       interval: scheduleResponse.data.interval,
       loading: false
@@ -98,9 +100,10 @@ class TimeSelection extends Component {
   }
 
   renderDateCell = (time) => {
-    const { scheduleObj, selectedTime } = this.state;
+    const { scheduleObj, choreographerTimes, selectedTime } = this.state;
     const numConflicts = scheduleObj[time].length;
-    const name = numConflicts < 9 ? 'num-' + numConflicts : 'num-max';
+    // If any choreographers are not available at this time, immediately render cell black.
+    const name = numConflicts < 9 && !choreographerTimes.includes(time) ? 'num-' + numConflicts : 'num-max';
     const isSelected = time === selectedTime ? 'selected-cell' : '';
     return (
       <div className={`date-cell ${name} ${isSelected}`} onClick={() => this.selectTime(time)}>{numConflicts}</div>
@@ -125,11 +128,13 @@ class TimeSelection extends Component {
     }
 
     return (
-      <div>
-        <Header as='h1'>
+      <div id='time-selection-page'>
+        <Header as='h1' style={{textTransform: 'capitalize'}}>
           {danceObj.name}
         </Header>
-        <Header.Subheader>{danceObj.level + ' ' + danceObj.style}</Header.Subheader>
+        <Header.Subheader style={{textTransform: 'capitalize'}}>
+          {danceObj.level + ' ' + danceObj.style}
+        </Header.Subheader>
         <Grid padded divided stackable columns={2}>
           <Grid.Column width={10}>
             <div id='schedule-wrapper'>

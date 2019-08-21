@@ -22,17 +22,17 @@ import '../css/app.css';
 const PrivateRoute = ({
   component: Component, authed, loading, ...rest
 }) => (
-  <Route
-    {...rest}
-    render={(props) => {
-      if (authed && !loading) {
-        return <Component {...props} {...rest} />;
+    <Route
+      {...rest}
+      render={(props) => {
+        if (authed && !loading) {
+          return <Component {...props} {...rest} />;
+        }
+        return <Redirect to={{ pathname: '/', state: { from: props.location } }} />;
       }
-      return <Redirect to={{ pathname: '/', state: { from: props.location } }} />;
-    }
       }
-  />
-);
+    />
+  );
 
 class App extends React.Component {
   _isMounted = false;
@@ -131,10 +131,14 @@ class App extends React.Component {
 
   getDanceOptions = (dances) => {
     const danceOptions = dances.map((dance, index) => {
-      const levelStyle = `${dance.level} ${dance.style}`;
+      var name = `${dance.name}: ${dance.level} ${dance.style}`;
+      name = name.toLowerCase()
+        .split(' ')
+        .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+        .join(' ');
       return {
         key: index,
-        text: `${dance.name}: ${levelStyle}`,
+        text: name,
         value: dance._id,
       };
     });

@@ -51,7 +51,7 @@ class ShowList extends React.Component {
     } = this.props;
 
     return (
-      <div>
+      <div id='admin-show-list'>
         <Header as='h3'>
           Shows
           <Icon onClick={this.handleOpen} link name='plus' style={{float: 'right', fontSize: '1em'}}/>

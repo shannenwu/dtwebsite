@@ -5,6 +5,7 @@ import {
 } from 'semantic-ui-react';
 import io from 'socket.io-client';
 import DanceModal from './DanceModal';
+import './dance.css';
 
 class DanceList extends React.Component {
   constructor(props) {
@@ -47,7 +48,7 @@ class DanceList extends React.Component {
     } = this.props;
 
     return (
-      <div>
+      <div id='admin-dance-list'>
         <Header as='h3'>
           Dances
           <Icon onClick={this.handleOpen} link name='plus' style={{ float: 'right', fontSize: '1em' }} />

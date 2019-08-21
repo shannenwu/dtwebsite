@@ -17,16 +17,17 @@ app.get('/:dance_id',
     const showResponse = await util.getActiveShow();
     const isProd = showResponse.prodConflictsOpen;
 
-    const danceObj = await Dance.findById(req.params.dance_id, 'acceptedDancers');
-
+    const danceObj = await Dance.findById(req.params.dance_id, 'acceptedDancers choreographers');
+    const users = danceObj.acceptedDancers.concat(danceObj.choreographers);
     const prefsheets = await Prefsheet
-      .find({ 'user': { $in: danceObj.acceptedDancers }, 'show': showResponse._id },
+      .find({ 'user': { $in: users }, 'show': showResponse._id },
         'user weeklyConflicts weeklyDescription prodConflicts prodDescription')
       .populate('user', 'firstName lastName');
 
     var timeToConflicts = {};
     const times = isProd ? util.getProdTimes() : util.getWeekTimes();
 
+    // Initialize the object with the possible time slots.
     times.forEach(timeOfDays => {
       timeOfDays.forEach(time => {
         timeToConflicts[time.toISOString()] = [];
@@ -34,12 +35,18 @@ app.get('/:dance_id',
     });
 
     const interval = isProd ? util.getProdStartEnd() : util.getWeekStartEnd();
-
+    
+    var choreographerTimes = [];
     prefsheets.forEach(prefsheet => {
       const userConflicts = isProd ? prefsheet.prodConflicts : prefsheet.weeklyConflicts;
       const description = isProd ? prefsheet.prodDescription : prefsheet.weeklyDescription;
       // Check if the user is unavailable in the generated time to conflicts dictionary.
       userConflicts.forEach(time => {
+        // Record all times the choreographer is not available. Practices will usually never be 
+        // scheduled in these times.
+        if (danceObj.choreographers.includes(prefsheet.user._id)) {
+          choreographerTimes.push(time);
+        }
         // Check if this time is viewable in the current time to conflicts window.
         if (timeToConflicts.hasOwnProperty(time)) {
           var conflicts = timeToConflicts[time];
@@ -52,7 +59,7 @@ app.get('/:dance_id',
         }
       });
     });
-    res.status(200).send({ isProd, timeToConflicts, times, interval });
+    res.status(200).send({ isProd, choreographerTimes, timeToConflicts, times, interval });
   }
 );
 

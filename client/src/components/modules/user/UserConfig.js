@@ -1,4 +1,3 @@
-// TODO REMOVE DISCREPANCY BETWEEN CAPS
 const genderOptions = [
   { key: 'm', text: 'Male', value: 'male' },
   { key: 'f', text: 'Female', value: 'female' },
