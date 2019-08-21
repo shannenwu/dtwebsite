@@ -5,6 +5,8 @@ import { Button, Dimmer, Header, List, Loader } from 'semantic-ui-react';
 import './choreographer.css';
 
 class ChoreographerPage extends Component {
+  _isMounted = false;
+
   constructor(props) {
     super(props);
 
@@ -25,8 +27,13 @@ class ChoreographerPage extends Component {
   }
 
   componentDidMount() {
+    this._isMounted = true;
     document.title = 'Choreographer';
     this.initializeDances();
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   initializeDances = async () => {
@@ -35,10 +42,12 @@ class ChoreographerPage extends Component {
     const activeShowResponse = await getActiveShow();
     const dancesResponse = await getDances(activeShowResponse.data._id);
 
-    this.setState({
-      dances: dancesResponse.data,
-      loading: false,
-    });
+    if (this._isMounted) {
+      this.setState({
+        dances: dancesResponse.data,
+        loading: false,
+      });
+    }
   }
 
   render() {

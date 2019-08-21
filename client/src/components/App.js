@@ -59,6 +59,16 @@ class App extends React.Component {
     })
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.location !== prevProps.location) {
+      this.onRouteChanged();
+    }
+  }
+
+  onRouteChanged() {
+    this.getUser();
+  }
+
   loginUser = (userObj) => {
     this.setState({
       userInfo: userObj,
