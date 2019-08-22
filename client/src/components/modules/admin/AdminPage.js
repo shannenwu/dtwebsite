@@ -258,7 +258,7 @@ class AdminPage extends React.Component {
     return (
       <React.Fragment>
         <Header as='h1'>
-          Administrative Options
+          Admin
         </Header>
         <Grid padded columns={3} style={{ height: '100%' }}>
           <Grid.Column>

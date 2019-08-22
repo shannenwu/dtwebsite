@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import {
   Dimmer, Header, Icon, Label, Loader, Menu, Popup
@@ -280,6 +281,14 @@ class ProfilePage extends Component {
       <div id='profile'>
         <Header as='h1'>
           {`${userInfo.firstName} ${userInfo.lastName}`}
+          {(userInfo.isChoreographer || userInfo.isAdmin) &&
+            <Label color='teal' horizontal as={Link} to='/choreographer'>
+              Choreographer
+            </Label>}
+          {userInfo.isAdmin &&
+            <Label color='violet' horizontal as={Link} to='/admin'>
+              Admin
+            </Label>}
         </Header>
         <Menu tabular pointing secondary stackable>
           <Menu.Item
