@@ -42,9 +42,6 @@ class NavBar extends Component {
         <div className={selectedPath === '/about' ? 'item selected': 'item'} onClick={() => this.handleItemClick('/about')}>
           About
         </div>
-        <div className={selectedPath === '/announcements' ? 'item selected': 'item'} onClick={() => this.handleItemClick('/announcements')}>
-          Announcements
-        </div>
         <div className={selectedPath === '/officers' ? 'item selected': 'item'} onClick={() => this.handleItemClick('/officers')}>
           Officers
         </div>
@@ -53,9 +50,6 @@ class NavBar extends Component {
         </div>
         <div className={selectedPath === '/shows' ? 'item selected': 'item'} onClick={() => this.handleItemClick('/shows')}>
           Shows
-        </div>
-        <div className={selectedPath === '/workshops' ? 'item selected': 'item'} onClick={() => this.handleItemClick('/workshops')}>
-          Workshops
         </div>
         {userInfo === null ? (
           <div className='item' onClick={() => this.handleItemClick('/login')}>

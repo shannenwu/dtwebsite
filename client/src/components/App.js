@@ -5,11 +5,9 @@ import axios from 'axios';
 import io from 'socket.io-client';
 import Home from './pages/static/Home';
 import About from './pages/static/About';
-import Announcements from './pages/static/Announcements';
 import Auditions from './pages/static/Auditions';
 import Officers from './pages/static/Officers';
 import Shows from './pages/static/Shows';
-import Workshops from './pages/static/Workshops';
 import SignUp from './pages/auth/SignUp';
 import Login from './pages/auth/Login';
 import AdminPage from './modules/admin/AdminPage';
@@ -182,11 +180,9 @@ class App extends React.Component {
             <Switch>
               <Route exact path='/' component={Home} />
               <Route exact path='/about' component={About} />
-              <Route exact path='/announcements' component={Announcements} />
               <Route exact path='/auditions' component={Auditions} />
               <Route exact path='/officers' component={Officers} />
               <Route exact path='/shows' component={Shows} />
-              <Route exact path='/workshops' component={Workshops} />
               <Route exact path='/login' render={props => <Login {...props} loginUser={this.loginUser} />} />
               <Route exact path='/signup' component={SignUp} />
               <Route exact path='/forgot' component={ForgotPassword} />
