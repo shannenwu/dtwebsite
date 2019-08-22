@@ -26,24 +26,12 @@ p {
   height: 100%;
 }
 
-.center {
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translateY(-50%) translateX(-50%);
-  text-align: center;
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-}
-
 :root {
   --navbar-width: 220px;
   --dancer-card-width: 290px;
 }
 
 .wrapper {
-  display: flex;
   align-items: stretch;
   min-height: 100vh;
 }
@@ -51,10 +39,14 @@ p {
 .main-content {
   width: 100%;
   min-height: 100%;
-  margin-left: var(--navbar-width);
 }
 
 .container {
   padding: 30px;
-  height: 100vh;
+}
+
+@media screen and (min-width: 900px) {
+  .container {
+    padding: 30px 130px 30px 130px;
+  }
 }

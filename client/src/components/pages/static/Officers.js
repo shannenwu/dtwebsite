@@ -2,8 +2,8 @@ import React from 'react';
 import './static.css';
 
 const Officers = () => (
-  <div id='officers'>
-    <h1>OFFICERS</h1>
+  <div className='static-page' id='officers'>
+    <h1>Officers</h1>
     <p>Contact us at <a className='link-name' href='mailto:dt-officers@mit.edu'>dt-officers@mit.edu</a>!</p>
     <div className='officers-grid'>
       <div className='single'>

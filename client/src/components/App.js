@@ -48,27 +48,37 @@ class App extends React.Component {
     this.state = {
       userInfo: null,
       loading: true,
+      bgUrl: '/site_images/bg/bg1.jpeg',
+      showBg: false
     };
   }
 
   componentDidMount() {
     this._isMounted = true;
     this.getUser();
+    const showBg =  this.props.location.pathname === '/' ? true : false;
+    this.setState({
+      showBg
+    })
 
     this.socket.on('updated user', (userObj) => {
       this.setState({
         userInfo: userObj
       })
-    })
+    });
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.location !== prevProps.location) {
+      const showBg =  this.props.location.pathname === '/' ? true : false;
+      this.setState({
+        showBg
+      });
       this.onRouteChanged();
     }
   }
 
-  onRouteChanged() {
+  onRouteChanged = () => {
     this.getUser();
   }
 
@@ -162,6 +172,8 @@ class App extends React.Component {
   render() {
     const {
       userInfo,
+      bgUrl,
+      showBg,
       loading,
     } = this.state;
     if (loading) {
@@ -170,10 +182,11 @@ class App extends React.Component {
       );
     }
     return (
-      <div className='wrapper'>
+      <div className='wrapper' style={showBg ? {backgroundImage: `url(${bgUrl})`, backgroundAttachment: 'fixed', backgroundSize: 'cover'}: {}}>
         <NavBar
           userInfo={userInfo}
           logout={this.logout}
+          showBg={showBg}
         />
         <div className='main-content'>
           <div className='container'>

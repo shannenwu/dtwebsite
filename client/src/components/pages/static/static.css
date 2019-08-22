@@ -1,3 +1,7 @@
+.static-page {
+  text-align: center;
+}
+
 .link-name:hover {
   text-decoration: underline;
 }

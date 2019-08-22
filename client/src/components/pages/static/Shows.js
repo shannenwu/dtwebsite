@@ -1,8 +1,9 @@
 import React from 'react';
+import './static.css';
 
 const Shows = () => (
-  <div>
-    <h1>SHOWS</h1>
+  <div className='static-page'>
+    <h1>Shows</h1>
   </div>
 );
 
