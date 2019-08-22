@@ -77,7 +77,7 @@ class NavBar extends Component {
           {userInfo === null ? (
             <li>
               <div className='nav-links' onClick={() => this.handleItemClick('/login')}>
-                Login
+                LOGIN
               </div>
             </li>
           ) : (
