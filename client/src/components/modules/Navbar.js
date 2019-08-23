@@ -46,7 +46,7 @@ class NavBar extends Component {
       showBg
     } = this.props;
     return (
-      <nav className={showBg ? 'navbar' : 'navbar dark'}>
+      <nav className={showBg ? 'navbar light' : 'navbar dark'}>
         <span className='navbar-toggle' id='js-navbar-toggle' onClick={() => this.toggleMenu()}>
           <Icon name={open ? 'times' : 'bars'} />
         </span>

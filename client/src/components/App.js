@@ -48,7 +48,7 @@ class App extends React.Component {
     this.state = {
       userInfo: null,
       loading: true,
-      bgUrl: '/site_images/bg/bg1.jpeg',
+      bgUrl: '/site_images/bg/bg2.jpeg',
       showBg: false
     };
   }
@@ -182,7 +182,7 @@ class App extends React.Component {
       );
     }
     return (
-      <div className='wrapper' style={showBg ? {backgroundImage: `url(${bgUrl})`, backgroundAttachment: 'fixed', backgroundSize: 'cover'}: {}}>
+      <div className='wrapper' style={showBg ? {backgroundImage: `url(${bgUrl})`, backgroundAttachment: 'fixed', backgroundSize: 'cover', backgroundPosition: 'center'}: {}}>
         <NavBar
           userInfo={userInfo}
           logout={this.logout}

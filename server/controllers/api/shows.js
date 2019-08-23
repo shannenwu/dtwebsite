@@ -61,7 +61,7 @@ app.post('/',
     check('semester').optional().custom(value => {
       var semesterOptions = ['fall', 'spring']
       if (!semesterOptions.includes(value)) {
-        return Promise.reject('Please select a semester from the dropdown.');
+        return Promise.reject('Select a semester from the dropdown.');
       } else {
         return true;
       }

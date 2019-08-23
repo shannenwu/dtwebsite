@@ -6,15 +6,10 @@ class Home extends Component {
     super(props);
 
     this.state = {
-    //   bgUrl: '/site_images/bg/bg1.jpeg',
     };
   }
 
   render() {
-    const {
-      bgUrl
-    } = this.state;
-
     return (
       <div id='home-page'>
       </div>

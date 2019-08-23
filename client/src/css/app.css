@@ -42,11 +42,11 @@ p {
 }
 
 .container {
-  padding: 30px;
+  padding: 30px 130px 30px 130px;
 }
 
-@media screen and (min-width: 900px) {
+@media screen and (max-width: 900px) {
   .container {
-    padding: 30px 130px 30px 130px;
+    padding: 30px;
   }
 }

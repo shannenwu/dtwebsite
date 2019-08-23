@@ -1,5 +1,17 @@
 .static-page {
   text-align: center;
+  padding: 0px 100px 0px 100px
+}
+
+.static-page > h1 {
+  font-size: 2.5rem;
+  margin-bottom: 50px;
+}
+
+@media screen and (max-width: 900px) {
+  .static-page {
+    padding: 0px 40px 0px 40px
+  }
 }
 
 .link-name:hover {
@@ -31,4 +43,8 @@
 .officers-grid > * {
   background: rgba(0,0,0,0.1);
   border: 1px white solid;
+}
+
+#show-description {
+  padding-bottom: 50px;
 }

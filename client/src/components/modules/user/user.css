@@ -1,19 +1,33 @@
 img {
-    max-width: 100%;
+  max-width: 100%;
 }
 
 .cropper {
-    height: 400
+  height: 400;
 }
 .userInfoLabels {
-    word-wrap: break-word;
-    font-weight: bold;
+  word-wrap: break-word;
+  font-weight: bold;
 }
 
 .message-response {
-    text-align: center;
+  text-align: center;
 }
 
 #show-link:hover {
-    text-decoration: underline;
+  text-decoration: underline;
+}
+
+@media screen and (max-width: 500px) {
+  .tab-label {
+    display: none;
+  }
+  
+  #profile .ui.menu .item {
+    width: 33.3333%
+  }
+
+  #profile .ui.menu .item>i.icon {
+    width: 100%
+  }
 }

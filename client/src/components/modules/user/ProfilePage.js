@@ -8,6 +8,7 @@ import {
 import UserInfo from './UserInfo';
 import PrefsheetInfo from './PrefsheetInfo';
 import ConflictsInfo from './ConflictsInfo';
+import './user.css';
 
 class ProfilePage extends Component {
   constructor(props) {
@@ -290,14 +291,14 @@ class ProfilePage extends Component {
               Admin
             </Label>}
         </Header>
-        <Menu tabular pointing secondary stackable>
+        <Menu tabular pointing secondary>
           <Menu.Item
             name='personal'
             active={activeItem === 'personal'}
             onClick={this.handleItemClick}
           >
             <Icon name='user circle' />
-            Dancer Info
+            <div className='tab-label'>Dancer Info</div>
           </Menu.Item>
           {activeShow.prefsOpen && (
             <React.Fragment>
@@ -307,7 +308,7 @@ class ProfilePage extends Component {
                 onClick={this.handleItemClick}
               >
                 <Icon name='list ol' />
-                Dance Preferences
+                <div className='tab-label'>Dance Preferences</div>
               </Menu.Item>
               <Menu.Item
                 name='conflicts'
@@ -315,7 +316,7 @@ class ProfilePage extends Component {
                 onClick={this.handleItemClick}
               >
                 <Icon name='calendar alternate outline' />
-                Practice Conflicts
+                <div className='tab-label'>Practice Conflicts</div>
                 {!conflicts.length && prefData.rankedDances.length &&
                   <Popup
                     content='Please fill out your weekly availabilities for rehearsal times!'

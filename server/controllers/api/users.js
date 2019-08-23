@@ -36,24 +36,33 @@ app.get('/:user_id',
 app.post('/:user_id',
   ensure.sameUser, [
     check('gender').optional().custom(value => {
-      var genderOptions = ['male', 'female', 'other', '']
+      var genderOptions = ['male', 'female', 'other', ''];
       if (!genderOptions.includes(value)) {
-        return Promise.reject('Please select a gender from the dropdown.');
+        return Promise.reject('Select a gender from the dropdown.');
       } else {
         return true;
       }
     }),
     check('affiliation').custom(value => {
-      var affilOptions = ['undergraduate', 'graduate', 'other']
+      var affilOptions = ['undergraduate', 'graduate', 'other'];
       if (!affilOptions.includes(value)) {
-        return Promise.reject('Please select an affiliation from the dropdown.');
+        return Promise.reject('Select an affiliation from the dropdown.');
       } else {
         return true;
       }
     }),
-    check('year').isNumeric().withMessage('Please select a valid graduation year.'),
+    check('year').isNumeric().withMessage('Select a valid graduation year.'),
     check('livingGroup').optional().isLength({ min: 0, max: 100 }).withMessage('Living group has max character count of 100.'),
     check('experience').optional().isLength({ min: 0, max: 1000 }).withMessage('Experience field has max character count of 1000.'),
+    check('image').custom(value => {
+      var cropperPrefix = 'data:image\/png;base64,';
+      var localPrefix = '/profile_images'
+      if (!value.startsWith(cropperPrefix) && !value.startsWith(localPrefix)) {
+        return Promise.reject('Choose a profile photo.');
+      } else {
+        return true;
+      }
+    })
   ],
   (req, res) => {
     const errors = validationResult(req);
@@ -68,6 +77,7 @@ app.post('/:user_id',
       experience: req.body.experience
     };
     
+    // User must be found before writing a profile image to the server.
     User.findOneAndUpdate({
       _id: req.params.user_id
     }, updatedUserData, { new: true }).then((user) => {
@@ -78,7 +88,7 @@ app.post('/:user_id',
         var databaseUrl = user.imageUrl;
 
         // This processes images from the cropper.
-        if (req.body.image.includes('data:image\/png;base64,')) {
+        if (req.body.image.startsWith('data:image\/png;base64,')) {
           imageUrl = publicPath + '/profile_images/' + fileName;
           databaseUrl = '/profile_images/' + fileName;
           var base64Data = req.body.image.replace(/^data:image\/png;base64,/, '');

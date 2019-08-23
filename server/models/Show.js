@@ -6,10 +6,6 @@ var showSchema = new Schema({
         type: String,
         trim: true
     },
-    description: {
-        type: String,
-        trim: true
-    },
     year: {
         type: Number,
         required: 'year is required'

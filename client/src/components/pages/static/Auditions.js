@@ -9,8 +9,12 @@ const Auditions = () => (
     </p>
     <h3>Saturday</h3>
     <p>
-      On Saturday, choreographer showcases are held. Each of the choreographers will demonstrate a snippet of their dance, and talk about their music choices and the type of dancers they are looking for. This process gives prospective dancers a chance to watch each of the different dances for the term and decide which they would like to audition for. After showcases, each dancer must fill out an online preference sheet. Each sheet will contain a ranking of the desired dances, the number of desired dances, as well as weekly conflicts. The preference sheet MUST be submitted by midnight on Saturday.
+      On Saturday, choreographer showcases are held. Each of the choreographers will demonstrate a snippet of their dance, talk about their music choices and the type of dancers they are looking for. This process gives prospective dancers a chance to watch all the dances for the term and decide which to audition for. 
     </p>
+    <p>
+      After showcases, each dancer must fill out an online preference sheet. Each sheet will contain a ranking of the desired dances, the number of desired dances, as well as weekly conflicts. The preference sheet MUST be submitted by midnight on Saturday.
+    </p>
+
     <h3>Sunday</h3>
     <p>
       On Sunday, the full audition process begins. Each dancer is assigned an audition number corresponding to his/her preference sheet. Dancers auditioning for contemporary should participate in the contemporary auditions from 11 - 1pm. Those auditioning for hip-hop should participate in the hip hop auditions from 2 - 4pm. You are welcome to come learn both pieces, and any dancers who have preffed both styles should participate in both.

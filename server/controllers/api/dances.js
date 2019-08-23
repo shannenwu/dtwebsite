@@ -87,7 +87,7 @@ app.post('/',
   }
 );
 
-// Currently, his feature is not live.
+// Currently, this feature is not live.
 app.delete("/:dance_id", 
   ensure.admin,
   (req, res) => {

@@ -7,7 +7,7 @@ const app = express.Router();
 
 app.post('/login', [
   check('email').isEmail().withMessage('Email is not valid.'),
-  check('password').not().isEmpty().withMessage('Please enter your password.')
+  check('password').not().isEmpty().withMessage('Enter your password.')
 ], (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
