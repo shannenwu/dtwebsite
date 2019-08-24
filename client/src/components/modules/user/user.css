@@ -31,3 +31,15 @@ img {
     width: 100%
   }
 }
+
+.role-label:hover {
+  text-decoration: underline;
+}
+
+#photo-field {
+  width: 150px;
+}
+
+#photo-field > * {
+  width: 100%;
+}

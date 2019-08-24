@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Dropdown, Header, Table } from 'semantic-ui-react';
+import { Dropdown, Icon, Table } from 'semantic-ui-react';
 import { showOptions } from './ShowsConfig';
 import { showMap } from './ShowMapConfig';
-import './static.css';
+import '../static.css';
 
 class Shows extends Component {
   constructor(props) {
@@ -11,7 +11,6 @@ class Shows extends Component {
     this.state = {
       selectedShowKey: 'S19',
       showMap: null,
-      loading: true
     }
   }
 
@@ -32,12 +31,10 @@ class Shows extends Component {
   }
 
   render() {
-    const { selectedShowKey, loading } = this.state;
+    const { selectedShowKey } = this.state;
     var dances = [];
-    var playlistUrl = '';
     if (showMap.hasOwnProperty(selectedShowKey)) {
       dances = showMap[selectedShowKey].dances;
-      playlistUrl = showMap[selectedShowKey].playlistUrl;
     }
 
     return (
@@ -57,15 +54,15 @@ class Shows extends Component {
               onChange={this.selectShow}
             />
           </span>
-          <div>Watch dance snippets <a className='link-name' target='_blank' href={playlistUrl}>here</a>!</div>
         </div>
-        <Table basic='very' celled>
+        <Table basic='very' celled selectable padded>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>Name</Table.HeaderCell>
               <Table.HeaderCell>Style</Table.HeaderCell>
               <Table.HeaderCell>Level</Table.HeaderCell>
               <Table.HeaderCell>Description</Table.HeaderCell>
+              <Table.HeaderCell>Video</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
 
@@ -76,7 +73,22 @@ class Shows extends Component {
                   <Table.Cell>{dance.name}</Table.Cell>
                   <Table.Cell>{dance.style}</Table.Cell>
                   <Table.Cell>{dance.level}</Table.Cell>
-                  <Table.Cell>{dance.description}</Table.Cell>
+                  <Table.Cell>
+                    {dance.description}
+                    {dance.hasOwnProperty('note') && (
+                      <div>
+                        <br></br>
+                        <div style={{ fontWeight: 'bold' }}>
+                          *{dance.note}
+                        </div>
+                      </div>
+                    )}
+                  </Table.Cell>
+                  <Table.Cell style={{ textAlign: 'center' }}>
+                    <a href={dance.videoUrl} target='_blank' >
+                      <Icon name='youtube' link />
+                    </a>
+                  </Table.Cell>
                 </Table.Row>
               )
             })}

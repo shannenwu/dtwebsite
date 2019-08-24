@@ -112,6 +112,7 @@ class DanceModal extends React.Component {
                 <label>Choreographers</label>
                 <Dropdown
                   name='choreographers'
+                  closeOnChange
                   selection
                   search
                   multiple
@@ -164,7 +165,7 @@ class DanceModal extends React.Component {
                   value={description}
                 />
               </Form.Field>
-              {errorMsg.length !== 0 ? (
+              {errorMsg.length !== 0 && (
                 <Message
                   className='response'
                   negative
@@ -172,12 +173,11 @@ class DanceModal extends React.Component {
                   <Message.Header content='Please fix the following and try again.' />
                   <List items={errorMsg} />
                 </Message>
-              ) : (
-                  <Modal.Actions>
-                    <Button color='green' floated='right' onClick={this.handleSubmit}>Save</Button>
-                    <Button floated='right' onClick={this.handleDanceModalClose}>Cancel</Button>
-                  </Modal.Actions>
-                )}
+              )}
+              <Modal.Actions>
+                <Button color='green' floated='right' onClick={this.handleSubmit}>Save</Button>
+                <Button floated='right' onClick={this.handleDanceModalClose}>Cancel</Button>
+              </Modal.Actions>
             </Form>
           </Modal.Content>
         </Modal>

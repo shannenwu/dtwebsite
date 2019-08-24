@@ -26,7 +26,10 @@ const About = () => (
 
     <h3>Show</h3>
     <p>
-    DanceTroupe produces one full-length <Link className='link-name' to='/shows'>show</Link> every semester, with five performances at the end of the semester. Our shows are made up of dances choreographed by students, and include dance styles such as hip hop, jazz, ballet, tap, modern, and more. All members who want to participate in the show must attend <Link className='link-name' to='/auditions'>auditions</Link>, which take place at the beginning of each semester. Members may participate in anywhere from one to four dances, with roughly one to two hours of rehearsal expected weekly per dance. In addition to rehearsals, dancers must attend First Showings and Second Showings (two full run-throughs of the show) and Production Week. Production Week occurs the week before the show performances and involves several dress rehearsals.
+    DanceTroupe produces one full-length <Link className='link-name' to='/shows'>show</Link> every semester, with five performances at the end of the semester. Our shows are made up of dances choreographed by students, and include dance styles such as hip hop, jazz, ballet, tap, modern, and more. All members who want to participate in the show must attend <Link className='link-name' to='/auditions'>auditions</Link>, which take place at the beginning of each semester. 
+    </p>
+    <p>
+    Members may participate in anywhere from one to four dances, with roughly one to two hours of rehearsal expected weekly per dance. In addition to rehearsals, dancers must attend First Showings and Second Showings (two full run-throughs of the show) and Production Week. Production Week occurs the week before the show performances and involves several dress rehearsals.
     </p>
 
     <h3>Constitution</h3>

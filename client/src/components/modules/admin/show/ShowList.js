@@ -58,7 +58,8 @@ class ShowList extends React.Component {
         </Header>
         <ShowModal open={modalOpen} handleClose={this.handleClose} />
         {shows.map((showObj) => {
-          const pre = showObj.semester === 'fall' ? 'F' : 'S';
+          const prefix = showObj.semester;
+          // 2019 => 19
           const yr = showObj.year.toString().substring(2);
           const className = showObj === selectedShow ? 'show-selected' : '';
           return (
@@ -68,7 +69,7 @@ class ShowList extends React.Component {
               onClick={() => selectShow(showObj)}
             >
               <Card.Content>
-                {`${pre + yr} | ${showObj.name}`}
+                {`${prefix + yr} | ${showObj.name}`}
                 {showObj._id === activeShow._id
                   ? (
                     <Label color='green' style={{ float: 'right' }}>

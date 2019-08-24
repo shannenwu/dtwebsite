@@ -191,12 +191,14 @@ class UserInfo extends React.Component {
         </Form.Field>
         <Form.Field required>
           <label>Photo</label>
-          {image && (
-            <Image wrapped size='small' verticalAlign='top' src={image} onError={(e) => { e.target.onerror = null; e.target.src = ''; }} />
-          )}
-          <ImageModal
-            handleImageCrop={this.handleImageCrop}
-          />
+          <div id='photo-field'>
+            {image && (
+              <Image wrapped size='small' src={image} onError={(e) => { e.target.onerror = null; e.target.src = ''; }} />
+            )}
+            <ImageModal
+              handleImageCrop={this.handleImageCrop}
+            />
+          </div>
         </Form.Field>
         {errorMsg.length !== 0 && (
           <Message

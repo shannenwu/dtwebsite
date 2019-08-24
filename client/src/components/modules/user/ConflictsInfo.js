@@ -87,12 +87,12 @@ class ConflictsInfo extends React.Component {
     return (
       <div>
         {isProd ? (
-          <Message info>
+          <Message info style={{textAlign: 'center'}}>
             Please select all the times you are NOT available for prod week.
             For times you are not available, please describe your conflict below.
           </Message>
         ) : (
-            <Message info>
+            <Message info style={{textAlign: 'center'}}>
               Please select all the times you are NOT available on a weekly basis.
               For times you are not available, please describe your conflict below.
             </Message>

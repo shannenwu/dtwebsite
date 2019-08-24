@@ -10,7 +10,7 @@ const app = express.Router();
 
 // This file handles paths regarding prefsheets. These routes are prefixed by /api/prefsheets/{ENDPOINT}
 
-// This endpoint fetches all prefsheet in the active show.
+// This endpoint fetches all prefsheets in the active show.
 app.get('/user',
   ensure.admin,
   async (req, res) => {

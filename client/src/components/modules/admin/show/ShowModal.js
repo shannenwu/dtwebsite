@@ -11,7 +11,6 @@ class ShowModal extends React.Component {
 
     this.state = {
       name: '',
-      description: '',
       year: '',
       semester: '',
       prefsOpen: false,
@@ -31,7 +30,6 @@ class ShowModal extends React.Component {
     const { handleClose } = this.props;
     this.setState({
       name: '',
-      description: '',
       year: '',
       semester: '',
       errorMsg: [],
@@ -49,7 +47,6 @@ class ShowModal extends React.Component {
     event.preventDefault();
     const {
       name,
-      description,
       year,
       semester,
       prefsOpen,
@@ -57,7 +54,6 @@ class ShowModal extends React.Component {
 
     axios.post('/api/shows', {
       name,
-      description,
       year,
       semester,
       prefsOpen,
@@ -79,7 +75,6 @@ class ShowModal extends React.Component {
   render() {
     const {
       name,
-      description,
       year,
       semester,
       errorMsg
@@ -103,15 +98,15 @@ class ShowModal extends React.Component {
                 <Form.Radio
                   name='semester'
                   label='Fall'
-                  value='fall'
-                  checked={semester === 'fall'}
+                  value='F'
+                  checked={semester === 'F'}
                   onChange={this.handleChange}
                 />
                 <Form.Radio
                   name='semester'
                   label='Spring'
-                  value='spring'
-                  checked={semester === 'spring'}
+                  value='S'
+                  checked={semester === 'S'}
                   onChange={this.handleChange}
                 />
               </Form.Group>
@@ -132,28 +127,20 @@ class ShowModal extends React.Component {
                   value={name}
                 />
               </Form.Field>
-              <Form.Field>
-                <label>Description</label>
-                <Input
-                  name='description'
-                  onChange={this.handleChange}
-                  value={description}
-                />
-              </Form.Field>
-              {errorMsg.length !== 0 ? (
+              {errorMsg.length !== 0 && (
                 <Message
                   className='response'
                   negative
+                  style={{ textAlign: 'center' }}
                 >
                   <Message.Header content='Please fix the following and try again.' />
                   <List items={errorMsg} />
                 </Message>
-              ) : (
-                  <Modal.Actions>
-                    <Button color='green' floated='right' onClick={this.handleSubmit}>Save</Button>
-                    <Button floated='right' onClick={this.handleShowModalClose}>Cancel</Button>
-                  </Modal.Actions>
-                )}
+              )}
+              <Modal.Actions>
+                <Button color='green' floated='right' onClick={this.handleSubmit}>Save</Button>
+                <Button floated='right' onClick={this.handleShowModalClose}>Cancel</Button>
+              </Modal.Actions>
             </Form>
           </Modal.Content>
         </Modal>

@@ -219,11 +219,7 @@ app.get('/:dance_id',
 app.post('/:dance_id/:prefsheet_id',
   ensure.choreographer,
   (req, res) => {
-    if (!req.user.isAdmin || !req.user.isChoreographer) {
-      return res.status(403).send('Unauthorized request.')
-    }
-
-    // TODO check if actions are allowed
+    // TODO check if user is a choreographer in this dance
 
     var query = { '_id': req.params.prefsheet_id, 'rankedDances.dance': req.params.dance_id };
     var update = { '$set': { 'rankedDances.$.status': req.body.status } };

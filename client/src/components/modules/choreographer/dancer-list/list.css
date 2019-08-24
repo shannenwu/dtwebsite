@@ -1,0 +1,19 @@
+#dancer-list .remove-icon {
+  visibility: hidden;
+}
+
+#dancer-list .remove-row {
+  visibility: visible;
+}
+
+#dancer-list .remove-row:hover .remove-icon {
+  visibility: visible;
+}
+
+.ui.modal.remove-modal .actions>.ui.primary.button {
+  background-color: #db2827;
+}
+
+#dancer-list .add-dancer {
+  text-align: right;
+}

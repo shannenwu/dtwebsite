@@ -74,11 +74,9 @@ class PrefsheetInfo extends React.Component {
     return (
       <div>
         {!isLate &&
-          <Message info>
-            Prefsheets can be re-submitted until INSERT DATE HERE.
-            Refer to the dance descriptions <Link to='/shows' id='show-link'>here</Link>, and only pref the dances you want to be in!
-            Make sure you have uploaded a profile photo—
-            choreographers can't accept you into their dance if they don't know who you are!
+          <Message warning style={{textAlign: 'center'}}>
+            Prefsheets can be re-submitted until Saturday, September 7th at 11:59PM.
+            Dance descriptions <Link to='/shows' id='show-link'>here</Link>. Only pref the dances you want to be in!
           </Message>}
         <Form style={{ padding: '1em' }}>
           {isLate

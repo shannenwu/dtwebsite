@@ -283,11 +283,11 @@ class ProfilePage extends Component {
         <Header as='h1'>
           {`${userInfo.firstName} ${userInfo.lastName}`}
           {(userInfo.isChoreographer || userInfo.isAdmin) &&
-            <Label color='teal' horizontal as={Link} to='/choreographer'>
+            <Label className='role-label' color='teal' horizontal as={Link} to='/choreographer'>
               Choreographer
             </Label>}
           {userInfo.isAdmin &&
-            <Label color='violet' horizontal as={Link} to='/admin'>
+            <Label className='role-label' color='violet' horizontal as={Link} to='/admin'>
               Admin
             </Label>}
         </Header>

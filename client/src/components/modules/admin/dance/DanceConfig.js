@@ -4,6 +4,8 @@ export const styleOptions = [
     { key: 'f', text: 'Fusion', value: 'fusion' },
     { key: 'b', text: 'Ballet', value: 'ballet' },
     { key: 't', text: 'Tap', value: 'tap' },
+    { key: 't', text: 'Jazz', value: 'jazz' },
+    { key: 't', text: 'Bhangra', value: 'Bhangra' },
     { key: 'o', text: 'Other', value: 'other' },
 ];
 

@@ -1,20 +1,86 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const { check, validationResult } = require('express-validator/check');
 
 const Dance = require('../../models/Dance');
+const Prefsheet = require('../../models/Prefsheet');
 
 const ensure = require('../ensure');
+const util = require('../util');
 
 const app = express.Router();
+const ObjectId = mongoose.Types.ObjectId;
 
 // This file handles paths to get/modify dances. These routes are prefixed by /api/dances/{ENDPOINT}
 
-// Returns accepted dancers in this dance.
+// TODO CONSOLIDATE WITH OTHER GET DANCE FUNCTION
+// Returns dance specificed by id and populates acceptedDancers field.
 app.get('/accepted-dancers/:dance_id',
   ensure.choreographer,
   (req, res) => {
     Dance
       .findById(req.params.dance_id)
+      .populate('acceptedDancers', 'firstName lastName year email')
+      .exec((err, doc) => {
+        if (err) {
+          console.log(err);
+        }
+        res.send(doc);
+      });
+  });
+
+// Performs a status update for the given dance for the prefsheet of the user id in active show.
+app.post('/status-update/:dance_id/:user_id',
+  ensure.choreographer,
+  async (req, res) => {
+    // TODO check if user is a choreographer in this dance
+    // Find prefsheet corresponding to user.
+    var showResponse = await util.getActiveShow();
+    var show_id = showResponse._id;
+    var prefsheet = await Prefsheet.findOne({ user: req.params.user_id, show: show_id });
+
+    // Update user's prefsheet.
+    var query = { '_id': prefsheet._id, 'rankedDances.dance': req.params.dance_id };
+    var update = { '$set': { 'rankedDances.$.status': req.body.status } };
+    var options = { new: true, runValidators: true };
+
+    Prefsheet
+      .findOneAndUpdate(query, update, options)
+      .exec((err, doc) => {
+        if (err) {
+          return res.status(400).send('Error updating prefsheet!')
+        }
+
+        return res.status(200).send('Prefsheet updated!');
+      })
+  }
+);
+
+// Remove a dancer from the acceptedDancers field in this dance.
+app.post('/remove-dancer/:dance_id/:user_id',
+  ensure.choreographer,
+  (req, res) => {
+    var update = { $pull: { acceptedDancers: new ObjectId(req.params.user_id) } };
+    var options = { new: true };
+    Dance
+      .findByIdAndUpdate(req.params.dance_id, update, options)
+      .populate('acceptedDancers', 'firstName lastName year email')
+      .exec((err, doc) => {
+        if (err) {
+          console.log(err);
+        }
+        res.send(doc);
+      });
+  });
+
+// Add a dancer to the acceptedDancers field in this dance.
+app.post('/add-dancer/:dance_id/:user_id',
+  ensure.choreographer,
+  (req, res) => {
+    var update = { $push: { acceptedDancers: new ObjectId(req.params.user_id) } };
+    var options = { new: true };
+    Dance
+      .findByIdAndUpdate(req.params.dance_id, update, options)
       .populate('acceptedDancers', 'firstName lastName year email')
       .exec((err, doc) => {
         if (err) {
@@ -88,18 +154,18 @@ app.post('/',
 );
 
 // Currently, this feature is not live.
-app.delete("/:dance_id", 
+app.delete("/:dance_id",
   ensure.admin,
   (req, res) => {
-  Dance.findByIdAndDelete(req.params.dance_id, (err, doc) => {
-    if (err) {
-      console.log("error deleting");
-      res.status(500);
-    } else {
-      console.log(`deleted dance ${req.params.dance_id}`);
-      res.status(200).send(doc);
-    }
+    Dance.findByIdAndDelete(req.params.dance_id, (err, doc) => {
+      if (err) {
+        console.log("error deleting");
+        res.status(500);
+      } else {
+        console.log(`deleted dance ${req.params.dance_id}`);
+        res.status(200).send(doc);
+      }
+    });
   });
-});
 
 module.exports = app;

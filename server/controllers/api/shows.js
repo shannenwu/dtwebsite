@@ -2,13 +2,40 @@ const express = require('express');
 const { check, validationResult } = require('express-validator/check');
 
 const Show = require('../../models/Show');
+const Dance = require('../../models/Dance');
 
 const ensure = require('../ensure');
 const util = require('../util');
 
 const app = express.Router();
 
-// This file handles paths to modify shows. These routes are prefixed by /api/shows/{ENDPOINT}
+// This file handles paths to get/modify shows. These routes are prefixed by /api/shows/{ENDPOINT}
+
+// Returns a map of show (S19) to show name and dances info, and the shows options by most recent.
+// TODO: UNFINISHED
+app.get('/show-map',
+  async (req, res) => {
+    // Generate show map
+    const dances = await Dance.find({}, 'name style level description videoUrl').populate('show', 'name year semester date');
+    var showMap = {};
+    dances.forEach(danceObj => {
+      var showKey = danceObj.show.semester + danceObj.show.year.toString().substring(2);
+    })
+    // Generate show options
+    const shows = await Show.find({}, 'name year semester date').sort({ date: 'desc' });
+    const showOptions = shows.map(showObj => {
+      const prefix = showObj.semester;
+      const yr = showObj.year.toString().substring(2);
+      const value = prefix + yr;
+      const keyText = value + ' | ' + showObj.name;
+      return {
+        key: keyText,
+        text: keyText,
+        value
+      }
+    });
+  }
+)
 
 // Returns the active show.
 app.get('/active',
@@ -58,24 +85,24 @@ app.delete('/:show_id',
 // Creates a show.
 app.post('/',
   ensure.admin, [
-    check('semester').optional().custom(value => {
-      var semesterOptions = ['fall', 'spring']
+    check('semester').custom(value => {
+      var semesterOptions = ['F', 'S']
       if (!semesterOptions.includes(value)) {
         return Promise.reject('Select a semester from the dropdown.');
       } else {
         return true;
       }
     }),
-    check('year').optional().isNumeric().withMessage('Show year must be a number.'),
-    check('name').optional().isLength({ min: 0, max: 100 }).withMessage('Name field has max character count of 100.'),
-    check('description').optional().isLength({ min: 0, max: 1000 }).withMessage('Description field has max character count of 1000.'),
+    check('year').isNumeric().withMessage('Show year must be a number.'),
+    check('name').optional().isLength({ min: 0, max: 50 }).withMessage('Name field has max character count of 50.'),
   ],
   (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).send({ errors: errors.array() });
     }
-    if (req.body.semester === 'fall') {
+    // Create a general date for fall/spring for sorting.
+    if (req.body.semester === 'F') {
       date = new Date(req.body.year, 8);
     } else {
       date = new Date(req.body.year, 1);
@@ -121,7 +148,8 @@ app.post('/:show_id/active-show',
       });
     });
   });
-
+  
+// TODO: show and handle the following errors in the front-end.
 // Sets the selected show's prefsheets to be visible/open.
 app.post('/:show_id/prefs',
   ensure.admin,

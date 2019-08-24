@@ -7,7 +7,7 @@ import Home from './pages/static/Home';
 import About from './pages/static/About';
 import Auditions from './pages/static/Auditions';
 import Officers from './pages/static/Officers';
-import Shows from './pages/static/Shows';
+import Shows from './pages/static/shows/Shows';
 import SignUp from './pages/auth/SignUp';
 import Login from './pages/auth/Login';
 import AdminPage from './modules/admin/AdminPage';
