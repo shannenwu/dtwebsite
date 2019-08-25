@@ -120,7 +120,7 @@ class ConflictsInfo extends React.Component {
           </Form.Field>
           {errorMsg.length !== 0 && (
             <Message
-              className='response'
+              className='message-response'
               negative
             >
               <Message.Header
@@ -131,7 +131,7 @@ class ConflictsInfo extends React.Component {
           )}
           {messageFromServer === 'Conflicts updated!' && (
             <Message
-              className='response'
+              className='message-response'
               onDismiss={handleDismiss}
               header={messageFromServer}
               positive

@@ -3,6 +3,7 @@ import { Dropdown, Icon, Table } from 'semantic-ui-react';
 import { showOptions } from './ShowsConfig';
 import { showMap } from './ShowMapConfig';
 import '../static.css';
+import './shows.css';
 
 class Shows extends Component {
   constructor(props) {
@@ -51,12 +52,13 @@ class Shows extends Component {
               inline
               options={showOptions}
               value={selectedShowKey}
+              direction='left'
               onChange={this.selectShow}
             />
           </span>
         </div>
         <Table basic='very' celled selectable padded>
-          <Table.Header>
+          <Table.Header className='show-header'>
             <Table.Row>
               <Table.HeaderCell>Name</Table.HeaderCell>
               <Table.HeaderCell>Style</Table.HeaderCell>

@@ -1,0 +1,13 @@
+#show-description {
+  padding-bottom: 50px;
+}
+
+@media only screen and (max-width: 767px) {
+  .ui.table:not(.unstackable) thead.show-header {
+    display: none;
+  }
+
+  #show-description {
+    padding-bottom: 0;
+  }
+}
