@@ -1,6 +1,6 @@
 const path = require('path');
-const entryFile = path.resolve(__dirname, 'client', 'src', 'index.js');
-const outputDir = path.resolve(__dirname, 'client', 'dist');
+const entryFile = path.resolve(__dirname, 'src', 'index.js');
+const outputDir = path.resolve(__dirname, 'dist');
 
 const webpack = require('webpack');
 
@@ -40,7 +40,7 @@ module.exports = {
   ],
   devServer: {
     historyApiFallback: true,
-    contentBase: './client/dist',
+    contentBase: './dist',
     hot: true,
     proxy: {
       '/api/*': 'http://localhost:3000',

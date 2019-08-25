@@ -13,7 +13,7 @@ import {
   prodDays,
   prodStartHour,
   prodEndHour
-} from '../../../../../server/controllers/util';
+} from '../../../../util';
 
 
 class ConflictsInfo extends React.Component {

@@ -50,3 +50,18 @@ p {
     padding: 30px;
   }
 }
+
+.wrapper {
+  background-attachment: 'fixed';
+  background-size: 'cover';
+  background-position: 'center';
+}
+.bg-1 {
+  background-image: url('/site_images/bg/bg1.jpeg');
+  transition: all .4s ease;
+}
+
+.bg-2 {
+  background-image: url('/site_images/bg/bg2.jpeg');
+  transition: all .4s ease;
+}

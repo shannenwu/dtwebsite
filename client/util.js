@@ -1,10 +1,6 @@
-// TODO: Resolve discrepancies between this file and the util file in client.
-// Note: This file must be kept in sync with the same util file in client.
-const addHours = require('date-fns/addHours');
-const addDays = require('date-fns/addDays');
-const startOfDay = require('date-fns/startOfDay');
-
-const Show = require('../models/Show.js');
+const addHours = require('date-fns/add_hours');
+const addDays = require('date-fns/add_days');
+const startOfDay = require('date-fns/start_of_day');
 
 // Default dates. The month and day are ignored for processing for weekly scheduling. 
 // Hardcoded to a random day that starts on Sunday.
@@ -19,11 +15,6 @@ const prodDays = 3;
 const prodStartHour = 10;
 const prodEndHour = 23.5;
 
-getActiveShow = () => {
-  return Show.findOne({isActive: true}).then(show => {
-    return show;
-  });
-}
 
 getWeekTimes = () => {
   const startTime = startOfDay(weekStartDate);
@@ -60,7 +51,6 @@ getProdStartEnd = () => {
 }
 
 module.exports = {
-  getActiveShow,
   getWeekTimes,
   getWeekStartEnd,
   getProdTimes,
