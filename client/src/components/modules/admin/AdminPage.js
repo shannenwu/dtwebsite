@@ -33,15 +33,21 @@ class AdminPage extends React.Component {
     getActiveShow: PropTypes.func,
     getDances: PropTypes.func,
     getDanceOptions: PropTypes.func,
+    getUserOptions: PropTypes.func
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this._isMounted = true;
+    const { getUserOptions } = this.props;
 
     document.title = 'Admin Page';
     // make get request to load shows, dances
     this.getShowsAndDances();
-    this.getUserOptions();
+    // load all user options
+    const userOptions = await getUserOptions();
+    this.setState({
+      userOptions
+    });
 
     this.socket.on('show', (showObj) => {
       const newShows = [showObj].concat(this.state.shows);
@@ -65,23 +71,6 @@ class AdminPage extends React.Component {
 
   componentWillUnmount() {
     this._isMounted = false;
-  }
-
-  getUserOptions = () => {
-    axios.get('/api/users')
-      .then(
-        (response) => {
-          const users = response.data;
-          const userOptions = users.map(user => ({
-            key: `${user._id}`,
-            text: `${user.firstName} ${user.lastName}`,
-            value: user._id,
-          }));
-          this.setState({
-            userOptions,
-          });
-        },
-      );
   }
 
   getAllShows = async () => {

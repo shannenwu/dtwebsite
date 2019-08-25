@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Form, Button, Modal, Message, List, Dropdown, Input,
+  Button, Dropdown, Form, Input, List, Message, Modal,
 } from 'semantic-ui-react';
 import axios from 'axios';
 import { styleOptions, levelOptions } from './DanceConfig';

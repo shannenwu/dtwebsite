@@ -124,6 +124,20 @@ class App extends React.Component {
       );
   }
 
+  getUserOptions = async () => {
+    try {
+      const response = await axios.get('/api/users');
+      const userOptions = response.data.map(user => ({
+        key: `${user._id}`,
+        text: `${user.firstName} ${user.lastName}`,
+        value: user._id,
+      }));
+      return userOptions;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   // TODO error handle for the following functions.
   getActiveShow = async () => {
     try {
@@ -246,6 +260,7 @@ class App extends React.Component {
                 authed={userInfo && (userInfo.isChoreographer || userInfo.isAdmin)}
                 loading={loading}
                 userInfo={userInfo}
+                getUserOptions={this.getUserOptions}
                 component={DancerList}
               />
               <PrivateRoute
@@ -257,6 +272,7 @@ class App extends React.Component {
                 getActiveShow={this.getActiveShow}
                 getDances={this.getDances}
                 getDanceOptions={this.getDanceOptions}
+                getUserOptions={this.getUserOptions}
                 component={AdminPage}
               />
               <PrivateRoute

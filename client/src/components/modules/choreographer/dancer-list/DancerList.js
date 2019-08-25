@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { Button, Confirm, Dimmer, Dropdown, Header, Icon, Loader, Table } from 'semantic-ui-react';
+import { Button, Confirm, Dimmer, Header, Icon, Loader, Table } from 'semantic-ui-react';
+import AddDancerModal from './AddDancerModal';
 import './list.css';
 
 class DancerList extends Component {
@@ -13,12 +14,14 @@ class DancerList extends Component {
       userToRemove: null,
       confirmOpen: false,
       modalOpen: false,
+      userOptions: [],
       loading: true
     }
   }
 
   static propTypes = {
     userInfo: PropTypes.object,
+    getUserOptions: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -26,11 +29,14 @@ class DancerList extends Component {
   }
 
   async componentDidMount() {
+    const { getUserOptions } = this.props;
     document.title = 'Dancer List';
     const danceResponse = await this.getDancePopulated();
+    const userOptions = await getUserOptions();
 
     this.setState({
       danceObj: danceResponse.data,
+      userOptions,
       loading: false
     })
   }
@@ -44,7 +50,7 @@ class DancerList extends Component {
     }
   }
 
-  show = (user) => {
+  showRemoveModal = (user) => {
     this.setState({
       userToRemove: user,
       confirmOpen: true
@@ -73,11 +79,38 @@ class DancerList extends Component {
     })
   }
 
+  handleAddDancer = async (dancerId) => {
+    const { danceObj } = this.state;
+    const [danceResponse, prefsheetResponse] = await Promise.all([
+      await axios.post(`/api/dances/add-dancer/${danceObj._id}/${dancerId}`),
+      await axios.post(`/api/dances/status-update/${danceObj._id}/${dancerId}`, {
+        status: 'accepted'
+      })
+    ]);
+    this.setState({
+      danceObj: danceResponse.data,
+    });
+  }
+
+  handleOpen = () => {
+    this.setState({
+      modalOpen: true
+    })
+  }
+
+  handleClose = () => {
+    this.setState({
+      modalOpen: false
+    })
+  }
+
   render() {
     const {
       danceObj,
       userToRemove,
       confirmOpen,
+      modalOpen,
+      userOptions,
       loading
     } = this.state;
 
@@ -90,6 +123,13 @@ class DancerList extends Component {
     }
     return (
       <div id='dancer-list'>
+        <AddDancerModal userOptions={userOptions} open={modalOpen} handleClose={this.handleClose} handleAddDancer={this.handleAddDancer} userOptions={userOptions} />
+        <Button onClick={() => this.handleOpen()} floated='right' icon labelPosition='left' primary size='small'>
+          <Icon name='user' /> Add Dancer
+        </Button>
+        <Button icon floated='right' size='small' download href={`/reports/dance-final/${danceObj._id}`}>
+          <Icon name='download' />
+        </Button>
         <Header as='h1' style={{ textTransform: 'capitalize' }}>
           {danceObj.name}
         </Header>
@@ -116,39 +156,12 @@ class DancerList extends Component {
                   <Table.Cell>{user.email}</Table.Cell>
                   <Table.Cell>{user.year}</Table.Cell>
                   <Table.Cell>
-                    <Icon onClick={() => this.show(user)} className='remove-icon' name='minus circle' color='red' />
+                    <Icon onClick={() => this.showRemoveModal(user)} className='remove-icon' name='minus circle' color='red' />
                   </Table.Cell>
                 </Table.Row>
               );
             })}
           </Table.Body>
-          <Table.Footer fullWidth>
-            <Table.Row>
-              <Table.HeaderCell>
-          <Button icon size='small' download href={`/reports/dance-final/${danceObj._id}`}>
-            <Icon name='download' />
-            {' Download CSV'}
-          </Button>
-              </Table.HeaderCell>
-              <Table.HeaderCell className='add-dancer' colSpan='4'>
-                <Dropdown
-                  text='Add Dancer'
-                  icon='add user'
-                  floating
-                  labeled
-                  button
-                  search
-                  className='icon'
-                >
-                  <Dropdown.Menu>
-                    {/* {friendOptions.map((option) => (
-              <Dropdown.Item key={option.value} {...option} />
-            ))} */}
-                  </Dropdown.Menu>
-                </Dropdown>
-              </Table.HeaderCell>
-            </Table.Row>
-          </Table.Footer>
         </Table>
         <Confirm
           className='remove-modal'
