@@ -44,22 +44,29 @@ class App extends React.Component {
     super(props);
 
     this.socket = io(`http://${window.location.hostname}:3000`);
+    this.bgs = ['/site_images/bg/bg0.jpeg', '/site_images/bg/bg1.jpeg', '/site_images/bg/bg2.jpeg', '/site_images/bg/bg3.jpeg']
+    this.animDuration = 3;
 
     this.state = {
       userInfo: null,
       loading: true,
-      bgUrl: '/site_images/bg/bg2.jpeg',
+      bgIndex: 0,
       showBg: false
     };
   }
 
   componentDidMount() {
     this._isMounted = true;
-    this.getUser();
-    const showBg =  this.props.location.pathname === '/' ? true : false;
+    this.getUser();    
+    this.timeout = setTimeout(
+      this.changeBackground,
+      this.animDuration * 1000
+    )
+    // TODO modify behavior later
+    const showBg = this.props.location.pathname === '/' ? true : false;
     this.setState({
       showBg
-    })
+    });
 
     this.socket.on('updated user', (userObj) => {
       this.setState({
@@ -70,12 +77,28 @@ class App extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.location !== prevProps.location) {
-      const showBg =  this.props.location.pathname === '/' ? true : false;
+      const showBg = this.props.location.pathname === '/' ? true : false;
       this.setState({
         showBg
       });
       this.onRouteChanged();
     }
+  }
+
+  componentWillUnmount() {
+  	if (this.timeout) clearTimeout(this.timeout);
+  }
+
+  changeBackground = () => {
+    const { bgIndex } = this.state;
+    var nextBgIndex = (bgIndex + 1) % this.bgs.length;
+    this.setState({
+      bgIndex: nextBgIndex
+    });
+    this.timeout = setTimeout(
+      this.changeBackground,
+      this.animDuration * 1000
+    )
   }
 
   onRouteChanged = () => {
@@ -186,7 +209,7 @@ class App extends React.Component {
   render() {
     const {
       userInfo,
-      bgUrl,
+      bgIndex,
       showBg,
       loading,
     } = this.state;
@@ -196,7 +219,7 @@ class App extends React.Component {
       );
     }
     return (
-      <div className='wrapper' style={showBg ? {backgroundImage: `url(${bgUrl})`, backgroundAttachment: 'fixed', backgroundSize: 'cover', backgroundPosition: 'center'}: {}}>
+      <div className='wrapper' style={showBg ? { backgroundImage: `url(${this.bgs[bgIndex]})` } : {}}>
         <NavBar
           userInfo={userInfo}
           logout={this.logout}
