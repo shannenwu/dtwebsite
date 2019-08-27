@@ -81,7 +81,7 @@ class SignUp extends React.Component {
             <Loader content='Loading' />
           </Dimmer>
           <Header as='h1'>
-            Create an Account
+            Register
           </Header>
           <Form>
             <Form.Field required>
@@ -122,12 +122,12 @@ class SignUp extends React.Component {
                 value={password}
               />
             </Form.Field>
-            <Button type='submit' onClick={this.handleSubmit}>Register</Button>
+            <Button fluid type='submit' onClick={this.handleSubmit}>Register</Button>
           </Form>
           {errorMsg.length !== 0 && (
             <Message
               error
-              header='Please fix the following and try again.'
+              header='Error'
               list={errorMsg}
             />
           )}
@@ -135,11 +135,11 @@ class SignUp extends React.Component {
       );
     } if (messageFromServer === 'user created') {
       return (
-        <div>
+        <div className='register-success-msg'>
           <Header as='h1'>
             Successfully registered!
           </Header>
-          <Button as={Link} to='/login'>Go login!</Button>
+          <Button fluid as={Link} to='/login'>Go login!</Button>
         </div>
       );
     }

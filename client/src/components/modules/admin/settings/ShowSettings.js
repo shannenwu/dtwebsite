@@ -138,7 +138,7 @@ class ShowSettings extends React.Component {
           <Checkbox onClick={() => toggleProdConflicts()} checked={prodConflictsOpen} toggle style={{ float: 'right' }} />
         </Grid.Row>
         <Grid.Row>
-          <Button onClick={this.showAuditionNumConfirmation}>Generate Audition Numbers</Button>
+          <Button fluid onClick={this.showAuditionNumConfirmation}>Generate Audition Numbers</Button>
           <Confirm
             open={confirmAuditionNumOpen}
             content='This will generate new audition numbers for all prefsheets in the active show. Proceed?'
@@ -148,10 +148,10 @@ class ShowSettings extends React.Component {
           />
         </Grid.Row>
         <Grid.Row>
-          <Button onClick={() => setActiveShow(selectedShow._id)}>Set Selected as Active Show</Button>
+          <Button fluid onClick={() => setActiveShow(selectedShow._id)}>Set Selected as Active Show</Button>
         </Grid.Row>
         <Grid.Row>
-          <Button onClick={this.showPermissionsConfirmation}>Update Choreographer Permissions</Button>
+          <Button fluid onClick={this.showPermissionsConfirmation}>Update Choreographer Permissions</Button>
           <Confirm
             open={confirmPermissionsOpen}
             content='This will give/revoke choreographer permissions to reflect the current dances in the active show. Proceed?'
@@ -163,6 +163,7 @@ class ShowSettings extends React.Component {
         <Grid.Row>
           <Button
             content='View All Prefsheets'
+            fluid
             as={Link}
             to={'/all-prefsheets'}
           />

@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
 import {
-  Button, Dimmer, Grid, Form, Header, Input, Loader, Message, Segment
+  Button, Dimmer, Form, Header, Input, Loader, Message
 } from 'semantic-ui-react';
 import axios from 'axios';
+import './auth.css';
 
 class Login extends React.Component {
   constructor(props) {
@@ -88,60 +89,52 @@ class Login extends React.Component {
       return <Redirect to='/profile' />;
     }
     return (
-      <Grid padded centered>
+      <div className='login-wrapper'>
         <Dimmer active={loading} inverted>
           <Loader content='Logging you in...' />
         </Dimmer>
-        <Grid.Column width={8}>
-          <Header
-            as='h1'
-            content='Welcome Back!'
-            style={{ textAlign: 'center' }}
-          />
-          <Segment>
-            <Form>
-              <Form.Field>
-                <label>Email</label>
-                <Input
-                  name='email'
-                  onChange={this.handleChange}
-                  value={email}
-                />
-              </Form.Field>
-              <Form.Field style={{ marginBottom: '0em' }}>
-                <label>Password</label>
-                <Input
-                  name='password'
-                  autoComplete='off'
-                  type='password'
-                  onChange={this.handleChange}
-                  value={password}
-                />
-              </Form.Field>
-              <div style={{ marginBottom: '1em' }}>
-                <Link to='/forgot'>Forgot your password?</Link>
-              </div>
-              <Button type='submit' onClick={this.handleSubmit} fluid color='blue'>
-                Login
-              </Button>
-            </Form>
-            {errorMsg.length !== 0 && (
-              <Message
-                error
-                header='Please fix the following and try again.'
-                list={errorMsg}
-              />
-            )}
-          </Segment>
+        <Header
+          as='h1'
+          content='Welcome Back!'
+          style={{ textAlign: 'center' }}
+        />
+        <Form>
+          <Form.Field>
+            <Input
+              name='email'
+              placeholder='Email Address'
+              onChange={this.handleChange}
+              value={email}
+            />
+          </Form.Field>
+          <Form.Field>
+            <Input
+              name='password'
+              placeholder='Password'
+              autoComplete='off'
+              type='password'
+              onChange={this.handleChange}
+              value={password}
+            />
+          </Form.Field>
+          <Button type='submit' onClick={this.handleSubmit} fluid>
+            Login
+          </Button>
+        </Form>
+        {errorMsg.length !== 0 && (
           <Message
-            style={{ textAlign: 'center' }}
+            error
+            className='login-error-msg'
           >
-            Need an account?
-            {' '}
-            <Link to='/signup'>Sign up!</Link>
+            <Message.Header content='Error'/>
+            {errorMsg.map((msg, index) => <div key={index}>{msg}</div>)}
           </Message>
-        </Grid.Column>
-      </Grid>
+        )}
+        <div className='login-links'>
+          <Link to='/signup'>Register</Link>
+          <Link to='/forgot'>Forgot password?</Link>
+        </div>
+      </div>
     );
   }
 }

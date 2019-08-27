@@ -57,6 +57,7 @@ class DanceList extends React.Component {
         {dances.map(danceObj => (
           <Card
             key={danceObj._id}
+            fluid
           >
             <Card.Content>
               {danceObj.name}

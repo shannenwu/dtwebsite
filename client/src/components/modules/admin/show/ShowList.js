@@ -65,6 +65,7 @@ class ShowList extends React.Component {
           return (
             <Card
               key={showObj._id}
+              fluid
               className={className}
               onClick={() => selectShow(showObj)}
             >

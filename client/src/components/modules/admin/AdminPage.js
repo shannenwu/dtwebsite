@@ -249,7 +249,7 @@ class AdminPage extends React.Component {
         <Header as='h1'>
           Admin
         </Header>
-        <Grid padded columns={3} style={{ height: '100%' }}>
+        <Grid stackable padded columns={3} style={{ height: '100%' }}>
           <Grid.Column>
             <ShowList
               shows={shows}

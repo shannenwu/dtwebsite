@@ -118,7 +118,7 @@ class ForgotPassword extends React.Component {
                 value={email}
               />
             </Form.Field>
-            <Button type='submit' onClick={this.handleSubmit} color='blue'>
+            <Button type='submit' onClick={this.handleSubmit}>
               Send Password Reset Email
               </Button>
           </Form>

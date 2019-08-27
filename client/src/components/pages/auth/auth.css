@@ -1,0 +1,29 @@
+.login-wrapper {
+  width: 300px;
+  margin: 0 auto;
+}
+
+.login-links {
+  display:flex;
+  justify-content: space-between;
+  padding-top: 1em;
+}
+
+.login-links a {
+  color: #72777a
+}
+
+.login-links a:hover {
+  color: #72777a;
+  text-decoration: underline;
+}
+
+.login-error-msg {
+  text-align: center;
+}
+
+.register-success-msg {
+  text-align: center;
+  width: 300px;
+  margin: 0 auto;
+}

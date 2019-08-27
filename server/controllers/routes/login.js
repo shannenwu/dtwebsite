@@ -6,7 +6,7 @@ const passport = require('../../passport');
 const app = express.Router();
 
 app.post('/login', [
-  check('email').isEmail().withMessage('Email is not valid.'),
+  check('email').isEmail().withMessage('Enter a valid email.'),
   check('password').not().isEmpty().withMessage('Enter your password.')
 ], (req, res, next) => {
   const errors = validationResult(req);
