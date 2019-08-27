@@ -1,8 +1,8 @@
 // TODO: Resolve discrepancies between this file and the util file in client.
 // Note: This file must be kept in sync with the same util file in client.
-const addHours = require('date-fns/addHours');
-const addDays = require('date-fns/addDays');
-const startOfDay = require('date-fns/startOfDay');
+const addHours = require('date-fns/add_hours');
+const addDays = require('date-fns/add_days');
+const startOfDay = require('date-fns/start_of_day');
 
 const Show = require('../models/Show.js');
 
