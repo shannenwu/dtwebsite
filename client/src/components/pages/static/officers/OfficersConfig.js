@@ -27,7 +27,7 @@ const officerOptions = [
   {
     position: 'Pub Chair',
     name: 'Matthew Tung',
-    photoUrl: ''
+    photoUrl: '/officer_images/matthew.jpeg'
   },
   {
     position: 'Pub Chair',
