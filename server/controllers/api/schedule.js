@@ -3,13 +3,20 @@ const express = require('express');
 const Prefsheet = require('../../models/Prefsheet');
 const Dance = require('../../models/Dance');
 
-const ensure = require('../ensure')
+const ensure = require('../ensure');
 const util = require('../util');
 
 const app = express.Router();
 
 // This file handles paths to return availabilities. These routes are prefixed by /api/schedule/{ENDPOINT}
 
+// Endpoint to send all default times to the client. Kind of gross, rewrite later.
+app.get('/constants',
+  ensure.loggedIn,
+  (_req, res) => {
+    const timeConstants = { weekStartDate: util.weekStartDate, weekDays: util.weekDays, weekStartHour: util.weekStartHour, weekEndHour: util.weekEndHour, prodStartDate: util.prodStartDate, prodDays: util.prodDays, prodStartHour: util.prodStartHour, prodEndHour: util.prodEndHour };
+    res.status(200).send(timeConstants);
+  })
 // This endpoint fetches a prefsheet in the active show for the user_id if specified.
 app.get('/:dance_id',
   ensure.loggedIn,
@@ -35,7 +42,7 @@ app.get('/:dance_id',
     });
 
     const interval = isProd ? util.getProdStartEnd() : util.getWeekStartEnd();
-    
+
     var choreographerTimes = [];
     prefsheets.forEach(prefsheet => {
       const userConflicts = isProd ? prefsheet.prodConflicts : prefsheet.weeklyConflicts;

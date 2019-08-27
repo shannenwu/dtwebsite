@@ -1,26 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Button, Form, List, Message, TextArea,
+  Button, Dimmer, Form, List, Loader, Message, TextArea,
 } from 'semantic-ui-react';
+import axios from 'axios';
 import ScheduleSelector from '@shannenwu/react-schedule-selector';
-import {
-  weekStartDate,
-  weekDays, 
-  weekStartHour,
-  weekEndHour,
-  prodStartDate,
-  prodDays,
-  prodStartHour,
-  prodEndHour
-} from '../../../../util';
-
 
 class ConflictsInfo extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      startDate: null,
+      numDays: null,
+      startTime: null,
+      endTime: null,
+      dateFormat: null,
+      loading: true
     };
   }
 
@@ -44,6 +40,7 @@ class ConflictsInfo extends React.Component {
   }
 
   componentDidMount() {
+    this.getConstants();
   }
 
   componentDidUpdate(prevProps) {
@@ -51,6 +48,34 @@ class ConflictsInfo extends React.Component {
       || this.props.errorMsg !== prevProps.errorMsg) {
       this.scrollToBottom();
     }
+  }
+
+  getConstants = async () => {
+    const { isProd } = this.props;
+    const response = await axios.get('/api/schedule/constants');
+    const constants = response.data;
+
+    var startDate = constants.weekStartDate;
+    var numDays = constants.weekDays;
+    var startTime = constants.weekStartHour; // 3pm
+    var endTime = constants.weekEndHour; // 10:30 pm
+    var dateFormat = 'ddd';
+
+    if (isProd) {
+      startDate = constants.prodStartDate;
+      numDays = constants.prodDays;
+      startTime = constants.prodStartHour; // 10am
+      endTime = constants.prodEndHour; // 11:30pm
+      dateFormat = 'M/D';
+    }
+    this.setState({
+      startDate,
+      numDays,
+      startTime,
+      endTime,
+      dateFormat,
+      loading: false
+    })
   }
 
   scrollToBottom() {
@@ -70,18 +95,21 @@ class ConflictsInfo extends React.Component {
       messageFromServer
     } = this.props;
 
-    var date = weekStartDate;
-    var numDays = weekDays;
-    var startTime = weekStartHour; // 3pm
-    var endTime = weekEndHour; // 10:30 pm
-    var dateFormat = 'ddd';
+    const {
+      startDate,
+      numDays,
+      startTime,
+      endTime,
+      dateFormat,
+      loading
+    } = this.state;
 
-    if (isProd) {
-      date = prodStartDate;
-      numDays = prodDays;
-      startTime = prodStartHour; // 10am
-      endTime = prodEndHour; // 11:30pm
-      dateFormat = 'M/D';
+    if (loading) {
+      return (
+        <Dimmer active inverted>
+          <Loader content='Loading selection...' />
+        </Dimmer>
+      );
     }
 
     return (
@@ -99,7 +127,7 @@ class ConflictsInfo extends React.Component {
           )}
         <ScheduleSelector
           selection={conflicts}
-          startDate={date}
+          startDate={startDate}
           numDays={numDays}
           minTime={startTime}
           maxTime={endTime}
