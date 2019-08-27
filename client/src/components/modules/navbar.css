@@ -80,7 +80,7 @@
     display: flex;
     justify-content: space-between;
     padding-bottom: 0;
-    height: 70px;
+    height: var(--navbar-height);
     align-items: center;
     padding-left: 130px;
     padding-right: 130px;

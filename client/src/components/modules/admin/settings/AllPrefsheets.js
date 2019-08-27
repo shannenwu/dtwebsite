@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import { Card, Dimmer, Grid, Header, Loader } from 'semantic-ui-react';
 import DancerCard from '../../choreographer/dancer-selection/DancerCard';
+import './settings.css';
 
 class AllPrefsheets extends Component {
   constructor(props) {
@@ -44,7 +45,7 @@ class AllPrefsheets extends Component {
 
     if (loading) {
       return (
-        <Dimmer active inverted>
+        <Dimmer active inverted className='all-prefsheets-loader'>
           <Loader content='Loading all prefsheets...' />
         </Dimmer>
       );

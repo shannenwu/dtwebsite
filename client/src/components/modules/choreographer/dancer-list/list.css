@@ -17,3 +17,7 @@
 #dancer-list .add-dancer {
   text-align: right;
 }
+
+.dancer-list-loader.ui.dimmer {
+  top: var(--navbar-width) !important;
+}

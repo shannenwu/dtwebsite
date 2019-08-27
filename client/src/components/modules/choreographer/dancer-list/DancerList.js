@@ -65,6 +65,7 @@ class DancerList extends Component {
   }
 
   handleRemoveConfirm = async () => {
+    // Note: There is a possibility this dancer did not have a prefsheet.
     const { danceObj, userToRemove } = this.state;
     const [danceResponse, prefsheetResponse] = await Promise.all([
       await axios.post(`/api/dances/remove-dancer/${danceObj._id}/${userToRemove._id}`),
@@ -80,6 +81,7 @@ class DancerList extends Component {
   }
 
   handleAddDancer = async (dancerId) => {
+    // Note: There is a possibility this dancer did not have a prefsheet.
     const { danceObj } = this.state;
     const [danceResponse, prefsheetResponse] = await Promise.all([
       await axios.post(`/api/dances/add-dancer/${danceObj._id}/${dancerId}`),
@@ -116,7 +118,7 @@ class DancerList extends Component {
 
     if (loading) {
       return (
-        <Dimmer active inverted>
+        <Dimmer active inverted className='dancer-list-loader'>
           <Loader content='Loading dancer list...' />
         </Dimmer>
       );

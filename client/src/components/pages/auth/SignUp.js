@@ -4,6 +4,7 @@ import {
 } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import './auth.css';
 
 class SignUp extends React.Component {
   constructor(props) {
@@ -76,7 +77,7 @@ class SignUp extends React.Component {
     } = this.state;
     if (messageFromServer === '') {
       return (
-        <Container>
+        <Container className='sign-up-wrapper'>
           <Dimmer active={loading} inverted>
             <Loader content='Loading' />
           </Dimmer>

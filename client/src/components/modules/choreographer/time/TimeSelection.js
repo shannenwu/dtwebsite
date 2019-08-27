@@ -121,7 +121,7 @@ class TimeSelection extends Component {
 
     if (loading) {
       return (
-        <Dimmer active inverted>
+        <Dimmer active inverted className='time-loader'>
           <Loader content='Loading availabilities...' />
         </Dimmer>
       );

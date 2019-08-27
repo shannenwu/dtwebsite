@@ -1,3 +1,7 @@
 #show-settings .row {
   padding: 0em 0em 1em 0em;
 }
+
+.all-prefsheets-loader.ui.dimmer {
+  top: var(--navbar-height) !important;
+}

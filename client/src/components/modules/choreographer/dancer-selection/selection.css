@@ -1,0 +1,3 @@
+.selection-loader.ui.dimmer {
+    top: var(--navbar-width) !important;
+}

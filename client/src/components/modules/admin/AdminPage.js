@@ -6,6 +6,7 @@ import io from 'socket.io-client';
 import ShowList from './show/ShowList';
 import DanceList from './dance/DanceList';
 import ShowSettings from './settings/ShowSettings';
+import './admin.css';
 
 class AdminPage extends React.Component {
   _isMounted = false;
@@ -239,7 +240,7 @@ class AdminPage extends React.Component {
 
     if (loading) {
       return (
-        <Dimmer active inverted>
+        <Dimmer active inverted className='admin-loader'>
           <Loader content='Loading...' />
         </Dimmer>
       );

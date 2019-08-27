@@ -1,3 +1,7 @@
+.time-loader.ui.dimmer {
+  top: var(--navbar-height) !important;
+}
+
 #schedule-wrapper {
   display: flex;
   align-items: center;

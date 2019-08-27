@@ -9,6 +9,7 @@ import {
 import InfiniteScroll from 'react-infinite-scroller';
 import DancerCard from './DancerCard';
 import DancerCardPlaceHolder from './DancerCardPlaceholder';
+import './selection.css';
 
 class DancerSelection extends Component {
   _isMounted = false;
@@ -245,7 +246,7 @@ class DancerSelection extends Component {
 
     if (loading) {
       return (
-        <Dimmer active inverted>
+        <Dimmer active inverted className='selection-loader'>
           <Loader content='Loading selection...' />
         </Dimmer>
       );

@@ -58,7 +58,7 @@ class ChoreographerPage extends Component {
 
     if (loading) {
       return (
-        <Dimmer active inverted>
+        <Dimmer active inverted className='choreo-loader'>
           <Loader content='Loading dances...' />
         </Dimmer>
       );

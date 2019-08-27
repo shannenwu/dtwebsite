@@ -1,3 +1,6 @@
 #choreographer-page {
   text-transform: capitalize;
 }
+.choreo-loader.ui.dimmer {
+  top: var(--navbar-height) !important;
+}

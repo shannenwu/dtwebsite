@@ -1,0 +1,3 @@
+.admin-loader.ui.dimmer {
+    top: var(--navbar-height) !important;
+}

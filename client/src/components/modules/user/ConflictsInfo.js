@@ -5,6 +5,7 @@ import {
 } from 'semantic-ui-react';
 import axios from 'axios';
 import ScheduleSelector from '@shannenwu/react-schedule-selector';
+import './user.css';
 
 class ConflictsInfo extends React.Component {
   constructor(props) {
@@ -106,7 +107,7 @@ class ConflictsInfo extends React.Component {
 
     if (loading) {
       return (
-        <Dimmer active inverted>
+        <Dimmer active inverted className='conflicts-loader'>
           <Loader content='Loading selection...' />
         </Dimmer>
       );

@@ -39,20 +39,26 @@ app.post('/status-update/:dance_id/:user_id',
     var show_id = showResponse._id;
     var prefsheet = await Prefsheet.findOne({ user: req.params.user_id, show: show_id });
 
-    // Update user's prefsheet.
-    var query = { '_id': prefsheet._id, 'rankedDances.dance': req.params.dance_id };
-    var update = { '$set': { 'rankedDances.$.status': req.body.status } };
-    var options = { new: true, runValidators: true };
+    if (prefsheet) {
+      // Update user's prefsheet.
+      var query = { '_id': prefsheet._id, 'rankedDances.dance': req.params.dance_id };
+      var update = { '$set': { 'rankedDances.$.status': req.body.status } };
+      var options = { new: true, runValidators: true };
 
-    Prefsheet
-      .findOneAndUpdate(query, update, options)
-      .exec((err, doc) => {
-        if (err) {
-          return res.status(400).send('Error updating prefsheet!')
-        }
+      Prefsheet
+        .findOneAndUpdate(query, update, options)
+        .exec((err, doc) => {
+          if (err) {
+            return res.status(400).send('Error updating prefsheet!')
+          }
 
-        return res.status(200).send('Prefsheet updated!');
-      })
+          return res.status(200).send('Prefsheet updated!');
+        });
+    } else {
+      // User never submitted a prefsheet.
+      return res.status(200).send('No prefsheet found.');
+    }
+
   }
 );
 

@@ -27,3 +27,7 @@
   width: 300px;
   margin: 0 auto;
 }
+
+.login-wrapper .ui.dimmer, .sign-up-wrapper .ui.dimmer {
+  top: var(--navbar-height) !important;
+}

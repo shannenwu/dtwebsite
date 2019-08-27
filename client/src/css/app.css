@@ -27,7 +27,7 @@ p {
 }
 
 :root {
-  --navbar-width: 220px;
+  --navbar-height: 70px;
   --dancer-card-width: 290px;
 }
 
@@ -57,6 +57,7 @@ p {
   background-position: center;
   background-color: #FCFCFC;
 }
+
 .bg-1 {
   background-image: url('/site_images/bg/bg1.jpeg');
   transition: all .4s ease;

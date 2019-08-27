@@ -1,3 +1,7 @@
+.profile-loader.ui.dimmer, .conflicts-loader.ui.dimmer{
+  top: 70px !important;
+}
+
 img {
   max-width: 100%;
 }
