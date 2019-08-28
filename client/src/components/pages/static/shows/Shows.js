@@ -15,14 +15,8 @@ class Shows extends Component {
     }
   }
 
-  static propTypes = {
-  }
-
-  static defaultProps = {
-  }
-
   componentDidMount() {
-
+    document.title = 'Shows';
   }
 
   selectShow = (e, { value }) => {
@@ -44,7 +38,7 @@ class Shows extends Component {
         <div id='show-description'>
           <p>
             Our shows are some of the most highly anticipated and well-attended events on campus.
-            We showcase a variety of dance styles, such as hip hop, contemporary, tap, jazz, and more!
+            We showcase a variety of dance styles, such as urban, contemporary, tap, jazz, and more!
         </p>
           <span>
             Currently viewing{' '}
@@ -54,6 +48,7 @@ class Shows extends Component {
               value={selectedShowKey}
               direction='left'
               onChange={this.selectShow}
+              className='show-dropdown'
             />
           </span>
         </div>

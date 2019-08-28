@@ -11,3 +11,7 @@
     padding-bottom: 0;
   }
 }
+
+.show-dropdown.ui.dropdown > .text {
+  color: #669BCF;
+}

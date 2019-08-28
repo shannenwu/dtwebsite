@@ -119,7 +119,7 @@ class ForgotPassword extends React.Component {
               />
             </Form.Field>
             <Button type='submit' onClick={this.handleSubmit}>
-              Send Password Reset Email
+              Reset Password
               </Button>
           </Form>
           {infoMessage !== null && infoMessage}

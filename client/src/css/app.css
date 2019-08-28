@@ -19,7 +19,7 @@ p {
 }
 
 .ui.button {
-  border-radius: 0 !important;
+  border-radius: 2px !important;
 }
 
 #root {
@@ -39,11 +39,11 @@ p {
   background-size: cover;
   background-position: center;
   background-color: #FCFCFC;
-  -webkit-transition: background 1s linear;
-  -moz-transition: background 1s linear;
-  -o-transition: background 1s linear;
-  -ms-transition: background 1s linear;
-  transition: background 1s linear;
+  -webkit-transition: background-image 1s ease-in-out;
+  -moz-transition: background-image 1s ease-in-out;
+  -o-transition: background-image 1s ease-in-out;
+  -ms-transition: background-image 1s ease-in-out;
+  transition: background-image 1s ease-in-out;
 }
 
 .main-content {

@@ -49,6 +49,7 @@ app.post('/forgot', [
 
         transporter.sendMail(mailOptions, (err) => {
           if (err) {
+            console.log(err);
             res.status(500).send({ message: 'Failed to send recovery email. Please contact us with your issue.' })
           } else {
             res.status(200).send({ message: 'Recovery email sent!' });

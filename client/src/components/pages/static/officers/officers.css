@@ -58,6 +58,10 @@
 }
 
 .officers-grid .about .name {
-  font-size: 1.25em;
+  font-size: 1.1em;
   font-weight: bold;
+}
+
+.officers-grid .about .position {
+  font-size: 0.9em;
 }

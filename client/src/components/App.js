@@ -45,7 +45,7 @@ class App extends React.Component {
 
     this.socket = io(`http://${window.location.hostname}:3000`);
     this.bgs = ['/site_images/bg/bg0.jpeg', '/site_images/bg/bg1.jpeg', '/site_images/bg/bg2.jpeg', '/site_images/bg/bg3.jpeg']
-    this.animDuration = 3;
+    this.animDuration = 4;
 
     this.state = {
       userInfo: null,

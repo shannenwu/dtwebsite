@@ -96,7 +96,7 @@ class PrefsheetInfo extends React.Component {
               </Form.Field>
             )
           }
-          <Form.Field required width={4}>
+          <Form.Field inline required>
             <label>Max number of dances</label>
             <Dropdown
               name='maxDances'
@@ -109,13 +109,13 @@ class PrefsheetInfo extends React.Component {
             />
           </Form.Field>
           {prefData.rankedDances.map((rankedDance, index) => (
-            <Form.Field key={index}>
+            <Form.Field className='rank-dance-field' inline key={index}>
               <label className='userInfoLabels'>
                 {index + 1}
                 .
                 </label>
               <Dropdown
-                fluid
+                className='rank-dance-dropdown'
                 name={index}
                 selection
                 clearable

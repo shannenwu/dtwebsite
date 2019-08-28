@@ -2,27 +2,27 @@ const officerOptions = [
   {
     position: 'Show Coordinator',
     name: 'Patricia Lu',
-    photoUrl: ''
+    photoUrl: '/officer_images/patricia.jpeg'
   },
   {
     position: 'President',
     name: 'Caela Gomes',
-    photoUrl: ''
+    photoUrl: '/officer_images/caela.jpeg'
   },
   {
     position: 'Vice President',
     name: 'Andrea Garmilla',
-    photoUrl: ''
+    photoUrl: '/officer_images/andreag.jpeg'
   },
   {
     position: 'Treasurer',
     name: 'Claudia Chen',
-    photoUrl: ''
+    photoUrl: '/officer_images/claudia.jpeg'
   },
   {
     position: 'Treasurer',
     name: 'Andrea Bolivar',
-    photoUrl: ''
+    photoUrl: '/officer_images/andreab.jpeg'
   },
   {
     position: 'Pub Chair',
@@ -32,7 +32,7 @@ const officerOptions = [
   {
     position: 'Pub Chair',
     name: 'Jessie Wang',
-    photoUrl: ''
+    photoUrl: '/officer_images/jessie.jpeg'
   },
   {
     position: 'Webmaster',
@@ -42,7 +42,7 @@ const officerOptions = [
   {
     position: 'Secretary',
     name: 'Tom Benavides',
-    photoUrl: ''
+    photoUrl: '/officer_images/tom.jpeg'
   },
   {
     position: 'Social Chair',
@@ -52,27 +52,27 @@ const officerOptions = [
   {
     position: 'Social Chair',
     name: 'Avital Weinberg',
-    photoUrl: ''
+    photoUrl: '/officer_images/avital.jpeg'
   },
   {
     position: 'Costume Coordinator',
     name: 'Xochitl Luna',
-    photoUrl: ''
+    photoUrl: '/officer_images/xochitl.jpeg'
   },
   {
     position: 'Show Historian',
     name: 'Jade Ishii',
-    photoUrl: ''
+    photoUrl: '/officer_images/jade.jpeg'
   },
   {
     position: 'Tech Coordinator',
     name: 'Montse Garza',
-    photoUrl: ''
+    photoUrl: '/officer_images/montse.jpeg'
   },
   {
     position: 'Media Historian',
     name: 'Faraz Masroor',
-    photoUrl: ''
+    photoUrl: '/officer_images/faraz.jpeg'
   },
 ]
 

@@ -38,7 +38,7 @@ class ProfilePage extends Component {
   }
 
   componentDidMount() {
-    document.title = 'User Profile';
+    document.title = 'Profile';
     this.getPrefsheet();
   }
 

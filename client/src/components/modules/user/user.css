@@ -47,3 +47,17 @@ img {
 #photo-field > * {
   width: 100%;
 }
+
+.rank-dance-field {
+  display: flex;
+}
+
+.ui.form .inline.field>.selection.dropdown.rank-dance-dropdown {
+  flex-grow: 1;
+}
+
+.ui.form .inline.field > label.userInfoLabels {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

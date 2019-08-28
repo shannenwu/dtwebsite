@@ -41,7 +41,7 @@ class AdminPage extends React.Component {
     this._isMounted = true;
     const { getUserOptions } = this.props;
 
-    document.title = 'Admin Page';
+    document.title = 'Admin';
     // make get request to load shows, dances
     this.getShowsAndDances();
     // load all user options
