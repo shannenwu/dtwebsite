@@ -51,7 +51,7 @@ const officerOptions = [
   },
   {
     position: 'Social Chair',
-    name: 'Avital Weinberg',
+    name: 'Avital Vainberg',
     photoUrl: '/officer_images/avital.jpeg'
   },
   {

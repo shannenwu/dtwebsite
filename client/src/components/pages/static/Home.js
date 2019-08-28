@@ -10,7 +10,7 @@ class Home extends Component {
   render() {
     return (
       <div id='home-page'>
-        <div className='quote'>DanceTroupe is the largest dance organization at MIT, bringing a variety of styles to the community.</div>
+        <div className='quote'>DanceTroupe is the largest dance organization at MIT, bringing a variety of styles to the community, regardless of level.</div>
       </div>
     );
   }
