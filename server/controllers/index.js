@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const express = require('express');
 const path = require('path');
+require('dotenv').config()
 
 // local dependencies
 const passport = require('../passport');
@@ -18,7 +19,7 @@ app.use(bodyParser.json({limit: '50mb'}));
 
 // set up sessions
 app.use(session({
-  secret: 'session-secret',
+  secret: process.env.SESSION_SECRET,
   resave: 'false',
   saveUninitialized: 'true',
   cookie: {maxAge: 8*60*60*1000} // 8 hours
