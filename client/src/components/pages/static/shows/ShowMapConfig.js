@@ -8,8 +8,7 @@ const showMap = {
         style: 'Contemporary',
         level: 'Beginner',
         description: 'A really fun, upbeat dance and a great way to learn contemp! When I’m with you, I’m standing with an army. You could be in that army! Join us for our last semester of choreographing.',
-        videoUrl: 'https://www.youtube.com/watch?v=_ePvWm-mOSU&index=2&t=0s&list=PLZ7FwvI8aqZP2lorAKdodJAgFvJTAj3_r',
-        note: 'Attend Contemp Auditions'
+        videoUrl: 'https://www.youtube.com/watch?v=_ePvWm-mOSU&index=2&t=0s&list=PLZ7FwvI8aqZP2lorAKdodJAgFvJTAj3_r'
       },
       {
         name: 'Jessie Wang, Jennifer Wang, Lisa Peng, Mia San Gabriel',

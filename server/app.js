@@ -31,6 +31,6 @@ io.on('connection', function (socket) {
   });
 });
 
-http.listen(80, () => {
-  console.log(`Listening on port 80 and looking in folder ${publicPath}`);
+http.listen(process.env.PORT, () => {
+  console.log(`Listening on port 3000 and looking in folder ${publicPath}`);
 });

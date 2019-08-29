@@ -23,7 +23,7 @@ app.post('/forgot', [
       resetPasswordExpires: Date.now() + 360000,
     }, (err, user) => {
       if (user === null) {
-        res.status(403).send('Email not registered.');
+        res.status(403).send({message: 'Email not registered.'});
       } else {
         const transporter = nodemailer.createTransport({
           host: 'outgoing.mit.edu',

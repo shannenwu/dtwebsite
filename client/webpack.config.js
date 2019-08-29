@@ -43,14 +43,14 @@ module.exports = {
     contentBase: './dist',
     hot: true,
     proxy: {
-      '/api/*': 'http://localhost:80',
-      '/login': 'http://localhost:80',
-      '/logout': 'http://localhost:80',
-      '/forgot': 'http://localhost:80',
-      '/signup': 'http://localhost:80',
-      '/admin': 'http://localhost:80',
-      '/reset': 'http://localhost:80',
-      '/reports': 'http://localhost:80'
+      '/api/*': 'http://localhost:3000',
+      '/login': 'http://localhost:3000',
+      '/logout': 'http://localhost:3000',
+      '/forgot': 'http://localhost:3000',
+      '/signup': 'http://localhost:3000',
+      '/admin': 'http://localhost:3000',
+      '/reset': 'http://localhost:3000',
+      '/reports': 'http://localhost:3000'
     }
   }
 };
