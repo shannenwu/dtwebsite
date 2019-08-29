@@ -14,7 +14,7 @@ class AdminPage extends React.Component {
   constructor(props) {
     super(props);
 
-    this.socket = io(`${window.location.protocol}//${window.location.hostname}:${window.location.port}`);
+    this.socket = io(`https://${window.location.hostname}:${window.location.port}`);
 
     this.state = {
       shows: [],
