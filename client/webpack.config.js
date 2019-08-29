@@ -4,6 +4,13 @@ const outputDir = path.resolve(__dirname, 'dist');
 
 const webpack = require('webpack');
 
+var secure;
+if (process.env.NODE_ENV === 'production') {
+  secure = true;
+} else {
+  secure = false;
+}
+
 module.exports = {
   entry: ['@babel/polyfill', entryFile],
   output: {
@@ -36,7 +43,10 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.DefinePlugin({
+      __SECURE__: secure
+    })
   ],
   devServer: {
     historyApiFallback: true,
@@ -44,6 +54,10 @@ module.exports = {
     hot: true,
     proxy: {
       '/api/*': 'http://localhost:3000',
+      '/socket.io/*': {
+        target: 'http://localhost:3000',
+        ws: true
+      },
       '/login': 'http://localhost:3000',
       '/logout': 'http://localhost:3000',
       '/forgot': 'http://localhost:3000',

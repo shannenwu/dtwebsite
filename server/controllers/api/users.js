@@ -20,7 +20,7 @@ app.get('/',
       if (err) {
         console.log(err);
       }
-      res.send(docs);
+      res.json(docs);
     });
   });
 

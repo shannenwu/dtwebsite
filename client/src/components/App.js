@@ -43,7 +43,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.socket = io(`https://${window.location.hostname}:${window.location.port}`, {secure: true});
+    this.socket = io(`//${window.location.hostname}:${window.location.port}`, {secure: __SECURE__});
     this.bgs = ['/site_images/bg/bg0.jpeg', '/site_images/bg/bg1.jpeg', '/site_images/bg/bg2.jpeg', '/site_images/bg/bg3.jpeg']
     this.animDuration = 4;
 

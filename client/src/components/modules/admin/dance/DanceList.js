@@ -11,7 +11,7 @@ class DanceList extends React.Component {
   constructor(props) {
     super(props);
 
-    this.socket = io(`https://${window.location.hostname}:${window.location.port}`, {secure: true});
+    this.socket = io(`//${window.location.hostname}:${window.location.port}`, {secure: __SECURE__});
 
     this.state = {
       modalOpen: false,

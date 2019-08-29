@@ -12,7 +12,7 @@ function admin(req, res, next) {
 }
 
 function choreographer(req, res, next) {
-  if (!req.user.isChoreographer || !req.user.isAdmin) {
+  if (!req.user.isChoreographer && !req.user.isAdmin) {
     throw new AccessError();
   }
 
