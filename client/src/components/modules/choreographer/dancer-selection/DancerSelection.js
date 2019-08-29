@@ -17,7 +17,7 @@ class DancerSelection extends Component {
   constructor(props) {
     super(props);
 
-    this.socket = io(`http://${window.location.hostname}:80`);
+    this.socket = io(`${window.location.protocol}//${window.location.hostname}:${window.location.port}`);
 
     this.state = {
       open: false,
