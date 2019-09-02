@@ -98,6 +98,10 @@ class Login extends React.Component {
           content='Welcome Back!'
           style={{ textAlign: 'center' }}
         />
+        <Message
+          content='This is the new DT website! New and returning dancers should register for an new account.'
+          style={{ textAlign: 'center' }}
+        />
         <Form>
           <Form.Field>
             <Input
