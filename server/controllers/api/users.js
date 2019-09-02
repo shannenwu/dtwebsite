@@ -35,14 +35,14 @@ app.get('/:user_id',
 
 app.post('/:user_id',
   ensure.sameUser, [
-    check('gender').optional().custom(value => {
-      var genderOptions = ['male', 'female', 'other', ''];
-      if (!genderOptions.includes(value)) {
-        return Promise.reject('Select a gender from the dropdown.');
-      } else {
-        return true;
-      }
-    }),
+    // check('gender').optional().custom(value => {
+    //   var genderOptions = ['male', 'female', 'other', ''];
+    //   if (!genderOptions.includes(value)) {
+    //     return Promise.reject('Select a gender from the dropdown.');
+    //   } else {
+    //     return true;
+    //   }
+    // }),
     check('affiliation').custom(value => {
       var affilOptions = ['undergraduate', 'graduate', 'other'];
       if (!affilOptions.includes(value)) {
