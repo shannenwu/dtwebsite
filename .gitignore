@@ -1,5 +1,6 @@
 .DS_STORE
 node_modules
 client/dist/bundle.js
+client/dist/profile_images
 .vscode
 .env
