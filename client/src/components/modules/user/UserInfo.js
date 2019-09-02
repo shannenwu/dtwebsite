@@ -4,6 +4,7 @@ import {
   Button, Dropdown, Form, Image, Input, List, Message, TextArea
 } from 'semantic-ui-react';
 import axios from 'axios';
+import jimp from 'jimp/es';
 import ImageModal from './ImageModal';
 import { genderOptions, yearOptions, affilOptions } from './UserConfig';
 import './user.css';
@@ -37,9 +38,9 @@ class UserInfo extends React.Component {
       userInfo,
     } = this.props;
 
-    const imageUrl = userInfo.imageUrl === '/site_images/default-profile.jpeg' ? 
+    const imageUrl = userInfo.imageUrl === '/site_images/default-profile.jpeg' ?
       '' : `/profile_images/${userInfo._id.toString()}.jpeg`;
-    
+
     this.setState({
       gender: userInfo.gender,
       year: userInfo.year,
@@ -61,7 +62,7 @@ class UserInfo extends React.Component {
     this.el.scrollIntoView({ behavior: 'smooth' });
   }
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     const {
       gender,
       year,
@@ -75,13 +76,21 @@ class UserInfo extends React.Component {
     } = this.props;
     event.preventDefault();
 
+    var imageUpload;
+    // This processes images from the cropper.
+    if (image.startsWith('data:image\/png;base64,')) {
+      imageUpload = await this.resizeImage(image);
+    } else {
+      imageUpload = image;
+    }
+
     axios.post(`/api/users/${userInfo._id}`, {
       gender,
       year,
       affiliation,
       livingGroup,
       experience,
-      image,
+      image: imageUpload,
     })
       .then((response) => {
         this.setState({
@@ -99,6 +108,19 @@ class UserInfo extends React.Component {
         });
       });
   };
+
+  resizeImage = (rawImg) => {
+    // This processes images from the cropper.
+    var base64Data = rawImg.replace(/^data:image\/png;base64,/, '');
+    return jimp.read(Buffer.from(base64Data, 'base64')).then((image) => {
+      var newImage = image
+        .resize(256, 256)
+        .quality(30) // set JPEG quality
+        .getBase64Async(jimp.AUTO);
+      return newImage;
+    }
+    );
+  }
 
   handleChange = (e, { name, value }) => {
     this.setState({

@@ -46,8 +46,14 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
       __SECURE__: secure
-    })
+    }),
+    new webpack.DefinePlugin({
+      'process.browser': 'true'
+    }),
   ],
+  node: {
+    fs: 'empty'
+  },
   devServer: {
     historyApiFallback: true,
     contentBase: './dist',

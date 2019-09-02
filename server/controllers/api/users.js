@@ -88,6 +88,7 @@ app.post('/:user_id',
         var databaseUrl = user.imageUrl;
 
         // This processes images from the cropper.
+        // Jimp stuff resize honestly only in place for malicious ppl.
         if (req.body.image.startsWith('data:image\/png;base64,')) {
           imageUrl = publicPath + '/profile_images/' + fileName;
           databaseUrl = '/profile_images/' + fileName;
@@ -96,7 +97,6 @@ app.post('/:user_id',
             if (err) throw err;
             image
               .resize(512, 512)
-              .quality(30) // set JPEG quality
               .write(imageUrl);
           });
         }

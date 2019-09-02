@@ -17,6 +17,7 @@
     "cropperjs": "^1.5.5",
     "eslint": "^6.2.2",
     "file-loader": "^4.2.0",
+    "jimp": "^0.6.4",
     "prop-types": "^15.7.2",
     "react": "^16.9.0",
     "react-cropper": "^1.2.0",
