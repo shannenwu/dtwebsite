@@ -11,7 +11,7 @@ class Auditions extends Component {
       <div className='static-page'>
         <h1>Auditions</h1>
         <p>
-          DanceTroupe auditions are divided between a Saturday and Sunday at the beginning of each term. For Fall 2019, they will be held on September 7th and 8th. Auditions are a laid-back, fun process, so nothing should stop you from auditioning!
+          DanceTroupe auditions are divided between a Saturday and Sunday at the beginning of each term. For Fall 2019, they will be held on September 7th and 8th in the BC Porter Room. You can find the FB event <a className='link-name' href='https://www.facebook.com/events/229532211302259/?event_time_id=229532214635592' target='_blank'>here.</a> Auditions are a laid-back, fun process, so nothing should stop you from auditioning!
         </p>
         <h3>Saturday</h3>
         <p>

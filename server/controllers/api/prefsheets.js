@@ -112,6 +112,10 @@ app.post('/user/:user_id',
       return res.status(422).send({ errors: errors.array() });
     }
 
+    if (!req.user.affiliation || !req.user.year || (req.user.imageUrl === '/site_images/default-profile.jpeg')) {
+      res.status(422).send('Please fill out your dancer info before submitting a prefsheet.')
+    }
+    
     var showResponse = await util.getActiveShow();
     var show_id = showResponse._id;
     var lateData = {} // defaults to empty

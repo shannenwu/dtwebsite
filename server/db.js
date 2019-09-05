@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 // set up mongoDB connection
 const mongoURL = process.env.MONGO_SRV;
-const options = { dbName: 'prod', useNewUrlParser: true };
+const options = { dbName: process.env.DATABASE_NAME , useNewUrlParser: true };
 mongoose.connect(mongoURL, options);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useFindAndModify', false);

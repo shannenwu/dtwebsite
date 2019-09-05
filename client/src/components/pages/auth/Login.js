@@ -99,7 +99,7 @@ class Login extends React.Component {
           style={{ textAlign: 'center' }}
         />
         <Message
-          content='This is the new DT website! New and returning dancers should register for an new account.'
+          content='This is the new DT website! New and returning dancers should register for a new account.'
           style={{ textAlign: 'center' }}
         />
         <Form>

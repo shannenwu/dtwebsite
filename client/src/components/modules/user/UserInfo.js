@@ -22,6 +22,7 @@ class UserInfo extends React.Component {
       image: '',
       messageFromServer: '',
       errorMsg: [],
+      loading: false
     };
   }
 
@@ -76,6 +77,10 @@ class UserInfo extends React.Component {
     } = this.props;
     event.preventDefault();
 
+    this.setState({
+      loading: true
+    })
+
     var imageUpload;
     // This processes images from the cropper.
     if (image.startsWith('data:image\/png;base64,')) {
@@ -96,6 +101,7 @@ class UserInfo extends React.Component {
         this.setState({
           messageFromServer: response.data.message,
           errorMsg: [],
+          loading: false
         });
       })
       .catch((error) => {
@@ -105,6 +111,7 @@ class UserInfo extends React.Component {
         });
         this.setState({
           errorMsg: msgList,
+          loading: false
         });
       });
   };
@@ -150,6 +157,7 @@ class UserInfo extends React.Component {
       image,
       errorMsg,
       messageFromServer,
+      loading
     } = this.state;
 
     return (
@@ -232,6 +240,13 @@ class UserInfo extends React.Component {
             />
             <List items={errorMsg} />
           </Message>
+        )}
+        {loading && (
+          <Message
+            className='message-response'
+            header={'Updating dancer info...'}
+            color='yellow'
+          />
         )}
         {messageFromServer === 'User information updated!' && (
           <Message
