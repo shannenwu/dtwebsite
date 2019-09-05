@@ -39,6 +39,10 @@ p {
   background-size: cover;
   background-position: center;
   background-color: #FCFCFC;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
   -webkit-transition: background-image 1s ease-in-out;
   -moz-transition: background-image 1s ease-in-out;
   -o-transition: background-image 1s ease-in-out;
