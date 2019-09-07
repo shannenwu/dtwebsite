@@ -4,8 +4,11 @@ export const styleOptions = [
     { key: 'f', text: 'Fusion', value: 'fusion' },
     { key: 'b', text: 'Ballet', value: 'ballet' },
     { key: 't', text: 'Tap', value: 'tap' },
-    { key: 't', text: 'Jazz', value: 'jazz' },
-    { key: 't', text: 'Bhangra', value: 'Bhangra' },
+    { key: 'j', text: 'Jazz', value: 'jazz' },
+    { key: 'b', text: 'Bhangra', value: 'bhangra' },
+    { key: 'a', text: 'African/Carribean', value: 'african/carribean' },
+    { key: 's', text: 'Step', value: 'step' },
+    { key: 'b', text: 'Breaking, old-school hip hop, locking', value: 'Breaking, old-school hip hop, locking' },
     { key: 'o', text: 'Other', value: 'other' },
 ];
 
