@@ -10,7 +10,7 @@ class Shows extends Component {
     super(props);
 
     this.state = {
-      selectedShowKey: 'S19',
+      selectedShowKey: 'F19',
       showMap: null,
     }
   }
@@ -82,9 +82,15 @@ class Shows extends Component {
                     )}
                   </Table.Cell>
                   <Table.Cell style={{ textAlign: 'center' }}>
-                    <a href={dance.videoUrl} target='_blank' >
-                      <Icon name='youtube' link />
-                    </a>
+                    {dance.videoUrl !== '' ? (
+                      <a href={dance.videoUrl} target='_blank' >
+                        <Icon name='youtube' link />
+                      </a>
+                    ) : (
+                      <div>
+                        N/A
+                      </div>
+                    )}
                   </Table.Cell>
                 </Table.Row>
               )
