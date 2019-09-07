@@ -85,7 +85,7 @@ const showMap = {
         style: 'Urban',
         level: 'Advanced',
         description: 'The cycle of before, during, and after a relationship that\'s no good for you. Starts off with the fun/happy/single life and then yoou get into a relationship. You\'re happy at first but then realize it\'s no good for you. Even though it\'s hard you decide to get out of it - and realize you\'re happier/better off without it and loving the single life again.',
-        videoUrl: ''
+        videoUrl: 'https://youtu.be/PukvJcyjivg'
       },
       {
         name: 'Natalie Woods, Cydney Wong, Gabby Cazares, Zaina Moussa',
