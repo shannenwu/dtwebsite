@@ -48,17 +48,17 @@ var prefsheetSchema = new Schema({
 });
 
 // TODO test 
-prefsheetSchema.pre('save', function (next) {
-    var prefsheet = this;
-    const err = new Error('error saving prefsheet');
+// prefsheetSchema.pre('save', function (next) {
+//     var prefsheet = this;
+//     const err = new Error('error saving prefsheet');
 
-    numAccepted = prefsheet.rankedDances.filter(item => item.status === 'accepted').length;
-    if (numAccepted > 4) { // max is 4 dances
-        return next(err);
-    } else {
-        next();
-    }
-})
+//     numAccepted = prefsheet.rankedDances.filter(item => item.status === 'accepted').length;
+//     if (numAccepted > 4) { // max is 4 dances
+//         return next(err);
+//     } else {
+//         next();
+//     }
+// })
 
 // This methods returns a comprehensive object of this prefsheet's stats and actionable dances.
 prefsheetSchema.methods.getInfo = function (cb) {

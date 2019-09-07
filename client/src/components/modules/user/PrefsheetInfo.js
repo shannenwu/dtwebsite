@@ -150,6 +150,10 @@ class PrefsheetInfo extends React.Component {
               positive
             />
           )}
+          {!isLate &&
+            <Message style={{textAlign: 'center'}}>
+              By pressing submit, I accept that I must make all five DanceTroupe shows (12/5 - 12/7) in order to be a member of DanceTroupe.
+            </Message>}
           <Button floated='right' color='blue' onClick={handleSubmit}>Submit</Button>
           <div ref={(el) => { this.el = el; }} />
         </Form>

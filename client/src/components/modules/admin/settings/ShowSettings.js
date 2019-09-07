@@ -8,11 +8,6 @@ import './settings.css';
 
 const downloadOptions = [
   {
-    key: 'Dance Descriptions',
-    text: 'Dance Descriptions',
-    value: '/reports/master-dances',
-  },
-  {
     key: 'Audition Emails',
     text: 'Audition Emails',
     value: '/reports/master-audition-emails',
@@ -42,7 +37,7 @@ class ShowSettings extends React.Component {
       confirmAuditionNumOpen: false,
       confirmPermissionsOpen: false,
       latePrefOpen: false,
-      downloadLink: '/reports/master-dances'
+      downloadLink: '/reports/master-audition-emails'
     };
   }
 

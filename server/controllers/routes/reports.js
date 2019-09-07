@@ -11,32 +11,6 @@ const app = express.Router();
 
 // These paths are prefixed by /reports/ENDPOINT.
 
-// Returns csv for showcase with all dances in the active show with name, style, level, description.
-app.get('/master-dances',
-  ensure.admin,
-  async (req, res) => {
-    var showResponse = await util.getActiveShow();
-    var show_id = showResponse._id;
-
-    var query = { show: show_id }
-
-    Dance
-      .find(query)
-      .sort('style')
-      .exec((err, docs) => {
-        if (err) {
-          console.log(err);
-        };
-        data = [
-          ['Name', 'Style', 'Level', 'Description']
-        ];
-        docs.forEach((doc) => {
-          data.push([doc.name, doc.style, doc.level, doc.description]);
-        });
-        res.csv(data);
-      });
-  });
-
 // Returns csv of all emails of dancers who submitted prefsheets for the active show.
 app.get('/master-audition-emails',
   ensure.admin,
@@ -160,6 +134,7 @@ app.get('/master-final',
     Dance
       .find(query)
       .populate('acceptedDancers', 'firstName lastName year email')
+      .populate('choreographers', 'firstName lastName year email')
       .exec((err, docs) => {
         if (err) {
           console.log(err);
@@ -167,7 +142,8 @@ app.get('/master-final',
         var usersByEmail = {}
         var uniqueEmails = new Set();
         docs.forEach((doc) => {
-          doc.acceptedDancers.forEach((user => {
+          allUsers = doc.acceptedDancers.concat(doc.choreographers);
+          allUsers.forEach((user => {
             usersByEmail[user.email] = [user.firstName, user.lastName, user.year];
             uniqueEmails.add(user.email);
           }))
@@ -190,6 +166,7 @@ app.get('/dance-final/:dance_id',
     Dance
       .findById(req.params.dance_id)
       .populate('acceptedDancers', 'firstName lastName year email')
+      .populate('choreographers', 'firstName lastName year email')
       .exec((err, doc) => {
         if (err) {
           console.log(err);
@@ -198,7 +175,8 @@ app.get('/dance-final/:dance_id',
           [doc.name],
           ['First Name', 'Last Name', 'Year', 'Email']
         ];
-        doc.acceptedDancers.forEach((user) => {
+        allUsers = doc.acceptedDancers.concat(doc.choreographers);
+        allUsers.forEach((user) => {
           data.push([user.firstName, user.lastName, user.year, user.email]);
         });
         res.csv(data);

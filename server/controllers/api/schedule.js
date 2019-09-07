@@ -17,7 +17,8 @@ app.get('/constants',
     const timeConstants = { weekStartDate: util.weekStartDate, weekDays: util.weekDays, weekStartHour: util.weekStartHour, weekEndHour: util.weekEndHour, prodStartDate: util.prodStartDate, prodDays: util.prodDays, prodStartHour: util.prodStartHour, prodEndHour: util.prodEndHour };
     res.status(200).send(timeConstants);
   })
-// This endpoint fetches a prefsheet in the active show for the user_id if specified.
+
+// This endpoint fetches a prefsheet in the active show for the dance_id if specified.
 app.get('/:dance_id',
   ensure.loggedIn,
   async (req, res) => {
