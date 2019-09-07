@@ -8,6 +8,7 @@ export const styleOptions = [
     { key: 'b', text: 'Bhangra', value: 'bhangra' },
     { key: 'a', text: 'African/Carribean', value: 'african/carribean' },
     { key: 's', text: 'Step', value: 'step' },
+    { key: 'a', text: 'Latin/Musical Theater', value: 'Latin/Musical Theater' },
     { key: 'b', text: 'Breaking, old-school hip hop, locking', value: 'Breaking, old-school hip hop, locking' },
     { key: 'o', text: 'Other', value: 'other' },
 ];
