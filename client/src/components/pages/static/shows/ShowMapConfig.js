@@ -8,83 +8,83 @@ const showMap = {
         style: 'Contemporary',
         level: 'Beginner',
         description: 'Sometimes I feel like giving up, But I just can\'t, It isn\'t in my blood, CAMP DT --> CAP DT',
-        videoUrl: ''
+        videoUrl: 'https://youtu.be/5npnfpQEmhg?list=PLZ7FwvI8aqZN-AdEzPY0IWkEiAjzUZhKY'
       },
       {
         name: 'Gabby Cazares, Elisabeth Bullock',
         style: 'Contemporary',
         level: 'Beginner/Intermediate',
         description: 'The aftermath of escaping an abusive relationship. Broadly speaking, we want to portray a story of someone looking back into their dreadful past, knowing that they have to acknowledge the pain and cope with it in order to finally be free from their past and move on.',
-        videoUrl: ''
+        videoUrl: 'https://youtu.be/fYX3rqoNgag?list=PLZ7FwvI8aqZN-AdEzPY0IWkEiAjzUZhKY'
       },
       {
         name: 'Jenny Li, Kristen Surrao',
         style: 'Fusion',
         level: 'Intermediate',
         description: 'Shadow is about feeling lost/lonely/confused and searching for people that care deeply for you. This leads to Sanctuary, which is about finding your friends (or something that makes you happy) to help you get through any challenge in life. All the feels.',
-        videoUrl: ''
+        videoUrl: 'https://youtu.be/08Dk5RtM91A?list=PLZ7FwvI8aqZN-AdEzPY0IWkEiAjzUZhKY'
       },
       {
         name: 'Lindsey Orgren',
         style: 'Jazz/Contemporary',
         level: 'Intermediate/Advanced',
         description: 'This dance will be a fusion of 80% Jazz/contemp, 20% hip-hop/tutting. The song is an instrumental electronic rock song with a driving beat and lots of layers of weird sounds. I’m envisioning impressive athletic movements (jazz-style kicks & leaps) mixed in with sharp, intricate movements. The dancers will dance in groups to the different phrases in the song, sometimes layering multiple groups to the multiple layers of the music.  I’m looking for mostly jazz or contemp trained dancers, but I think it would be interesting to have a few good tutters/waackers to represent the fast layers of the music. I’m thinking bright neon colors for costumes and lighting, and maybe having some moments with UV light and fluorescent body paint.',
-        videoUrl: ''
+        videoUrl: 'https://youtu.be/EVUJOJHqkQs?list=PLZ7FwvI8aqZN-AdEzPY0IWkEiAjzUZhKY'
       },
       {
         name: 'Frankie Garcia',
         style: 'Contemporary',
         level: 'Advanced',
         description: 'Trippy, quirky movement. Think psychedelic, mental instability, depression but not angsty...more like anxiety and fidgety. Would like to create a story line but unclear at this point. Maybe will just be focused on movement. I\'m looking for dancers with good technique and variety of textures in their movement. I\'ll be closely looking at your improv :) Much of my movement has technical elements in it but focus is more on the intricate details ',
-        videoUrl: ''
+        videoUrl: 'https://youtu.be/Xv-2xpAbA_0?list=PLZ7FwvI8aqZN-AdEzPY0IWkEiAjzUZhKY'
       },
       {
         name: 'Cecilia Esterman, Julia Moseyko',
         style: 'Latin/Musical Theater',
         level: 'All Levels',
         description: 'The music comes from the musical, In the Heights and will act out the story of the song “The Club.”  The story is about conflicts among the 2 main couples and it is set against the backdrop of a lively salsa club. One couple wastes their entire first date trying to make each other jealous and the other couple tries to reconcile the fact that they come from very different worlds. It will be a fun dance number with salsa club vibes, lots of partnering, storytelling, and different styles of expressive movements.',
-        videoUrl: ''
+        videoUrl: 'https://youtu.be/4HmQcvQUBY0?list=PLZ7FwvI8aqZN-AdEzPY0IWkEiAjzUZhKY'
       },
       {
         name: 'Xochitl Luna',
         style: 'Tap',
         level: 'All Levels',
         description: 'Y\'all remember Jazzercise, the exercise phenom from the 80s? Well, I\'ve got something better: Tappercise. A party for all levels of tappers. Featuring some hella blacklight action and glow-in-the-dark costumes. And of course, traditional 80s dance tunes!',
-        videoUrl: ''
+        videoUrl: 'https://youtu.be/UA5pOYFjx7w?list=PLZ7FwvI8aqZN-AdEzPY0IWkEiAjzUZhKY'
       },
       {
         name: 'Sean Ko, Andrea Bolivar',
         style: 'Urban',
         level: 'Beginner',
         description: 'Guys shooting their shots and getting shot down inevitably.',
-        videoUrl: ''
+        videoUrl: 'https://youtu.be/COzZ8lG6UNE?list=PLZ7FwvI8aqZN-AdEzPY0IWkEiAjzUZhKY'
       },
       {
         name: 'Jose Aceves, Eleane Lema',
         style: 'Fusion',
         level: 'Beginner/Intermediate',
         description: 'If you don’t know who Billie Eilish is, no worries. Our set explores the creepy crawly style of Billie’s songs through a fusion of mostly hip hop and some contemp moves. We’ll help you channel your inner psycho and become the bad guy you’ve always wanted to be. You’ll for sure be addicted to Billie Eilish. We are warning you...',
-        videoUrl: ''
+        videoUrl: 'https://youtu.be/4g9Nnbo-K9s?list=PLZ7FwvI8aqZN-AdEzPY0IWkEiAjzUZhKY'
       },
       {
         name: 'Matthew Tung, Shannen Wu',
         style: 'Urban',
         level: 'Intermediate/Advanced',
         description: 'Groovy fun flirty!',
-        videoUrl: ''
+        videoUrl: 'https://youtu.be/qNj8y9J7i9g?list=PLZ7FwvI8aqZN-AdEzPY0IWkEiAjzUZhKY'
       },
       {
         name: 'Benjamin Oberlton',
         style: 'Urban',
         level: 'Intermediate/Advanced',
         description: 'The over vibe of this set is Sunday evening. You could be hanging out by yourself just chillin reading a book, hanging with some friends and talking about how ass the week is going to be, or hanging with a sig other watching netflix and chillin. Eitherway, the weekend is over and you are trying to make the most of the last bit of weekend you have left, and any work you need to get done is either done or isn\'t going to be, so you might as well just chill and vibe with those you care about. Lol, haven\'t figured out lighting or costumes, but that\'s the overall vibe.',
-        videoUrl: ''
+        videoUrl: 'https://youtu.be/vd6nXAGaiE4?list=PLZ7FwvI8aqZN-AdEzPY0IWkEiAjzUZhKY'
       },
       {
-        name: 'Caela Gomes, Hayley Ye',
+        name: 'Caela Gomes',
         style: 'Urban',
         level: 'Advanced',
-        description: 'I don\'t really have a story in mind but I generally just want to make a really hype and high energy set.',
+        description: 'The cycle of before, during, and after a relationship that\'s no good for you. Starts off with the fun/happy/single life and then yoou get into a relationship. You\'re happy at first but then realize it\'s no good for you. Even though it\'s hard you decide to get out of it - and realize you\'re happier/better off without it and loving the single life again.',
         videoUrl: ''
       },
       {
@@ -92,21 +92,21 @@ const showMap = {
         style: 'African/Caribbean',
         level: 'All Levels',
         description: 'We love a collab! Working name: SakaDTa. The set will include music and movement from many parts of the african diaspora.',
-        videoUrl: ''
+        videoUrl: 'https://youtu.be/4WZFLZwbKKw?list=PLZ7FwvI8aqZN-AdEzPY0IWkEiAjzUZhKY'
       },
       {
         name: 'Claire Melvin',
         style: 'Step',
         level: 'All Levels',
         description: 'Intensity. Power. Step is an outlet to express confidence and solidarity within groups that are so often split by racism and classism. Costumes ideally include work boots like timberlands to protect shins and make a bigger sound. Will probably go with a black/red/white? color palette. I want to bring step to MIT. It was a huge part of my high school experience and so many of the most meaningful memories from that time are from step or the people I met through it. I want to teach people the history of step, and that you aren’t just stomping around. You are sending a message as you make a fckn EARTHQUAKE on the stage.',
-        videoUrl: ''
+        videoUrl: 'https://youtu.be/0RL7-XDy-gI?list=PLZ7FwvI8aqZN-AdEzPY0IWkEiAjzUZhKY'
       },
       {
         name: 'Lauren Cooper, Tom Benavides',
         style: 'Breaking, old-school hip hop, locking',
         level: 'All Levels',
         description: 'Old school!!!!  Need I say more?',
-        videoUrl: ''
+        videoUrl: 'https://youtu.be/Z56k6ZrkY7Q?list=PLZ7FwvI8aqZN-AdEzPY0IWkEiAjzUZhKY'
       },
     ]
   },
