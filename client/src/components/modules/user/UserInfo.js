@@ -28,6 +28,7 @@ class UserInfo extends React.Component {
 
   static propTypes = {
     userInfo: PropTypes.object,
+    updateUser: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -74,6 +75,7 @@ class UserInfo extends React.Component {
     } = this.state;
     const {
       userInfo,
+      updateUser
     } = this.props;
     event.preventDefault();
 
@@ -103,6 +105,7 @@ class UserInfo extends React.Component {
           errorMsg: [],
           loading: false
         });
+        updateUser({ ...userInfo, ...{gender, year, affiliation, livingGroup, experience}});
       })
       .catch((error) => {
         const msgList = [];

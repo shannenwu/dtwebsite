@@ -67,14 +67,6 @@ class App extends React.Component {
     this.setState({
       showBg
     });
-
-    this.socket.on('updated user', (userObj) => {
-      if (userObj._id === this.state.userInfo._id) {
-        this.setState({
-          userInfo: userObj
-        });
-      }
-    });
   }
 
   componentDidUpdate(prevProps) {
@@ -128,6 +120,12 @@ class App extends React.Component {
         },
       );
   };
+
+  updateUser = (userObj) => {
+    this.setState({
+      userInfo: userObj
+    });
+  }
 
   getUser = () => {
     axios.get('/api/whoami')
@@ -249,6 +247,7 @@ class App extends React.Component {
                 getActiveShow={this.getActiveShow}
                 getDances={this.getDances}
                 getDanceOptions={this.getDanceOptions}
+                updateUser={this.updateUser}
                 component={ProfilePage}
               />
               <PrivateRoute

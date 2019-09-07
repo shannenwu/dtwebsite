@@ -103,8 +103,6 @@ app.post('/:user_id',
         user.imageUrl = databaseUrl;
 
         user.save((err, newUser) => {
-          const io = req.app.get('socketio');
-          io.emit('updated user', newUser);
           res.status(200).send({ message: 'User information updated!' });
         });
       }

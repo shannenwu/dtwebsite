@@ -35,6 +35,7 @@ class ProfilePage extends Component {
     getActiveShow: PropTypes.func.isRequired,
     getDances: PropTypes.func.isRequired,
     getDanceOptions: PropTypes.func.isRequired,
+    updateUser: PropTypes.func.isRequired
   }
 
   componentDidMount() {
@@ -48,6 +49,7 @@ class ProfilePage extends Component {
       getActiveShow,
       getDances,
       getDanceOptions,
+      updateUser
     } = this.props;
 
     try {
@@ -237,11 +239,11 @@ class ProfilePage extends Component {
       errorMsg,
       loading,
     } = this.state;
-    const { userInfo } = this.props;
-    let tab = <UserInfo userInfo={userInfo} />;
+    const { userInfo, updateUser } = this.props;
+    let tab = <UserInfo userInfo={userInfo} updateUser={updateUser} />;
 
     if (activeItem === 'personal') {
-      tab = <UserInfo userInfo={userInfo} />;
+      tab = <UserInfo userInfo={userInfo} updateUser={updateUser} />;
     } else if (activeItem === 'prefs') {
       tab = (
         <PrefsheetInfo
