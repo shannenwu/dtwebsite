@@ -69,9 +69,11 @@ class App extends React.Component {
     });
 
     this.socket.on('updated user', (userObj) => {
-      this.setState({
-        userInfo: userObj
-      })
+      if (userObj._id === this.state.userInfo._id) {
+        this.setState({
+          userInfo: userObj
+        });
+      }
     });
   }
 
