@@ -136,7 +136,7 @@ class DancerList extends Component {
           {danceObj.name}
         </Header>
         <Header.Subheader style={{ textTransform: 'capitalize' }}>
-          {danceObj.level + ' ' + danceObj.style}
+          {danceObj.level + ' ' + danceObj.style + ' | ' + danceObj.acceptedDancers.length + ' dancers'}
         </Header.Subheader>
         <Table selectable>
           <Table.Header>

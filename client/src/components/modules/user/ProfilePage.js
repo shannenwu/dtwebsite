@@ -83,18 +83,17 @@ class ProfilePage extends Component {
         };
       }
 
+      var conflicts = [];
+      var conflictsDescription = '';
       if (prefsheet) {
-        var conflicts = prefsheet.weeklyConflicts;
-        var conflictsDescription = prefsheet.weeklyDescription;
+        conflicts = prefsheet.weeklyConflicts;
+        conflictsDescription = prefsheet.weeklyDescription;
 
         // Reset depending on prod or weekly conflicts.
         if (activeShow.prodConflictsOpen) {
           conflicts = prefsheet.prodConflicts;
           conflictsDescription = prefsheet.prodDescription;
         }
-      } else {
-        conflicts = [];
-        conflictsDescription = ''
       }
 
       this.setState({

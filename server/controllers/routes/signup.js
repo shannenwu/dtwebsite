@@ -10,7 +10,7 @@ const app = express.Router();
 app.post('/signup', [
   check('firstName').not().isEmpty().withMessage('First name cannot be empty.'),
   check('lastName').not().isEmpty().withMessage('Last name cannot be empty.'),
-  check('email').isEmail().withMessage('Email is not valid.')
+  check('email').isEmail().normalizeEmail().withMessage('Email is not valid.')
     .custom(value => User.findOne({ email: value }).then(user => {
       if (user) {
         return Promise.reject('Email already registered.');

@@ -12,10 +12,10 @@ const weekDays = 7;
 const weekStartHour = 12; // 12pm
 const weekEndHour = 22.5; // 10:30 pm will be the last time slot rendered.
 
-// TODO change date from December 7, 2019 to accurate date.
-const prodStartDate = new Date(2019, 11, 7);
-const prodDays = 3;
-const prodStartHour = 10;
+// TODO fall dates November 23-26, and December 1-2 2019.
+const prodStartDate = new Date(2019, 10, 23);
+const prodDays = 10;
+const prodStartHour = 9;
 const prodEndHour = 23.5;
 
 getActiveShow = () => {
