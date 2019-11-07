@@ -53,8 +53,15 @@ class TimeSelection extends Component {
   }
 
   formatDate = (date) => {
-    var dayOfWeek = new Date(date).getDay();
-    return isNaN(dayOfWeek) ? null : ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][dayOfWeek];
+    const { isProd } = this.state;
+    if (isProd) {
+      var month = new Date(date).getMonth() + 1;
+      var day = new Date(date).getDate();
+      return month + '/' + day;
+    } else {
+      var dayOfWeek = new Date(date).getDay();
+      return isNaN(dayOfWeek) ? null : ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][dayOfWeek];
+    }
   }
 
   formatHour = (hour) => {
@@ -114,6 +121,7 @@ class TimeSelection extends Component {
     const {
       danceObj,
       scheduleObj,
+      isProd,
       schedule,
       selectedTime,
       loading
@@ -133,7 +141,7 @@ class TimeSelection extends Component {
           {danceObj.name}
         </Header>
         <Header.Subheader style={{textTransform: 'capitalize'}}>
-          {danceObj.level + ' ' + danceObj.style}
+          {danceObj.level + ' ' + danceObj.style + ' | ' + danceObj.acceptedDancers.length + ' dancers'}
         </Header.Subheader>
         <Grid padded divided stackable columns={2}>
           <Grid.Column width={10}>

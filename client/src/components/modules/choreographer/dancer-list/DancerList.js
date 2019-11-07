@@ -150,7 +150,7 @@ class DancerList extends Component {
           </Table.Header>
 
           <Table.Body>
-            {danceObj.acceptedDancers.map((user) => {
+            {danceObj.acceptedDancers.sort((a, b) => (a.lastName.toLowerCase() > b.lastName.toLowerCase()) ? 1 : -1).map((user) => {
               return (
                 <Table.Row className='remove-row' key={user._id}>
                   <Table.Cell>{user.firstName}</Table.Cell>
