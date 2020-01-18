@@ -43,7 +43,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.socket = io(`//${window.location.hostname}:${window.location.port}`, {secure: __SECURE__});
+    this.socket = io(`//${window.location.hostname}:${window.location.port}`, { secure: __SECURE__ });
     this.bgs = ['/site_images/bg/bg0.jpeg', '/site_images/bg/bg1.jpeg', '/site_images/bg/bg2.jpeg', '/site_images/bg/bg3.jpeg']
     this.animDuration = 4;
 
@@ -57,7 +57,7 @@ class App extends React.Component {
 
   componentDidMount() {
     this._isMounted = true;
-    this.getUser();    
+    this.getUser();
     this.timeout = setTimeout(
       this.changeBackground,
       this.animDuration * 1000
@@ -80,7 +80,7 @@ class App extends React.Component {
   }
 
   componentWillUnmount() {
-  	if (this.timeout) clearTimeout(this.timeout);
+    if (this.timeout) clearTimeout(this.timeout);
   }
 
   changeBackground = () => {
@@ -209,7 +209,6 @@ class App extends React.Component {
   render() {
     const {
       userInfo,
-      bgIndex,
       showBg,
       loading,
     } = this.state;
@@ -219,7 +218,11 @@ class App extends React.Component {
       );
     }
     return (
-      <div className='wrapper' style={showBg ? { backgroundImage: `url(${this.bgs[bgIndex]})` } : {}}>
+      <div className='wrapper' >
+        <div className={showBg ? 'absoluteBgd' : 'noBgd'} style={{ backgroundImage: `url(${this.bgs[0]})`, animationDelay: '0s' }} />
+        <div className={showBg ? 'absoluteBgd' : 'noBgd'} style={{ backgroundImage: `url(${this.bgs[1]})`, animationDelay: '2s' }} />
+        <div className={showBg ? 'absoluteBgd' : 'noBgd'} style={{ backgroundImage: `url(${this.bgs[2]})`, animationDelay: '4s' }} />
+        <div className={showBg ? 'absoluteBgd' : 'noBgd'} style={{ backgroundImage: `url(${this.bgs[3]})`, animationDelay: '6s' }} />
         <NavBar
           userInfo={userInfo}
           logout={this.logout}

@@ -7,13 +7,12 @@
 .navbar {
   font-size: 18px;
   padding-bottom: 6px;
-  /* position: fixed;
-  width: 100%;
-  top: 0; */
+  z-index: 9;
+  position: relative;
 }
 
 .navbar.light {
-  /* background-image: linear-gradient(to bottom, black, transparent); */
+  background-image: linear-gradient(to bottom, black, transparent);
 }
 
 .navbar.dark * {
@@ -65,7 +64,7 @@
   display: block;
 }
 
-.nav-links {  
+.nav-links {
   letter-spacing: 0.9px;
   font-size: 15px;
 }
@@ -98,7 +97,7 @@
   }
 
   .nav-links {
-    margin-left: 20px;   
+    margin-left: 20px;
   }
 
   .logo {

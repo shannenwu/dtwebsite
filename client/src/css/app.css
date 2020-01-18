@@ -38,7 +38,7 @@ p {
   background-attachment: fixed;
   background-size: cover;
   background-position: center;
-  background-color: #FCFCFC;
+  background-color: #fcfcfc;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   -moz-backface-visibility: hidden;
@@ -57,6 +57,42 @@ p {
 
 .container {
   padding: 30px 130px 30px 130px;
+}
+
+.absoluteBgd {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  background-size: cover;
+  animation-name: fade-in-and-out;
+  animation-duration: 10s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+.noBgd {
+  display: none;
+}
+
+@keyframes fade-in-and-out {
+  0% {
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 1;
+  }
+  45% {
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 @media screen and (max-width: 900px) {
