@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import {
-  Button, Card, Dimmer, Grid, Header, Image, Loader
+  Button, Card, Dimmer, Grid, Header, Image, Label, Loader
 } from 'semantic-ui-react';
 import PrefList from './PrefList';
 import './card.css';
@@ -14,7 +14,8 @@ class DancerCardOpen extends Component {
     super(props);
 
     this.state = {
-      loading: false
+      loading: false,
+      showExp: false,
     };
   }
 
@@ -50,6 +51,12 @@ class DancerCardOpen extends Component {
     e.target.src = 'https://react.semantic-ui.com/images/avatar/large/matthew.png';
   }
 
+  toggleExpView = () => {
+    this.setState((state, _props) => ({
+      showExp: !state.showExp
+    }));
+  }
+
   handleStatusUpdate = async (prefsheetId, update) => {
     const { danceObj } = this.props;
     if (this._isMounted) {
@@ -72,7 +79,8 @@ class DancerCardOpen extends Component {
 
   render() {
     const {
-      loading
+      loading,
+      showExp
     } = this.state;
 
     const {
@@ -93,6 +101,7 @@ class DancerCardOpen extends Component {
         <Card.Content>
           <Header floated='right'>{prefsheet.auditionNumber}</Header>
           <Card.Header>{`${prefsheet.user.firstName} ${prefsheet.user.lastName}`}</Card.Header>
+          <Label attached='top right' size='mini' onClick={this.toggleExpView} color={showExp ? 'grey' : ''}>{showExp ? 'Hide Exp' : 'Show Exp'}</Label>
           <Card.Meta>{prefsheet.user.year}</Card.Meta>
           <Grid stackable centered columns='equal' style={{ minWidth: '100%' }}>
             <Grid.Column className='dancer-image'>
@@ -106,7 +115,7 @@ class DancerCardOpen extends Component {
               height: '145px', overflow: 'auto', paddingLeft: '0', marginRight: '14px',
             }}
             >
-              <PrefList rankedDances={prefsheet.rankedDances} />
+              {showExp ? <div>{prefsheet.user.experience}</div> : <PrefList rankedDances={prefsheet.rankedDances} />}
             </Grid.Column>
           </Grid>
         </Card.Content>

@@ -11,8 +11,8 @@ const officerOptions = [
   },
   {
     position: 'Vice President',
-    name: 'Andrea Garmilla',
-    photoUrl: '/officer_images/andreag.jpeg'
+    name: 'Xochitl Luna',
+    photoUrl: '/officer_images/xochitl.jpeg'
   },
   {
     position: 'Treasurer',
@@ -51,13 +51,13 @@ const officerOptions = [
   },
   {
     position: 'Social Chair',
-    name: 'Avital Vainberg',
-    photoUrl: '/officer_images/avital.jpeg'
+    name: 'Eleane Lema',
+    photoUrl: '/officer_images/eleane.jpeg'
   },
   {
     position: 'Costume Coordinator',
-    name: 'Xochitl Luna',
-    photoUrl: '/officer_images/xochitl.jpeg'
+    name: 'Andrea Garmilla',
+    photoUrl: '/officer_images/andreag.jpeg'
   },
   {
     position: 'Show Historian',
@@ -71,8 +71,8 @@ const officerOptions = [
   },
   {
     position: 'Media Historian',
-    name: 'Faraz Masroor',
-    photoUrl: '/officer_images/faraz.jpeg'
+    name: 'Donald Liu',
+    photoUrl: '/officer_images/donald.jpeg'
   },
 ]
 

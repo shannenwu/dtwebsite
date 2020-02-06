@@ -59,7 +59,7 @@ app.post('/finish-selection/:dance_id',
 
     Prefsheet
       .find(query)
-      .populate('user', 'firstName lastName year imageUrl')
+      .populate('user', 'firstName lastName year imageUrl experience')
       .populate('rankedDances.dance', 'name')
       .exec((err, docs) => {
         if (err) {
@@ -154,7 +154,7 @@ app.get('/:dance_id',
     // Return prefsheets in the active show who have preffed this dance.
     Prefsheet
       .find(query)
-      .populate('user', 'firstName lastName year imageUrl')
+      .populate('user', 'firstName lastName year imageUrl experience')
       .populate('rankedDances.dance', 'name')
       .exec(async (err, docs) => {
         if (err) {
@@ -227,7 +227,7 @@ app.post('/:dance_id/:prefsheet_id',
 
     Prefsheet
       .findOneAndUpdate(query, update, options)
-      .populate('user', 'firstName lastName year imageUrl')
+      .populate('user', 'firstName lastName year imageUrl experience')
       .populate('rankedDances.dance', 'name')
       .exec((err, doc) => {
         if (err) {

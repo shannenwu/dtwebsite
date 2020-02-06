@@ -8,7 +8,8 @@ const Prefsheet = require('../models/Prefsheet.js');
 const Dance = require('../models/Dance.js');
 const util = require('../controllers/util.js')
 
-const showId = '5d3e92e97cd4f6b6852b4c29';
+// This should be changed to the showId you want to generate prefsheets for.
+const showId = '5d663fc01c9d440000750f18';
 
 // This creates a random prefsheet for each of the users in the database, for a hard-coded show.
 Dance.find({ show: showId }, (err, dances) => {

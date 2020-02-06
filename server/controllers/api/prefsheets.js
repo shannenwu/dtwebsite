@@ -19,7 +19,7 @@ app.get('/user',
 
     Prefsheet
       .find({ show: show_id })
-      .populate('user', 'firstName lastName year imageUrl')
+      .populate('user', 'firstName lastName year imageUrl experience')
       .populate('rankedDances.dance', 'name')
       .sort('auditionNumber')
       .exec((err, docs) => {
@@ -99,13 +99,13 @@ app.post('/user/conflicts/:user_id', [
 // This function updates the prefsheet of the user_id in the active show.
 app.post('/user/:user_id',
   ensure.sameUser, [
-    check('rankedDances')
-      .custom(data =>
-        Array.isArray(data)
-        &&
-        data.length).withMessage('At least one dance must be preffed.'),
-    check('maxDances').isInt({ gt: 0, lt: 5 }).withMessage('Desired dances must be between 1 and 4.')
-  ],
+  check('rankedDances')
+    .custom(data =>
+      Array.isArray(data)
+      &&
+      data.length).withMessage('At least one dance must be preffed.'),
+  check('maxDances').isInt({ gt: 0, lt: 5 }).withMessage('Desired dances must be between 1 and 4.')
+],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -115,7 +115,7 @@ app.post('/user/:user_id',
     if (!req.user.affiliation || !req.user.year || (req.user.imageUrl === '/site_images/default-profile.jpeg')) {
       res.status(422).send('Please fill out your dancer info before submitting a prefsheet.')
     }
-    
+
     var showResponse = await util.getActiveShow();
     var show_id = showResponse._id;
     var lateData = {} // defaults to empty

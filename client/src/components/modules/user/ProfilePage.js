@@ -333,8 +333,8 @@ class ProfilePage extends Component {
               onClick={this.handleItemClick}
             >
               <Icon name='calendar alternate outline' />
-              Prod Week Conflicts
-                {!conflicts.length &&
+              <div className='tab-label'>Prod Week Conflicts</div>
+              {!conflicts.length &&
                 <Popup
                   content='Please fill out your prod week availabilities!'
                   trigger={<Label circular color='red' size='mini' floating content='!' />}
