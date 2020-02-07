@@ -101,7 +101,7 @@ class DancerCardOpen extends Component {
         <Card.Content>
           <Header floated='right'>{prefsheet.auditionNumber}</Header>
           <Card.Header>{`${prefsheet.user.firstName} ${prefsheet.user.lastName}`}</Card.Header>
-          <Label attached='top right' size='mini' onClick={this.toggleExpView} color={showExp ? 'grey' : ''}>{showExp ? 'Hide Exp' : 'Show Exp'}</Label>
+          <Label attached='top right' size='mini' onClick={this.toggleExpView} color={showExp ? 'grey' : null}>{showExp ? 'Hide Exp' : 'Show Exp'}</Label>
           <Card.Meta>{prefsheet.user.year}</Card.Meta>
           <Grid stackable centered columns='equal' style={{ minWidth: '100%' }}>
             <Grid.Column className='dancer-image'>

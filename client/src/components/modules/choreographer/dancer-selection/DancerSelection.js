@@ -17,7 +17,7 @@ class DancerSelection extends Component {
   constructor(props) {
     super(props);
 
-    this.socket = io(`//${window.location.hostname}:${window.location.port}`, {secure: __SECURE__});
+    this.socket = io(`//${window.location.hostname}:${window.location.port}`, { secure: __SECURE__ });
 
     this.state = {
       open: false,
@@ -54,7 +54,7 @@ class DancerSelection extends Component {
     const danceResponse = await getSingleDance(this.props.match.params.danceId);
 
     const lastId =
-      prefsheets.pending.length ? prefsheets.pending[prefsheets.pending.length - 1].prefsheet._id : ''
+      prefsheets.pending.length ? prefsheets.pending[prefsheets.pending.length - 1].prefsheet._id : '';
 
     this.setState({
       danceObj: danceResponse.data,
@@ -72,12 +72,12 @@ class DancerSelection extends Component {
       this.setState({
         totalActionableCount: countObj.actionableCount,
         totalPendingCount: countObj.pendingCount,
-      })
+      });
     });
 
     this.socket.on('bulk update cards', (docsObj) => {
       this.bulkUpdatePrefsheets(docsObj);
-    })
+    });
   }
 
   componentDidUpdate(_prevProps, prevState) {
@@ -156,7 +156,7 @@ class DancerSelection extends Component {
       }
       return card;
     });
-    
+
     if (this._isMounted) {
       this.setState({
         acceptedCards: newAcceptedCards,
@@ -202,7 +202,7 @@ class DancerSelection extends Component {
       const response =
         await axios.post(`/api/auditions/finish-selection/${this.props.match.params.danceId}`);
       console.log(response.data);
-      this.setState({ 
+      this.setState({
         open: false,
         redirect: true
       })
@@ -257,7 +257,7 @@ class DancerSelection extends Component {
     }
     return (
       <div id='dancer-selection'>
-        <Header as='h1' style={{textTransform: 'capitalize'}}>
+        <Header as='h1' style={{ textTransform: 'capitalize' }}>
           {danceObj.name}
           <Button floated='right' onClick={this.show}>I'M DONE PICKING</Button>
           <Confirm
@@ -318,7 +318,7 @@ class DancerSelection extends Component {
           <Grid.Column className='accepted-cards' width={6}>
             <Header as='h3'>
               Accepted
-              <Header.Subheader 
+              <Header.Subheader
                 content={acceptedCards.length + ' dancers accepted'}
               />
             </Header>
