@@ -85,7 +85,7 @@ class AllPrefsheets extends Component {
         <Header as='h1'>
           All Prefsheets
           <Header.Subheader
-            content={cards.length + ' dancers auditioning'}
+            content={cards.length + ' dancers auditioning. This page will be slow!'}
           />
         </Header>
         <Grid stackable divided padded columns={1} style={{ height: '100%' }}>

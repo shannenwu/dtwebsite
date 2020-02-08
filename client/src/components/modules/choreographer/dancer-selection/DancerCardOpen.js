@@ -120,7 +120,7 @@ class DancerCardOpen extends Component {
           </Grid>
         </Card.Content>
         <Card.Content extra>
-          {'Max: ' + prefsheet.maxDances}
+          {typeof (prefsheet.maxDances) !== 'undefined' ? 'Max: ' + prefsheet.maxDances : 'Max: 0'}
           {!viewOnly &&
             <Button.Group floated='right'>
               <Button

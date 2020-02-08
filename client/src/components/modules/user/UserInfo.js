@@ -105,7 +105,7 @@ class UserInfo extends React.Component {
           errorMsg: [],
           loading: false
         });
-        updateUser({ ...userInfo, ...{gender, year, affiliation, livingGroup, experience}});
+        updateUser({ ...userInfo, ...{ gender, year, affiliation, livingGroup, experience } });
       })
       .catch((error) => {
         const msgList = [];
@@ -218,6 +218,7 @@ class UserInfo extends React.Component {
           <label>Experience</label>
           <TextArea
             name='experience'
+            placeholder='A brief summary of your dance experience, whether in or outside of DanceTroupe. Notes to choreographers can also be written here.'
             onChange={this.handleChange}
             value={experience || ''}
           />
