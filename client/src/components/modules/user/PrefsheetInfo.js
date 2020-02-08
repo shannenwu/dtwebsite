@@ -13,6 +13,12 @@ const maxNumberOptions = [
   { key: '4', text: '4', value: 4 },
 ];
 
+const terms = [
+  "I am able to perform in all five shows (Thu 5/7 8pm, Fri 5/8 7pm & 10pm, Sat 5/9 1pm & 4pm).",
+  "I understand that I must pay dues ($5 if paid on time), as well as a small amount for gifts at the end of the semester.",
+  "I understand that the time commitment is 1 hour/week/dance, as well as 2 showings, prod week, and the actual performances."
+]
+
 class PrefsheetInfo extends React.Component {
   constructor(props) {
     super(props);
@@ -74,8 +80,8 @@ class PrefsheetInfo extends React.Component {
     return (
       <div>
         {!isLate &&
-          <Message warning style={{textAlign: 'center'}}>
-            Prefsheets can be re-submitted until Saturday, September 7th at 11:59PM.
+          <Message warning style={{ textAlign: 'center' }}>
+            Prefsheets can be re-submitted until Saturday, February 8th at 11:59PM.
             Dance descriptions <Link to='/shows' id='show-link'>here</Link>. Only pref the dances you want to be in!
           </Message>}
         <Form style={{ padding: '1em' }}>
@@ -151,9 +157,7 @@ class PrefsheetInfo extends React.Component {
             />
           )}
           {!isLate &&
-            <Message style={{textAlign: 'center'}}>
-              By pressing submit, I accept that I must make all five DanceTroupe shows (12/5 - 12/7) in order to be a member of DanceTroupe.
-            </Message>}
+            <Message header={'By pressing submit, I agree to the following:'} list={terms} />}
           <Button floated='right' color='blue' onClick={handleSubmit}>Submit</Button>
           <div ref={(el) => { this.el = el; }} />
         </Form>
