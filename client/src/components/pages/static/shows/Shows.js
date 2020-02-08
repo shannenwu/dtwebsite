@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Dropdown, Icon, Table } from 'semantic-ui-react';
-import { showOptions } from './ShowsConfig';
-import { showMap } from './ShowMapConfig';
+import { Dimmer, Dropdown, Icon, Loader, Table } from 'semantic-ui-react';
+import axios from 'axios';
+import { staticShowOptions } from './ShowsConfig';
+import { staticShowMap } from './ShowMapConfig';
 import '../static.css';
 import './shows.css';
 
@@ -12,11 +13,28 @@ class Shows extends Component {
     this.state = {
       selectedShowKey: 'F19',
       showMap: null,
+      showOptions: null,
+      loading: true
     }
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     document.title = 'Shows';
+    await this.initializeShowMap();
+  }
+
+  initializeShowMap = async () => {
+    const response = await axios.get('/api/shows/show-map');
+
+    const showMapAll = { ...response.data.showMap, ...staticShowMap };
+    const showOptionsAll = [...response.data.showOptions, ...staticShowOptions];
+
+    this.setState({
+      selectedShowKey: showOptionsAll[0].value,
+      showMap: showMapAll,
+      showOptions: showOptionsAll,
+      loading: false
+    });
   }
 
   selectShow = (e, { value }) => {
@@ -26,10 +44,14 @@ class Shows extends Component {
   }
 
   render() {
-    const { selectedShowKey } = this.state;
-    var dances = [];
-    if (showMap.hasOwnProperty(selectedShowKey)) {
-      dances = showMap[selectedShowKey].dances;
+    const { selectedShowKey, showMap, showOptions, loading } = this.state;
+
+    if (loading) {
+      return (
+        <Dimmer active inverted className='selection-loader'>
+          <Loader content='Loading selection...' />
+        </Dimmer>
+      );
     }
 
     return (
@@ -64,7 +86,7 @@ class Shows extends Component {
           </Table.Header>
 
           <Table.Body>
-            {dances.map((dance, index) => {
+            {showMap[selectedShowKey].dances.map((dance, index) => {
               return (
                 <Table.Row key={index}>
                   <Table.Cell>{dance.name}</Table.Cell>

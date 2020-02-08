@@ -26,4 +26,6 @@ export const auditionNoteOptions = [
     { key: 'c', text: 'Attend Contemp Audition', value: 'attend contemp audition' },
     { key: 'o', text: 'Attend Contemp Audition OR Urban Audition', value: 'attend contemp audition or urban audition' },
     { key: 'b', text: 'Attend BOTH Contemp Audition and Urban Audition', value: 'attend both contemp audition and urban audition' },
+    { key: 'ta', text: 'Attend Tap Audition', value: 'attend tap audition' },
+    { key: 'st', text: 'Attend Step Audition', value: 'attend step audition' },
 ];

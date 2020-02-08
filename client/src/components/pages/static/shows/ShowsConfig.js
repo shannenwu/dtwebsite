@@ -1,10 +1,5 @@
 // These are the options that the Dropdown in the static shows page expects to receive.
-const showOptions = [
-  {
-    key: 'F19 | Fall 2019',
-    text: 'F19 | Fall 2019',
-    value: 'F19',
-  },
+const staticShowOptions = [
   {
     key: 'S19 | beDTime',
     text: 'S19 | beDTime',
@@ -33,5 +28,5 @@ const showOptions = [
 ];
 
 module.exports = {
-  showOptions
+  staticShowOptions
 };

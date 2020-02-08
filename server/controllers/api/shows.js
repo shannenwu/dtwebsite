@@ -12,28 +12,53 @@ const app = express.Router();
 // This file handles paths to get/modify shows. These routes are prefixed by /api/shows/{ENDPOINT}
 
 // Returns a map of show (S19) to show name and dances info, and the shows options by most recent.
-// TODO: UNFINISHED
 app.get('/show-map',
   async (req, res) => {
-    // Generate show map
-    const dances = await Dance.find({}, 'name style level description videoUrl').populate('show', 'name year semester date');
-    var showMap = {};
-    dances.forEach(danceObj => {
-      var showKey = danceObj.show.semester + danceObj.show.year.toString().substring(2);
-    })
     // Generate show options
+    var showMap = {};
     const shows = await Show.find({}, 'name year semester date').sort({ date: 'desc' });
     const showOptions = shows.map(showObj => {
       const prefix = showObj.semester;
       const yr = showObj.year.toString().substring(2);
       const value = prefix + yr;
       const keyText = value + ' | ' + showObj.name;
+      showMap[value] = { 'name': showObj.name, 'dances': [] };
       return {
         key: keyText,
         text: keyText,
-        value
+        value,
+        id: showObj._id
       }
     });
+
+    // Fill in dances
+    const dances = await Dance.find({}, 'name style level description videoUrl auditionNote').populate('show', 'name year semester date');
+    dances.forEach(danceObj => {
+      var showKey = danceObj.show.semester + danceObj.show.year.toString().substring(2);
+      var currentDances = showMap[showKey]['dances'];
+      showMap[showKey]['dances'] = currentDances.concat(danceObj);
+    });
+
+    // Sort dances in each show by style, then level within style
+    const sortingStyleArray = ["contemp", "fusion", "ballet", "tap", "latin", "latin/musical theater", "urban", "hip hop", "breaking, old-school hip hop, locking", "step", "heels", "bhangra", "african/carribean"];
+    const sortingLevelArray = ["beginner", "beg/int", "int", "int/adv", "advanced", "all levels"];
+
+    for (let [_showKey, value] of Object.entries(showMap)) {
+      var danceList = value['dances'];
+      danceList.sort((a, b) => {
+        aStyleIndex = sortingStyleArray.indexOf(a.style);
+        bStyleIndex = sortingStyleArray.indexOf(b.style);
+        aLevelIndex = sortingLevelArray.indexOf(a.level);
+        bLevelIndex = sortingLevelArray.indexOf(b.level);
+        if (aStyleIndex === bStyleIndex) {
+          return (aLevelIndex < bLevelIndex) ? -1 : (aLevelIndex > bLevelIndex) ? 1 : 0;
+        } else {
+          return (aStyleIndex < bStyleIndex) ? -1 : 1;
+        }
+      })
+    }
+
+    res.status(200).send({ 'showMap': showMap, 'showOptions': showOptions });
   }
 )
 
@@ -85,17 +110,17 @@ app.delete('/:show_id',
 // Creates a show.
 app.post('/',
   ensure.admin, [
-    check('semester').custom(value => {
-      var semesterOptions = ['F', 'S']
-      if (!semesterOptions.includes(value)) {
-        return Promise.reject('Select a semester from the dropdown.');
-      } else {
-        return true;
-      }
-    }),
-    check('year').isNumeric().withMessage('Show year must be a number.'),
-    check('name').optional().isLength({ min: 0, max: 50 }).withMessage('Name field has max character count of 50.'),
-  ],
+  check('semester').custom(value => {
+    var semesterOptions = ['F', 'S']
+    if (!semesterOptions.includes(value)) {
+      return Promise.reject('Select a semester from the dropdown.');
+    } else {
+      return true;
+    }
+  }),
+  check('year').isNumeric().withMessage('Show year must be a number.'),
+  check('name').optional().isLength({ min: 0, max: 50 }).withMessage('Name field has max character count of 50.'),
+],
   (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -148,7 +173,7 @@ app.post('/:show_id/active-show',
       });
     });
   });
-  
+
 // TODO: show and handle the following errors in the front-end.
 // Sets the selected show's prefsheets to be visible/open.
 app.post('/:show_id/prefs',
