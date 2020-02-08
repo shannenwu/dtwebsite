@@ -25,6 +25,10 @@ var danceSchema = new Schema({
         type: String,
         trim: true
     },
+    auditionNote: {
+        type: String,
+        trim: true
+    },
     show: {
         type: Schema.Types.ObjectId, ref: 'Show'
     },

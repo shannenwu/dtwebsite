@@ -4,7 +4,7 @@ import {
   Button, Dropdown, Form, Input, List, Message, Modal,
 } from 'semantic-ui-react';
 import axios from 'axios';
-import { styleOptions, levelOptions } from './DanceConfig';
+import { styleOptions, levelOptions, auditionNoteOptions } from './DanceConfig';
 
 class DanceModal extends React.Component {
   constructor(props) {
@@ -16,29 +16,50 @@ class DanceModal extends React.Component {
       choreographers: [],
       style: '',
       level: '',
+      videoUrl: '',
+      auditionNote: '',
       errorMsg: [],
     };
   }
 
   static propTypes = {
+    isNew: PropTypes.bool,
     open: PropTypes.bool,
     handleClose: PropTypes.func,
     show: PropTypes.object,
+    danceObj: PropTypes.object,
   }
 
   componentDidMount() {
+    const { isNew, danceObj } = this.props;
+    // This is an anti-pattern, refactor sometime
+    if (!isNew) {
+      this.setState({
+        name: danceObj.name,
+        description: danceObj.description,
+        choreographers: danceObj.choreographers.map(obj => obj._id),
+        style: danceObj.style,
+        level: danceObj.level,
+        videoUrl: danceObj.videoUrl,
+        auditionNote: danceObj.auditionNote
+      });
+    }
   }
 
   handleDanceModalClose = () => {
-    const { handleClose } = this.props;
-    this.setState({
-      name: '',
-      description: '',
-      choreographers: [],
-      style: '',
-      level: '',
-      errorMsg: [],
-    });
+    const { isNew, handleClose } = this.props;
+    if (isNew) {
+      this.setState({
+        name: '',
+        description: '',
+        choreographers: [],
+        style: '',
+        level: '',
+        videoUrl: '',
+        auditionNote: '',
+        errorMsg: [],
+      });
+    }
     handleClose();
   }
 
@@ -56,18 +77,26 @@ class DanceModal extends React.Component {
       choreographers,
       style,
       level,
+      videoUrl,
+      auditionNote,
     } = this.state;
 
     const {
+      isNew,
       show,
+      danceObj
     } = this.props;
 
-    axios.post('/api/dances', {
+    const endpoint = isNew ? '/api/dances' : `/api/dances/update/${danceObj._id}`;
+
+    axios.post(endpoint, {
       name,
       description,
       choreographers,
       style,
       level,
+      videoUrl,
+      auditionNote,
       show,
     })
       .then((response) => {
@@ -91,6 +120,8 @@ class DanceModal extends React.Component {
       choreographers,
       style,
       level,
+      videoUrl,
+      auditionNote,
       errorMsg,
     } = this.state;
 
@@ -107,7 +138,7 @@ class DanceModal extends React.Component {
         >
           <Modal.Header>Add a Dance</Modal.Header>
           <Modal.Content scrolling>
-            <Form>
+            <Form onSubmit={this.handleSubmit}>
               <Form.Field>
                 <label>Choreographers</label>
                 <Dropdown
@@ -163,6 +194,27 @@ class DanceModal extends React.Component {
                   name='description'
                   onChange={this.handleChange}
                   value={description}
+                />
+              </Form.Field>
+              <Form.Field>
+                <label>Audition Note</label>
+                <Dropdown
+                  name='auditionNote'
+                  selection
+                  search
+                  scrolling
+                  upward={false}
+                  options={auditionNoteOptions}
+                  value={auditionNote || ''}
+                  onChange={this.handleChange}
+                />
+              </Form.Field>
+              <Form.Field>
+                <label>Video Url</label>
+                <Input
+                  name='videoUrl'
+                  onChange={this.handleChange}
+                  value={videoUrl}
                 />
               </Form.Field>
               {errorMsg.length !== 0 && (

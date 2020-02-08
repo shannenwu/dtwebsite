@@ -72,11 +72,11 @@ class Shows extends Component {
                   <Table.Cell>{dance.level}</Table.Cell>
                   <Table.Cell>
                     {dance.description}
-                    {dance.hasOwnProperty('note') && (
+                    {dance.hasOwnProperty('auditionNote') && (
                       <div>
                         <br></br>
                         <div style={{ fontWeight: 'bold' }}>
-                          *{dance.note}
+                          *{dance.auditionNote}
                         </div>
                       </div>
                     )}
@@ -87,10 +87,10 @@ class Shows extends Component {
                         <Icon name='youtube' link />
                       </a>
                     ) : (
-                      <div>
-                        N/A
+                        <div>
+                          N/A
                       </div>
-                    )}
+                      )}
                   </Table.Cell>
                 </Table.Row>
               )

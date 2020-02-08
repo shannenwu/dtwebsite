@@ -30,16 +30,6 @@ const showOptions = [
     text: 'S17 | Shake that Hass',
     value: 'S17',
   },
-  // {
-  //   key: 'F16 | DTergent: Wash Yaself',
-  //   text: 'F16 | DTergent: Wash Yaself',
-  //   value: 'F16',
-  // },
-  // {
-  //   key: 'S16 | Down in the DT',
-  //   text: 'S16 | Down in the DT',
-  //   value: 'S16',
-  // },
 ];
 
 module.exports = {

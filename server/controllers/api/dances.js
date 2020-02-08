@@ -123,12 +123,46 @@ app.get('/:show_id/all',
       });
   });
 
+// Update a dance.
+app.post('/update/:dance_id',
+  ensure.admin, [
+  check('name').isLength({ min: 1, max: 100 }).withMessage('Name field is required and has max character count of 100.'),
+  check('description').optional().isLength({ min: 0, max: 1000 }).withMessage('Description field has max character count of 1000.'),
+],
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).send({ errors: errors.array() });
+    }
+
+    var updatedDanceData = {
+      name: req.body.name,
+      description: req.body.description,
+      choreographers: req.body.choreographers,
+      style: req.body.style,
+      level: req.body.level,
+      videoUrl: req.body.videoUrl,
+      auditionNote: req.body.auditionNote,
+    };
+
+    Dance
+      .findOneAndUpdate({ _id: req.params.dance_id }, updatedDanceData, { new: true })
+      .then(doc => {
+        if (doc === null) {
+          res.status(400).send('Cannot find dance with this id.');
+        } else {
+          res.status(200).send({ message: 'Dance edited!' });
+        }
+      });
+  }
+);
+
 // Create a dance.
 app.post('/',
   ensure.admin, [
-    check('name').isLength({ min: 1, max: 100 }).withMessage('Name field is required and has max character count of 100.'),
-    check('description').optional().isLength({ min: 0, max: 1000 }).withMessage('Description field has max character count of 1000.'),
-  ],
+  check('name').isLength({ min: 1, max: 100 }).withMessage('Name field is required and has max character count of 100.'),
+  check('description').optional().isLength({ min: 0, max: 1000 }).withMessage('Description field has max character count of 1000.'),
+],
   (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -141,6 +175,8 @@ app.post('/',
       choreographers: req.body.choreographers,
       style: req.body.style,
       level: req.body.level,
+      videoUrl: req.body.videoUrl,
+      auditionNote: req.body.auditionNote,
       show: req.body.show._id,
       acceptedDancers: [],
     };

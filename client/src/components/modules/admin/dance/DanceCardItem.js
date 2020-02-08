@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Header, Icon,
+  Card,
 } from 'semantic-ui-react';
 import io from 'socket.io-client';
-import DanceCardItem from './DanceCardItem';
 import DanceModal from './DanceModal';
 import './dance.css';
 
-class DanceList extends React.Component {
+class DanceCardItem extends React.Component {
   constructor(props) {
     super(props);
 
@@ -23,9 +22,7 @@ class DanceList extends React.Component {
   }
 
   static propTypes = {
-    dances: PropTypes.array,
-    selectedShow: PropTypes.object,
-    handleDeleteDance: PropTypes.func,
+    danceObj: PropTypes.object,
     userOptions: PropTypes.array,
   }
 
@@ -44,25 +41,28 @@ class DanceList extends React.Component {
       modalOpen,
     } = this.state;
     const {
-      dances,
-      selectedShow,
+      danceObj,
       userOptions,
     } = this.props;
 
     return (
-      <div id='admin-dance-list'>
-        <Header as='h3'>
-          Dances
-          <Icon onClick={this.handleOpen} link name='plus' style={{ float: 'right', fontSize: '1em' }} />
-        </Header>
-        <DanceModal isNew={true} userOptions={userOptions} open={modalOpen} handleClose={this.handleClose} show={selectedShow} />
-        {dances.map(danceObj => (
-          <DanceCardItem key={danceObj._id} danceObj={danceObj} userOptions={userOptions} />
-        ))
-        }
-      </div>
+      <>
+        <DanceModal isNew={false} userOptions={userOptions} open={modalOpen} handleClose={this.handleClose} danceObj={danceObj} />
+        <Card
+          onClick={this.handleOpen}
+          key={danceObj._id}
+          fluid
+        >
+          <Card.Content>
+            {danceObj.name}
+            <Card.Meta>
+              {danceObj.level + ' ' + danceObj.style}
+            </Card.Meta>
+          </Card.Content>
+        </Card>
+      </>
     );
   }
 }
 
-export default DanceList;
+export default DanceCardItem;
