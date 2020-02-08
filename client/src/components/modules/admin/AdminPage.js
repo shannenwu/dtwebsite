@@ -14,7 +14,7 @@ class AdminPage extends React.Component {
   constructor(props) {
     super(props);
 
-    this.socket = io(`//${window.location.hostname}:${window.location.port}`, {secure: __SECURE__});
+    this.socket = io(`//${window.location.hostname}:${window.location.port}`, { secure: __SECURE__ });
 
     this.state = {
       shows: [],
@@ -62,6 +62,19 @@ class AdminPage extends React.Component {
     });
     this.socket.on('dance', (danceObj) => {
       const newDances = [danceObj].concat(this.state.dances);
+      if (this._isMounted) {
+        this.setState({
+          dances: newDances,
+        });
+      }
+    });
+    this.socket.on('edit dance', (newDanceObj) => {
+      const danceIndex = this.state.dances.findIndex(danceObj => danceObj._id === newDanceObj._id);
+      const newDances = [...this.state.dances];
+
+      if (danceIndex !== -1) {
+        newDances.splice(danceIndex, 1, newDanceObj);
+      }
       if (this._isMounted) {
         this.setState({
           dances: newDances,

@@ -151,6 +151,8 @@ app.post('/update/:dance_id',
         if (doc === null) {
           res.status(400).send('Cannot find dance with this id.');
         } else {
+          const io = req.app.get('socketio');
+          io.emit("edit dance", doc);
           res.status(200).send({ message: 'Dance edited!' });
         }
       });

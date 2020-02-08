@@ -126,6 +126,7 @@ class DanceModal extends React.Component {
     } = this.state;
 
     const {
+      isNew,
       open,
       userOptions,
     } = this.props;
@@ -136,7 +137,7 @@ class DanceModal extends React.Component {
           open={open}
           onClose={this.handleDanceModalClose}
         >
-          <Modal.Header>Add a Dance</Modal.Header>
+          <Modal.Header>{isNew ? 'Add Dance' : 'Edit Dance'}</Modal.Header>
           <Modal.Content scrolling>
             <Form onSubmit={this.handleSubmit}>
               <Form.Field>
