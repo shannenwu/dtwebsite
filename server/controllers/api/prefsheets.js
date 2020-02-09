@@ -126,7 +126,8 @@ app.post('/user/:user_id',
       if (!req.user.isAdmin) {
         return res.status(400).send('Prefs are not open for this show.')
       } else if (req.user.isAdmin && req.query.late) {
-        var lastAuditionNumber = await Prefsheet.countDocuments({ show: show_id });
+        var lastPrefsheet = await Prefsheet.find({ show: show_id }).sort({ auditionNumber: -1 }).limit(1);
+        var lastAuditionNumber = lastPrefsheet[0].auditionNumber;
         lateData = { isLate: true, auditionNumber: lastAuditionNumber + 1 };
       }
     }
