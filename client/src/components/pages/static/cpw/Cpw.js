@@ -29,7 +29,7 @@ class Cpw extends Component {
   }
 
   componentDidMount() {
-    document.title = 'CPW';
+    document.title = 'CP*';
   }
 
   render() {
@@ -39,8 +39,17 @@ class Cpw extends Component {
     } = this.state;
     return (
       <div className='static-page' id='cpw'>
-        <h1>CPW 2020</h1>
-        <p>MIT DanceTroupe is one of the largest dance organizations at MIT. We are a student-run group dedicated to bringing a variety of dance styles 💃 Auditions happen the first week of each semester, and we perform 5 shows at the end of each semester. No experience is required, we accept dancers of all levels! Come learn to dance and join our family!</p>
+        <h1>CP* 2020</h1>
+        <p>While not being in person has filled us with <b><i>woah</i></b>,
+          <br></br>
+        Come meet the community we’ve all come to know.
+        <br></br>
+        We can’t wait to meet all of you <b><i>folks</i></b>,
+        <br></br>
+        And give you a <b><i>dab</i></b> of DT—the dance, fun, and jokes.
+        <br>
+          </br>
+            -Matt Tung 2020</p>
         <p><a className='link-name' href='https://mit.zoom.us/j/97207697629'>Zoom</a> with us on Sunday, April 19th from 1-3PM ET to learn more about DT! Check for an email from ASA with the password to enter the call.</p>
         <Gallery direction='column' photos={photos} onClick={this.openLightbox} />
         <ModalGateway>

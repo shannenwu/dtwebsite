@@ -56,7 +56,7 @@ class NavBar extends Component {
         <ul className={open ? 'main-nav active' : 'main-nav'} id='js-menu'>
           <li>
             <div className='nav-links' onClick={() => this.handleItemClick('/cpw')}>
-              CPW
+              CP*
             </div>
           </li>
           <li>
