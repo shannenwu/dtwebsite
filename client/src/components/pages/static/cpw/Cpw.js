@@ -41,16 +41,19 @@ class Cpw extends Component {
       <div className='static-page' id='cpw'>
         <h1>CP* 2020</h1>
         <p>While not being in person has filled us with <b><i>woah</i></b>,
-          <br></br>
+        <br />
         Come meet the community we’ve all come to know.
-        <br></br>
+        <br />
         We can’t wait to meet all of you <b><i>folks</i></b>,
-        <br></br>
+        <br />
         And give you a <b><i>dab</i></b> of DT—the dance, fun, and jokes.
-        <br>
-          </br>
-            -Matt Tung 2020</p>
+        <br />
+            -Matt Tung 2020
+        </p>
         <p><a className='link-name' href='https://mit.zoom.us/j/97207697629'>Zoom</a> with us on Sunday, April 19th from 1-3PM ET to learn more about DT! Check for an email from ASA with the password to enter the call.</p>
+        <video width="500" height="290" controls="controls">
+          <source src="https://www.dropbox.com/s/vgnqj9e3glkbeqn/DT%20CP%2A%20Pub%20final.mov?raw=1" type="video/mp4" />
+        </video>
         <Gallery direction='column' photos={photos} onClick={this.openLightbox} />
         <ModalGateway>
           {viewerIsOpen ? (
