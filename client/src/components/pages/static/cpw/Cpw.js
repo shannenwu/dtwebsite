@@ -40,7 +40,7 @@ class Cpw extends Component {
     return (
       <div className='static-page' id='cpw'>
         <h1>CPW 2020</h1>
-        <p>MIT DanceTroupe is one of the largest dance organizations at MIT. We are a student-run group dedicated to bringing a variety of dance styles to all levels 💃 Auditions happen the first week of each semester, and we perform 5 shows at the end of each semester. Come learn to dance and join our family!</p>
+        <p>MIT DanceTroupe is one of the largest dance organizations at MIT. We are a student-run group dedicated to bringing a variety of dance styles 💃 Auditions happen the first week of each semester, and we perform 5 shows at the end of each semester. No experience is required, we accept dancers of all levels! Come learn to dance and join our family!</p>
         <p><a className='link-name' href='https://mit.zoom.us/j/97207697629'>Zoom</a> with us on Sunday, April 19th from 1-3PM ET to learn more about DT! Check for an email from ASA with the password to enter the call.</p>
         <Gallery direction='column' photos={photos} onClick={this.openLightbox} />
         <ModalGateway>
