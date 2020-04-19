@@ -8,6 +8,7 @@ import About from './pages/static/About';
 import Auditions from './pages/static/Auditions';
 import Officers from './pages/static/officers/Officers';
 import Shows from './pages/static/shows/Shows';
+import Cpw from './pages/static/cpw/Cpw';
 import SignUp from './pages/auth/SignUp';
 import Login from './pages/auth/Login';
 import AdminPage from './modules/admin/AdminPage';
@@ -236,6 +237,7 @@ class App extends React.Component {
               <Route exact path='/auditions' component={Auditions} />
               <Route exact path='/officers' component={Officers} />
               <Route exact path='/shows' component={Shows} />
+              <Route exact path='/cpw' component={Cpw} />
               <Route exact path='/login' render={props => <Login {...props} loginUser={this.loginUser} />} />
               <Route exact path='/signup' component={SignUp} />
               <Route exact path='/forgot' component={ForgotPassword} />

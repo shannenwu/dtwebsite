@@ -55,6 +55,11 @@ class NavBar extends Component {
         </div>
         <ul className={open ? 'main-nav active' : 'main-nav'} id='js-menu'>
           <li>
+            <div className='nav-links' onClick={() => this.handleItemClick('/cpw')}>
+              CPW
+            </div>
+          </li>
+          <li>
             <div className='nav-links' onClick={() => this.handleItemClick('/about')}>
               ABOUT
             </div>
