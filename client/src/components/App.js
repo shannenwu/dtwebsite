@@ -13,6 +13,7 @@ import SignUp from './pages/auth/SignUp';
 import Login from './pages/auth/Login';
 import AdminPage from './modules/admin/AdminPage';
 import AllPrefsheets from './modules/admin/settings/AllPrefsheets';
+import Elections from './pages/static/elections/Elections';
 import ProfilePage from './modules/user/ProfilePage';
 import ChoreographerPage from './modules/choreographer/ChoreographerPage';
 import ForgotPassword from './pages/auth/ForgotPassword';
@@ -254,6 +255,12 @@ class App extends React.Component {
                 getDanceOptions={this.getDanceOptions}
                 updateUser={this.updateUser}
                 component={ProfilePage}
+              />
+              <PrivateRoute
+                exact
+                path='/elections'
+                authed={userInfo !== null}
+                component={Elections}
               />
               <PrivateRoute
                 exact

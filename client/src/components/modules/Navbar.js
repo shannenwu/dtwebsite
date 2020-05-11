@@ -93,6 +93,11 @@ class NavBar extends Component {
                   </div>
                 </li>
                 <li>
+                  <div className='nav-links' onClick={() => this.handleItemClick('/elections')}>
+                    ELECTIONS
+                  </div>
+                </li>
+                <li>
                   <div className='nav-links' onClick={logout}>
                     LOGOUT
                   </div>
