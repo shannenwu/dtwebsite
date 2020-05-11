@@ -19,7 +19,7 @@ class Elections extends Component {
         <h1>Elections</h1>
         <div id='show-description'>
           <p>
-            Due to the current situation, DT has moved elections online. Please <a className='link-name' href='https://www.youtube.com/playlist?list=PLZ7FwvI8aqZPdAnBsNjjJuveGCBjh-Lxo'>watch</a> all the platforms and pros for each of the candidates and vote in the link that Caela has sent out! All current members of DT are required to vote. Voting is an important task as this will decide the new exec board for DT next year. You can find the entire comprehensive playlist <a className='link-name' href='https://www.youtube.com/playlist?list=PLZ7FwvI8aqZPdAnBsNjjJuveGCBjh-Lxo'>here</a>.
+            Due to the current situation, DT has moved elections online. We've tried to mimic the normal process as closely as possible, with platforms, questions, and pros, as these are all important for making a decision about a candidate. Please <a className='link-name' href='https://www.youtube.com/playlist?list=PLZ7FwvI8aqZPdAnBsNjjJuveGCBjh-Lxo'>watch</a> all the platforms and pros for each of the candidates carefully and vote in this <a className='link-name' href='https://forms.gle/hx9Vm3RAiY2LQvTx9'>form</a>. All current members of DT are required to vote. Voting is an important task as this will decide the new exec board for DT next year. You can find the entire comprehensive playlist <a className='link-name' href='https://www.youtube.com/playlist?list=PLZ7FwvI8aqZPdAnBsNjjJuveGCBjh-Lxo'>here</a>.
         </p>
         </div>
         <Table basic='very' celled selectable padded>
