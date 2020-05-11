@@ -40,12 +40,12 @@ class Elections extends Component {
                   <Table.Cell>{position.candidates.map(candidate => <p>{candidate}<br /></p>)}</Table.Cell>
                   <Table.Cell>
                     <iframe src={position.platforms}
-                      width="280" height="155" frameborder="0" allowfullscreen></iframe>
+                      width="280" height="155" frameBorder="0" allowFullScreen></iframe>
                   </Table.Cell>
                   <Table.Cell>
                     {position.pros !== '' ? (
                       <iframe src={position.pros}
-                        width="280" height="155" frameborder="0" allowfullscreen></iframe>
+                        width="280" height="155" frameBorder="0" allowFullScreen></iframe>
                     ) : (
                         <div>
                           N/A (unopposed)
