@@ -1,13 +1,8 @@
 const officerOptions = [
   {
-    position: 'Show Coordinator',
-    name: 'Patricia Lu',
-    photoUrl: '/officer_images/patricia.jpeg'
-  },
-  {
     position: 'President',
-    name: 'Caela Gomes',
-    photoUrl: '/officer_images/caela.jpeg'
+    name: 'Tom Benavides',
+    photoUrl: '/officer_images/tom.jpeg'
   },
   {
     position: 'Vice President',
@@ -15,19 +10,24 @@ const officerOptions = [
     photoUrl: '/officer_images/xochitl.jpeg'
   },
   {
-    position: 'Treasurer',
-    name: 'Claudia Chen',
-    photoUrl: '/officer_images/claudia.jpeg'
+    position: 'Show Coordinator',
+    name: 'Shannen Wu',
+    photoUrl: '/officer_images/shannen.jpeg'
   },
   {
     position: 'Treasurer',
-    name: 'Andrea Bolivar',
-    photoUrl: '/officer_images/andreab.jpeg'
+    name: 'Amber Zheng',
+    photoUrl: '/officer_images/amber.jpeg'
+  },
+  {
+    position: 'Treasurer',
+    name: 'Michael Mandanas',
+    photoUrl: '/officer_images/michael.jpeg'
   },
   {
     position: 'Pub Chair',
-    name: 'Matthew Tung',
-    photoUrl: '/officer_images/matthew.jpeg'
+    name: 'Jade Ishii',
+    photoUrl: '/officer_images/jade.jpeg'
   },
   {
     position: 'Pub Chair',
@@ -36,33 +36,33 @@ const officerOptions = [
   },
   {
     position: 'Webmaster',
-    name: 'Shannen Wu',
-    photoUrl: '/officer_images/shannen.jpeg'
+    name: 'Johan Cervantes',
+    photoUrl: '/officer_images/johan.jpeg'
   },
   {
     position: 'Secretary',
-    name: 'Tom Benavides',
-    photoUrl: '/officer_images/tom.jpeg'
+    name: 'Juan Aleman',
+    photoUrl: '/officer_images/juan.jpeg'
   },
   {
     position: 'Social Chair',
-    name: 'Amber Zheng',
-    photoUrl: '/officer_images/amber.jpeg'
+    name: 'Avital Vainberg',
+    photoUrl: '/officer_images/avital.jpeg'
   },
   {
     position: 'Social Chair',
-    name: 'Eleane Lema',
-    photoUrl: '/officer_images/eleane.jpeg'
+    name: 'Aniket Dehadrai',
+    photoUrl: '/officer_images/aniket.jpeg'
   },
   {
     position: 'Costume Coordinator',
-    name: 'Andrea Garmilla',
-    photoUrl: '/officer_images/andreag.jpeg'
+    name: 'Giulia Alvarenga',
+    photoUrl: '/officer_images/giulia.jpeg'
   },
   {
     position: 'Show Historian',
-    name: 'Jade Ishii',
-    photoUrl: '/officer_images/jade.jpeg'
+    name: 'Quentin Thernize',
+    photoUrl: '/officer_images/quentin.jpeg'
   },
   {
     position: 'Tech Coordinator',
