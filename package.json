@@ -22,7 +22,7 @@
     "express-csv": "^0.6.0",
     "express-session": "^1.16.2",
     "express-validator": "^5.3.1",
-    "jimp": "^0.6.4",
+    "jimp": "^0.16.0",
     "mongoose": ">=5.7.5",
     "nodemailer": "^6.3.0",
     "passport": "^0.4.0",
@@ -31,7 +31,7 @@
     "socket.io": "^2.2.0"
   },
   "devDependencies": {
-    "acorn": "^6.2.1",
+    "acorn": "^6.4.1",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.1",
     "eslint-loader": "^2.2.1",
