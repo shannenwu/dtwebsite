@@ -12,9 +12,8 @@ class Auditions extends Component {
     if (PANDEMIC) {
       return (
         <div className='static-page'>
-          <h1>Auditions</h1>
-          <p>In lieu of auditions, there will be various interludes and workshops this semester. Make sure to be
-            on DT's mailing list to stay up to date with ongoing events.
+          <h1>Fall 2020</h1>
+          <p> This fall 2020 semester, in lieu of auditions, there will be various interludes and workshops. Make sure join DT's mailing list<a href='https://forms.gle/J6ye2g6mRaf8g55c9'  target="_blank"><b> here </b></a>to stay up to date with ongoing events!
           </p>
         </div>
       )
