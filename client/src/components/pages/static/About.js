@@ -14,7 +14,10 @@ class About extends Component {
         <p>
           Founded in 1994, the MIT DanceTroupe is the largest dance organization at the Massachusetts Institute of Technology. We are a student-run group dedicated to bringing a variety of dance styles to everyone in the MIT community, regardless of level. Every semester, we offer various dance workshops to our members and produce one full length show.
         </p>
-    
+        <h3>Fall 2020 Update</h3> 
+        <p> This fall 2020 semester, there will be various interludes and workshops. Make sure to join
+            on DT's mailing list<a href='https://forms.gle/J6ye2g6mRaf8g55c9'  target="_blank"><b> here </b></a>to stay up to date with ongoing events!
+        </p>
         <h3>Membership</h3>
         <p>
           Membership is open to everyone, regardless of experience level. We welcome undergraduate and graduate students, alumni, staff, and anyone else in the area interested in dance. Membership dues are $5 per semester. Paying dues allows members to attend unlimited DanceTroupe workshops and participate in the shows. (Show participation depends on audition.)
