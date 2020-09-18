@@ -55,13 +55,18 @@ class NavBar extends Component {
         </div>
         <ul className={open ? 'main-nav active' : 'main-nav'} id='js-menu'>
           <li>
-            <div className='nav-links' onClick={() => this.handleItemClick('/gallery')}>
-              GALLERY
+            <div className='nav-links' onClick={() => this.handleItemClick('/about')}>
+              ABOUT
             </div>
           </li>
           <li>
-            <div className='nav-links' onClick={() => this.handleItemClick('/about')}>
-              ABOUT
+            <div className='nav-links' onClick={() => this.handleItemClick('/events')}>
+              EVENTS
+            </div>
+          </li>
+          <li>
+            <div className='nav-links' onClick={() => this.handleItemClick('/gallery')}>
+              GALLERY
             </div>
           </li>
           <li>

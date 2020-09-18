@@ -5,9 +5,6 @@ import '../static.css';
 import './elections.css';
 
 class Elections extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   componentDidMount() {
     document.title = 'Elections';
