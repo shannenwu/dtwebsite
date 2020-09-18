@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { workshopData, VIRTUAL_T_CLUB_ZOOM_URL } from './EventsConfig';
+import { workshopData, VIRTUAL_T_CLUB_ZOOM_URL, previousWorkshopData } from './EventsConfig';
 
 import '../static.css';
 import './Events.css';
@@ -38,6 +38,32 @@ class Events extends Component {
                                 <Table.Cell>{workshop.level}</Table.Cell>
                                 <Table.Cell>{workshop.date}</Table.Cell>
                                 <Table.Cell>{workshop.song}</Table.Cell>
+                            </Table.Row>
+                        ))}   
+                    </Table.Body>
+                </Table>
+                <h1>Past Workshops</h1>
+                <Table basic='very' celled selectable padded>
+                    <Table.Header className='show-header'>
+                        <Table.Row>
+                        <Table.HeaderCell>Choreographer</Table.HeaderCell>
+                        <Table.HeaderCell>Style</Table.HeaderCell>
+                        <Table.HeaderCell>Level</Table.HeaderCell>
+                        <Table.HeaderCell>Date</Table.HeaderCell>
+                        <Table.HeaderCell>Song</Table.HeaderCell>
+                        <Table.HeaderCell>Recording</Table.HeaderCell>
+                        </Table.Row>
+                    </Table.Header>
+
+                    <Table.Body>
+                        {previousWorkshopData.map((workshop, i) => (
+                            <Table.Row key={i}>
+                                <Table.Cell>{workshop.choreographer}</Table.Cell>
+                                <Table.Cell>{workshop.style}</Table.Cell>
+                                <Table.Cell>{workshop.level}</Table.Cell>
+                                <Table.Cell>{workshop.date}</Table.Cell>
+                                <Table.Cell>{workshop.song}</Table.Cell>
+                                <Table.Cell><a href={workshop.recordingLink}>Link</a></Table.Cell>
                             </Table.Row>
                         ))}   
                     </Table.Body>

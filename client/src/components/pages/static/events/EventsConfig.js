@@ -33,3 +33,23 @@ export const workshopData = [
         song: 'Surprise :)',
     },  
 ];
+export const previousWorkshopData = [
+    {
+        date: 'Friday, September 11, 7-8:30 PM EDT',
+        choreographer: 'Tom',
+        type: 'One-Time (1.5 hr)',
+        style: 'Hip-hop inspired',
+        level: 'All Levels',
+        song: 'YES! by KYLE',
+        recordingLink: 'https://www.dropbox.com/sh/i2oy8g95d78whky/AADlTtWH2_gm8MBIspj_ydO2a?dl=0',
+    },
+    {
+        date: 'Sunday, September 13 7-8 PM EDT',
+        choreographer: 'Xochilt',
+        type: 'Performance (pt. 1)',
+        style: 'Jazz',
+        level: 'Intermediate / Advance',
+        song: '"Into You" by Ariana Grande',
+        recordingLink: 'https://www.dropbox.com/sh/i2oy8g95d78whky/AADlTtWH2_gm8MBIspj_ydO2a?dl=0&preview=xochi-+sept.+13.mp4',
+    },
+];
