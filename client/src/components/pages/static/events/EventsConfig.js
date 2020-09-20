@@ -9,7 +9,7 @@ export const workshopData = [
         song: 'Surprise :)',
     },
     {
-        date: 'Sunday, September 20, 7-8 PM EDT',
+        date: 'Postponed',
         choreographer: 'Xochitl',
         type: 'Performance (pt. 2)',
         style: 'Jazz',
