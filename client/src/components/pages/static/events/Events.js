@@ -63,7 +63,9 @@ class Events extends Component {
                                 <Table.Cell>{workshop.level}</Table.Cell>
                                 <Table.Cell>{workshop.date}</Table.Cell>
                                 <Table.Cell>{workshop.song}</Table.Cell>
-                                <Table.Cell><a href={workshop.recordingLink}>Link</a></Table.Cell>
+                                {workshop.recordingLink ?
+                                  <Table.Cell> <a href={workshop.recordingLink}>Link</a> </Table.Cell>
+                                  : <Table.Cell>Not Available</Table.Cell>}
                             </Table.Row>
                         ))}   
                     </Table.Body>
