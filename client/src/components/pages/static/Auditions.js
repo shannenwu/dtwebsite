@@ -17,10 +17,13 @@ class Auditions extends Component {
           <p>
             Auditions are a laid-back, fun process, so nothing should stop you
             from auditioning! DanceTroupe auditions are divided between a
-            Saturday and Sunday at the beginning of each term. For Spring 2021
-            term, audition materials will be released on Saturday, February 27th
-            at 11:00AM EST. Each dancer should submit their audition video
-            submission by Sunday, February 28th at 6:00PM EST.
+            Saturday and Sunday at the beginning of each term.
+          </p>
+          <h2>Spring 2021</h2>
+          <p>
+            For Spring 2021 term, audition materials will be released on
+            Saturday, February 27th at 11:00AM EST. Each dancer should submit
+            their audition video by Sunday, February 28th at 6:00PM EST.
           </p>
           <h2>Audition Process</h2>
           <p>
