@@ -34,10 +34,7 @@ class About extends Component {
         <p>
           Membership is open to everyone, regardless of experience level. We
           welcome undergraduate and graduate students, alumni, staff, and anyone
-          else in the area interested in dance. Membership dues are $5 per
-          semester. Paying dues allows members to attend unlimited DanceTroupe
-          workshops and participate in the shows. (Show participation depends on
-          audition.)
+          else in the area interested in dance.
         </p>
 
         <h3>Officers</h3>
