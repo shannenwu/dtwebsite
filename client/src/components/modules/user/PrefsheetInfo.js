@@ -14,6 +14,8 @@ const maxNumberOptions = [
 const terms = [
   // "I am able to perform in all five shows (Thu 5/7 8pm, Fri 5/8 7pm & 10pm, Sat 5/9 1pm & 4pm).",
   // "I understand that I must pay dues ($5 if paid on time), as well as a small amount for gifts at the end of the semester.",
+  "I have submitted my video/s to the dropbox",
+  "I have filled out my weekly availabilities",
   "I understand that the time commitment is 1 hour/week/dance, and I will be asked to submit videos for the final show.",
 ];
 
@@ -79,8 +81,8 @@ class PrefsheetInfo extends React.Component {
       <div>
         {!isLate && (
           <Message warning style={{ textAlign: "center" }}>
-            Prefsheets can be re-submitted until Saturday, February 8th at
-            11:59PM. Dance descriptions{" "}
+            Prefsheets can be re-submitted until Sunday at 5PM. Dance
+            descriptions{" "}
             <Link to="/shows" id="show-link">
               here
             </Link>

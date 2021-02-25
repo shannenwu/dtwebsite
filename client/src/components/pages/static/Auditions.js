@@ -14,6 +14,7 @@ class Auditions extends Component {
       return (
         <div className="static-page">
           <h1>Auditions</h1>
+
           <p>
             Auditions are a laid-back, fun process, so nothing should stop you
             from auditioning! DanceTroupe auditions are divided between a
@@ -23,9 +24,17 @@ class Auditions extends Component {
           <p>
             For Spring 2021 term, audition materials will be released on
             Saturday, February 27th at 11:00AM EST. Each dancer should submit
-            their audition video by Sunday, February 28th at 6:00PM EST.
+            their audition video by Sunday, February 28th at 5:00PM EST.
           </p>
           <h2>Audition Process</h2>
+          <p>
+            TLDR: Submit your audition video{" "}
+            <a href="https://www.dropbox.com/request/BkahZd75SxVmIwn3bv0z">
+              {" "}
+              here
+            </a>{" "}
+            by Sunday, February 28th
+          </p>
           <p>
             During audition, each dancer will be taught a short piece. After all
             auditions are submitted, the choreographers will select their
@@ -48,7 +57,7 @@ class Auditions extends Component {
             submitted by the audition submittion deadline (Sunday, 6:00PM).
           </p>
           <p>
-            By 6:00 PM EST, dancers should submit a video of them performing the
+            By 5:00 PM EST, dancers should submit a video of them performing the
             audition choreo.
           </p>
           <p>
