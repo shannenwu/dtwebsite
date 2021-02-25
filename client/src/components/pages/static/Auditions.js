@@ -29,10 +29,12 @@ class Auditions extends Component {
           <h2>Audition Process</h2>
           <p>
             TLDR: Submit your audition video{" "}
-            <a href="https://www.dropbox.com/request/BkahZd75SxVmIwn3bv0z">
-              {" "}
-              here
-            </a>{" "}
+            <b>
+              <a href="https://www.dropbox.com/request/BkahZd75SxVmIwn3bv0z">
+                {" "}
+                here
+              </a>{" "}
+            </b>
             by Sunday, February 28th
           </p>
           <p>
@@ -54,11 +56,16 @@ class Auditions extends Component {
             Each dancer must fill out an online preference sheet. Each sheet
             will contain a ranking of the desired dances, the number of desired
             dances, as well as weekly conflicts. The preference sheet MUST be
-            submitted by the audition submittion deadline (Sunday, 6:00PM).
+            submitted by the audition submittion deadline (Sunday, 5:00PM).
           </p>
           <p>
             By 5:00 PM EST, dancers should submit a video of them performing the
-            audition choreo.
+            audition choreo to our{" "}
+            <b>
+              <a href="https://www.dropbox.com/request/BkahZd75SxVmIwn3bv0z">
+                Dropbox Folder
+              </a>
+            </b>
           </p>
           <p>
             If you have any questions, please email{" "}
