@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./static.css";
 
-const PANDEMIC = true; // Fall 2020 & Spring 2021
+const PANDEMIC = true; // Fall 2020 & Spring 2021 :(
 
 class Auditions extends Component {
   componentDidMount() {
