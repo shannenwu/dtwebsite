@@ -76,8 +76,8 @@ class Auditions extends Component {
                 here
               </a>{" "}
             </b>
-            , fill out pref sheet, and availabillites by Sunday, February 28th
-            5:00PM EST.
+            , fill out your pref sheet, and availabillites by Sunday, February
+            28th 5:00PM EST.
           </p>
           <p>
             During audition, each dancer will be taught a short piece. After all
