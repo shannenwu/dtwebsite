@@ -56,7 +56,7 @@ class Auditions extends Component {
           </p>
           <h2>Audition Materials</h2>
           <h3>
-            The audition choreo for contemporary and hip hop can be found{" "}
+            The audition choreo can be found{" "}
             <b>
               <a href="https://www.youtube.com/playlist?list=PLZ7FwvI8aqZOsZ1jxbNnKXdErpO8CItGY">
                 {" "}
