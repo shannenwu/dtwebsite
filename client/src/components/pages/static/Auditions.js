@@ -1,7 +1,35 @@
 import React, { Component } from "react";
+import Gallery from "react-photo-gallery";
 import "./static.css";
 
 const PANDEMIC = true; // Fall 2020 & Spring 2021 :(
+
+// TODO(johanc) - Make it a gallery view.
+const auditionVideos = [
+  {
+    src: "https://img.youtube.com/vi/5fi5fxetMGI/maxresdefault.jpg",
+    height: 2,
+    width: 3,
+  },
+  {
+    src:
+      "https://www.youtube.com/watch?v=DWMWDDjKkvM&list=PLZ7FwvI8aqZOsZ1jxbNnKXdErpO8CItGY&index=2",
+    height: 2,
+    width: 3,
+  },
+  {
+    src:
+      "https://www.youtube.com/watch?v=aTYdYTxmLNs&list=PLZ7FwvI8aqZOsZ1jxbNnKXdErpO8CItGY&index=3",
+    height: 2,
+    width: 3,
+  },
+  {
+    src:
+      "https://www.youtube.com/watch?v=IDxM6bW1Rls&list=PLZ7FwvI8aqZOsZ1jxbNnKXdErpO8CItGY&index=4",
+    height: 2,
+    width: 3,
+  },
+];
 
 class Auditions extends Component {
   componentDidMount() {
@@ -26,6 +54,16 @@ class Auditions extends Component {
             Saturday, February 27th at 11:00AM EST. Each dancer should submit
             their audition video by Sunday, February 28th at 5:00PM EST.
           </p>
+          <h2>Audition Materials</h2>
+          <h3>
+            The audition choreo for contemporary and hip hop can be found{" "}
+            <b>
+              <a href="https://www.youtube.com/playlist?list=PLZ7FwvI8aqZOsZ1jxbNnKXdErpO8CItGY">
+                {" "}
+                here
+              </a>
+            </b>
+          </h3>
           <h2>Audition Process</h2>
           <p>
             TLDR: Submit your audition video{" "}
@@ -35,7 +73,7 @@ class Auditions extends Component {
                 here
               </a>{" "}
             </b>
-            by Sunday, February 28th
+            by Sunday, February 28th and fill out the pref sheet.
           </p>
           <p>
             During audition, each dancer will be taught a short piece. After all
@@ -83,6 +121,7 @@ class Auditions extends Component {
             hitting every move precisely.
           </p>
 
+          {/* <Gallery direction="column" photos={auditionVideos} /> */}
           <h2>Audition Policies</h2>
           <h3>
             Please read this entire section before emailing officers or
