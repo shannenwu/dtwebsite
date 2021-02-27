@@ -56,9 +56,12 @@ class Auditions extends Component {
           </p>
           <h2>Audition Materials</h2>
           <h3>
-            The audition choreo can be found{" "}
+            Audition tutorials & runthroughs are available{" "}
             <b>
-              <a href="https://www.youtube.com/playlist?list=PLZ7FwvI8aqZOsZ1jxbNnKXdErpO8CItGY">
+              <a
+                href="https://www.youtube.com/playlist?list=PLZ7FwvI8aqZOsZ1jxbNnKXdErpO8CItGY"
+                target="_blank"
+              >
                 {" "}
                 here
               </a>
@@ -73,7 +76,8 @@ class Auditions extends Component {
                 here
               </a>{" "}
             </b>
-            by Sunday, February 28th and fill out the pref sheet.
+            , fill out pref sheet, and availabillites by Sunday, February 28th
+            5:00PM EST.
           </p>
           <p>
             During audition, each dancer will be taught a short piece. After all
